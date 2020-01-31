@@ -2,6 +2,7 @@
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Catalog.ViewModels;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
@@ -21,7 +22,7 @@ namespace Foundation.Commerce.Catalog
         private readonly ReferenceConverter _referenceConverter;
         private readonly ICurrentMarket _currentMarket;
         private readonly IRelationRepository _relationRepository;
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
 
         public StoreService(IInventoryService inventoryService,
             IWarehouseRepository warehouseRepository,
@@ -29,7 +30,7 @@ namespace Foundation.Commerce.Catalog
             ReferenceConverter referenceConverter,
             ICurrentMarket currentMarket,
             IRelationRepository relationRepository,
-            CookieService cookieService)
+            ICookieService cookieService)
         {
             _inventoryService = inventoryService;
             _warehouseRepository = warehouseRepository;
