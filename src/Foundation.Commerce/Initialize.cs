@@ -1,9 +1,13 @@
 ﻿using EPiServer;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
+using EPiServer.Commerce.Shell.Facets;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using EPiServer.Shell.Modules;
+using EPiServer.Shell.Services.Rest;
+using EPiServer.Shell.Web.Routing;
 using EPiServer.Web.Mvc;
 using Foundation.Cms.ViewModels.Header;
 using Foundation.Commerce.Catalog;
@@ -20,11 +24,15 @@ using Foundation.Commerce.Order.ViewModelFactories;
 using Foundation.Commerce.ViewModels.Header;
 using Mediachase.Commerce;
 using System;
+using System.Globalization;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Foundation.Commerce
 {
-    [ModuleDependency(typeof(Cms.Initialize))]
+    [ModuleDependency(typeof(Cms.Initialize), typeof(EPiServer.Shell.ShellInitialization), typeof(EPiServer.Commerce.Shell.Initialization.InitializationModule))]
     public class Initialize : IConfigurableModule
     {
         void IConfigurableModule.ConfigureContainer(ServiceConfigurationContext context)
@@ -73,11 +81,30 @@ namespace Foundation.Commerce
             services.AddTransient<IPaymentMethod, GiftCardPaymentOption>();
             services.AddSingleton<ICouponFilter, FoundationCouponFilter>();
             services.AddSingleton<ICouponUsage, FoundationCouponUsage>();
+            services.AddSingleton<FacetGroupModifier, FoundationFacetGroupModifier>();
         }
 
         void IInitializableModule.Initialize(InitializationEngine context)
         {
             MarketEvent.ChangeMarket += ChangeMarket;
+            
+            var moduleRouteCollection = RouteTable.Routes.OfType<ModuleRouteCollection>()
+                .FirstOrDefault(x => x.RoutePath.Equals("~/episerver", StringComparison.OrdinalIgnoreCase));
+
+            if (moduleRouteCollection == null)
+            {
+                return;
+            }
+
+            var restRoute = moduleRouteCollection.OfType<RestRoute>()
+                .FirstOrDefault(x => x.Url.Equals("episerver/EPiServer.Commerce.Shell/stores"));
+            if (restRoute == null)
+            {
+                return;
+            }
+
+            restRoute.Stores["facet"] = typeof(FoundationFacetRestStore);
+
         }
 
         private void ChangeMarket(object o, EventArgs e)

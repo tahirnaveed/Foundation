@@ -22,7 +22,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <Use64BitIISExpress />
-    <IISExpressSSLPort></IISExpressSSLPort>
+    <IISExpressSSLPort>44363</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -95,6 +95,21 @@
     </Reference>
     <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CsvHelper.7.1.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLocalizationProvider, Version=5.8.2.0, Culture=neutral, PublicKeyToken=e24b5062d4cb23b0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LocalizationProvider.5.8.2\lib\net461\DbLocalizationProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLocalizationProvider.Abstractions, Version=5.8.2.0, Culture=neutral, PublicKeyToken=e24b5062d4cb23b0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LocalizationProvider.Abstractions.5.8.2\lib\net461\DbLocalizationProvider.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLocalizationProvider.AdminUI.EPiServer, Version=5.8.2.0, Culture=neutral, PublicKeyToken=e24b5062d4cb23b0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DbLocalizationProvider.AdminUI.EPiServer.5.8.2\lib\net461\DbLocalizationProvider.AdminUI.EPiServer.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLocalizationProvider.AspNet, Version=5.8.2.0, Culture=neutral, PublicKeyToken=e24b5062d4cb23b0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LocalizationProvider.AspNet.5.8.2\lib\net461\DbLocalizationProvider.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DbLocalizationProvider.EPiServer, Version=5.8.2.0, Culture=neutral, PublicKeyToken=e24b5062d4cb23b0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DbLocalizationProvider.EPiServer.5.8.2\lib\net461\DbLocalizationProvider.EPiServer.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
@@ -995,6 +1010,7 @@
   <ItemGroup>
     <Folder Include="Assets\scss\templates\catalog\" />
     <Folder Include="Assets\scss\templates\media\" />
+    <Folder Include="Features\Error\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
@@ -1399,6 +1415,8 @@
     <Content Include="Views\AdvancedTask\Index.ascx" />
     <Content Include="Views\AdvancedTask\Pager.ascx" />
     <Content Include="Views\AdvancedTask\Tasks.ascx" />
+    <Content Include="Views\Shared\FindBootstrapper.aspx" />
+    <Content Include="Views\Shared\MABootstrapper.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1862,6 +1880,8 @@
     <Content Include="modules\_protected\AdvancedTask\AdvancedTask.zip" />
     <Content Include="modules\_protected\advanced-cms-forms\web.config" />
     <Content Include="modules\_protected\advanced-cms-forms\advanced-cms-forms.zip" />
+    <Content Include="modules\_protected\DbLocalizationProvider.AdminUI.EPiServer\web.config" />
+    <Content Include="modules\_protected\DbLocalizationProvider.AdminUI.EPiServer\DbLocalizationProvider.AdminUI.EPiServer.zip" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -1880,6 +1900,8 @@
     <Content Include="Views\VirtualTemplates\Buttons\MakeVirtual.cshtml" />
     <Content Include="Views\VirtualTemplates\Buttons\Edit.cshtml" />
     <Content Include="Views\VirtualTemplates\Buttons\Compare.cshtml" />
+    <Content Include="Views\Shared\find.Master" />
+    <Content Include="Views\Shared\MA.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
