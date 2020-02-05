@@ -39,8 +39,8 @@ namespace Foundation.Commerce.Marketing
                 new GetCampaignsByStatus(_campaignInfoExtractor),
                 new GetCampaignsByMarket(),
                 new GetPromotionsByDiscountType(_contentLoader),
-                new GetCampaignsByDates(),
-                new GetCampaignsByVistorGroup()
+                new GetPromotionsByDates(_contentLoader, "children"),
+                new GetCampaignsByVistorGroup(_contentLoader, "children")
             };
         }
 
