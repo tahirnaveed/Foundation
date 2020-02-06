@@ -909,6 +909,10 @@
     <Compile Include="Features\Blog\BlogItem\BlogItemController.cs" />
     <Compile Include="Features\Blog\BlogListPage\BlogListPageController.cs" />
     <Compile Include="Features\Collection\CollectionPageController.cs" />
+    <Compile Include="Features\MappableImage\MappableCoordinate.cs" />
+    <Compile Include="Features\MappableImage\MappableCoordinateListProperty.cs" />
+    <Compile Include="Features\MappableImage\MappableImageBlock.cs" />
+    <Compile Include="Features\MappableImage\MappableImageBlockController.cs" />
     <Compile Include="Features\Pages\CommunityPage\CommunittyPageController.cs" />
     <Compile Include="Infrastructure\PostClickInterceptor.cs" />
     <Compile Include="Features\CatalogContent\CatalogContentControllerBase.cs" />
@@ -1882,6 +1886,8 @@
     <Content Include="modules\_protected\advanced-cms-forms\advanced-cms-forms.zip" />
     <Content Include="modules\_protected\DbLocalizationProvider.AdminUI.EPiServer\web.config" />
     <Content Include="modules\_protected\DbLocalizationProvider.AdminUI.EPiServer\DbLocalizationProvider.AdminUI.EPiServer.zip" />
+    <Content Include="Features\MappableImage\Index.cshtml" />
+    <None Include="Assets\scss\templates\blocks\_mappableImageBlock.scss" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
