@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Foundation.Commerce.Personalization\Foundation.Commerce.Personalization.csproj" />
-    <ProjectReference Include="..\Foundation.Test.Tools\Foundation.Test.Tools.csproj" />
+    <ProjectReference Include="..\Foundation.Commerce.Tests\Foundation.Commerce.Tests.csproj" />
   </ItemGroup>
 
 </Project>

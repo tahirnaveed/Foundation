@@ -32,9 +32,7 @@ gulp.task('js', () => {
 gulp.task('lint', gulp.series('js', () => {
     return gulp.src(['./assets/js/main.min.js', './clientresources/scripts/**/*.js', './modules/_protected/**/*.js'])
         .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.format('./node_modules/eslint-formatter-markdown/markdown.js', fs.createWriteStream('../../eslint-html-result.md')));
-        //.pipe(eslint.failAfterError());
+        .pipe(eslint.format());
 }));
 
 gulp.task('watch', () => {
@@ -43,3 +41,9 @@ gulp.task('watch', () => {
 });
 
 gulp.task('default', gulp.parallel('sass', 'lint'));
+
+gulp.task('pretty-lint', gulp.series('js', () => {
+    return gulp.src(['./assets/js/main.min.js', './clientresources/scripts/**/*.js', './modules/_protected/**/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format('./node_modules/eslint-formatter-markdown/markdown.js', fs.createWriteStream('../../eslint-html-result.md')));
+}));

@@ -16,7 +16,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Foundation.Campaign\Foundation.Campaign.csproj" />
-    <ProjectReference Include="..\Foundation.Test.Tools\Foundation.Test.Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
 
 </Project>

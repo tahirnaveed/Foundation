@@ -32,18 +32,17 @@ namespace Foundation.Commerce.Personalization
         private readonly LanguageResolver _languageResolver;
         private readonly LanguageService _languageService;
         private readonly ILineItemCalculator _lineItemCalculator;
-        private readonly IProductService _productService;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IRelationRepository _relationRepository;
         private readonly IRequestTrackingDataService _requestTrackingDataService;
         private readonly TrackingDataFactory _trackingDataFactory;
         private readonly ITrackingService _trackingService;
         private readonly ICurrentMarket _currentMarket;
+        private readonly IProductService _productService;
 
         public CommerceTrackingService(
             ServiceAccessor<IContentRouteHelper> contentRouteHelperAccessor,
             IContextModeResolver contextModeResolver,
-            IProductService productService,
             TrackingDataFactory trackingDataFactory,
             ITrackingService trackingService,
             IContentLoader contentLoader,
@@ -54,11 +53,11 @@ namespace Foundation.Commerce.Personalization
             IRequestTrackingDataService requestTrackingDataService,
             ReferenceConverter referenceConverter,
             IRelationRepository relationRepository,
-            ICurrentMarket currentMarket)
+            ICurrentMarket currentMarket, 
+            IProductService productService)
         {
             _contentRouteHelperAccessor = contentRouteHelperAccessor;
             _contextModeResolver = contextModeResolver;
-            _productService = productService;
             _trackingDataFactory = trackingDataFactory;
             _trackingService = trackingService;
             _contentLoader = contentLoader;
@@ -70,6 +69,7 @@ namespace Foundation.Commerce.Personalization
             _referenceConverter = referenceConverter;
             _relationRepository = relationRepository;
             _currentMarket = currentMarket;
+            _productService = productService;
         }
 
         public async Task<TrackingResponseData> TrackProduct(HttpContextBase httpContext, string productCode,
@@ -232,8 +232,8 @@ namespace Foundation.Commerce.Personalization
                     {
                         returnValue.Add(
                             new RecommendedProductTileViewModel(recommendation.RecommendationId,
-                            _contentLoader.Get<EntryContentBase>(recommendation.ContentLink, language).GetProductTileViewModel(currentMarket, currentMarket.DefaultCurrency))
-                        );
+                            _productService.GetProductTileViewModel(_contentLoader.Get<EntryContentBase>(recommendation.ContentLink, language))));
+                        
                     }
                     catch
                     {

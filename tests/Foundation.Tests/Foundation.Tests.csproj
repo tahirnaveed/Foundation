@@ -17,12 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Foundation\Foundation.csproj" />
-    <ProjectReference Include="..\Foundation.Test.Tools\Foundation.Test.Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>
