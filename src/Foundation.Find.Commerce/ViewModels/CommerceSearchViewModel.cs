@@ -9,12 +9,10 @@ namespace Foundation.Find.Commerce.ViewModels
     {
         public CommerceSearchViewModel()
         {
-
         }
 
         public CommerceSearchViewModel(T currentContent) : base(currentContent)
         {
-
         }
 
         public IEnumerable<ProductTileViewModel> ProductViewModels { get; set; }

@@ -42,6 +42,7 @@ namespace Foundation.Find.Cms.Models.Blocks
                                                             x => x.TagString().Match(HttpUtility.UrlDecode(name))));
                 query = query.Filter(x => activitiesFilter);
             }
+
             return query;
         }
     }

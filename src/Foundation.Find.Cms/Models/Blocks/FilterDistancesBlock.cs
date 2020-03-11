@@ -56,6 +56,7 @@ namespace Foundation.Find.Cms.Models.Blocks
                     query = query.Filter(x => distancesFilter);
                 }
             }
+
             return query;
         }
 

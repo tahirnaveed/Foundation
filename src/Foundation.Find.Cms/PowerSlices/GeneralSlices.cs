@@ -112,6 +112,5 @@ namespace Foundation.Find.Cms.PowerSlices
         }
 
         public override int SortOrder => 201;
-
     }
 }

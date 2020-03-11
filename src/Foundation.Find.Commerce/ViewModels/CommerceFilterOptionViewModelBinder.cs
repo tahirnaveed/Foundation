@@ -57,7 +57,6 @@ namespace Foundation.Find.Commerce.ViewModels
                 return model;
             }
 
-
             var contentLink = controllerContext.RequestContext.GetContentLink();
             IContent content = null;
             if (!ContentReference.IsNullOrEmpty(contentLink))
@@ -91,6 +90,7 @@ namespace Foundation.Find.Commerce.ViewModels
             {
                 return facetGroups;
             }
+
             foreach (var facet in facets.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries))
             {
                 var data = facet.Split(':');
@@ -98,25 +98,30 @@ namespace Foundation.Find.Commerce.ViewModels
                 {
                     continue;
                 }
+
                 var searchFilter = GetSearchFilter(data[0]);
                 if (searchFilter == null)
                 {
                     continue;
                 }
+
                 var facetGroup = facetGroups.FirstOrDefault(fg => fg.GroupFieldName == searchFilter.FieldName);
                 if (facetGroup == null)
                 {
                     facetGroup = CreateFacetGroup(searchFilter);
                     facetGroups.Add(facetGroup);
                 }
+
                 var facetOption = facetGroup.Facets.FirstOrDefault(fo => fo.Name == data[1]);
                 if (facetOption != null)
                 {
                     continue;
                 }
+
                 facetOption = CreateFacetOption(data[1], $"{data[0]}:{data[1]}");
                 facetGroup.Facets.Add(facetOption);
             }
+
             return facetGroups;
         }
 
@@ -182,6 +187,7 @@ namespace Foundation.Find.Commerce.ViewModels
                 nodeValues[index] = val;
                 index++;
             }
+
             configFilter.Values.SimpleValue = nodeValues;
             return configFilter;
         }

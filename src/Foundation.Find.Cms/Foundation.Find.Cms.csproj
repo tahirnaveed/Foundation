@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>7.1</LangVersion>
+	  <CodeAnalysisRuleSet>..\..\default.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,7 +35,14 @@
     <PackageReference Include="PowerSlice" Version="4.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\Foundation.Cms\Foundation.Cms.csproj" />
   </ItemGroup>
 

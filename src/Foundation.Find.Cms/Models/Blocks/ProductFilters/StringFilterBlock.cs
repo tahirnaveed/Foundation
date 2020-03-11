@@ -23,6 +23,7 @@ namespace Foundation.Find.Cms.Models.Blocks.ProductFilters
             {
                 return new TermFilter($"{FieldName}$$string", FieldFilterValue.Create(FieldValue));
             }
+
             return null;
         }
     }

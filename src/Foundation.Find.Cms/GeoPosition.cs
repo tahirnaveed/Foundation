@@ -54,7 +54,6 @@ namespace Foundation.Find.Cms
                 {
                     result = GeoLocationProvider.Value.Lookup(IPAddress.Parse("8.8.8.8"));
                 }
-
                 catch (Exception e)
                 {
                     _logger.Error(e.Message, e);
@@ -75,7 +74,6 @@ namespace Foundation.Find.Cms
                 var result = GeoLocationProvider.Value.Lookup(ip);
                 return result ?? GeoLocationProvider.Value.Lookup(IPAddress.Parse("8.8.8.8"));
             }
-
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
@@ -83,14 +81,12 @@ namespace Foundation.Find.Cms
                 {
                     return GeoLocationProvider.Value.Lookup(IPAddress.Parse("8.8.8.8"));
                 }
-
                 catch (Exception e)
                 {
                     _logger.Error(e.Message, e);
                     return null;
                 }
             }
-
         }
 
         private static string GetRequestIp()
@@ -101,15 +97,18 @@ namespace Foundation.Find.Cms
             {
                 requestIp = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             }
+
             if (requestIp.Contains(":"))
             {
                 //Port number is included, disregard it
                 requestIp = requestIp.Substring(0, requestIp.IndexOf(':'));
             }
+
             if (!requestIp.Contains(".") || requestIp == "127.0.0.1")
             {
                 requestIp = GetLocalRequestIp();
             }
+
             return requestIp;
         }
 
@@ -120,6 +119,7 @@ namespace Foundation.Find.Cms
             {
                 return requestIp;
             }
+
             var lookupRequest = WebRequest.Create("http://ipinfo.io/ip/");
             var webResponse = lookupRequest.GetResponse();
             using (var responseStream = webResponse.GetResponseStream())
@@ -127,10 +127,10 @@ namespace Foundation.Find.Cms
                 var streamReader = new StreamReader(responseStream, Encoding.UTF8);
                 requestIp = streamReader.ReadToEnd().Trim();
             }
+
             webResponse.Close();
             CacheManager.Insert("local_ip", requestIp);
             return requestIp;
         }
-
     }
 }

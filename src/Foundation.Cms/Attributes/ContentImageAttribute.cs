@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Foundation.Cms.Attributes
 {
+
     public class ContentImageAttribute : ImageUrlAttribute
     {
         public ContentImageAttribute() : base("~/Content/ContentIcons/default.png")

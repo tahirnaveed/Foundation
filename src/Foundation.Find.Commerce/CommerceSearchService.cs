@@ -46,41 +46,35 @@ namespace Foundation.Find.Commerce
         private readonly IClient _findClient;
         private readonly IFacetRegistry _facetRegistry;
         private const int DefaultPageSize = 18;
-        private readonly IFindUIConfiguration _findUIConfiguration;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IContentRepository _contentRepository;
         private readonly IPriceService _priceService;
         private readonly IPromotionService _promotionService;
         private readonly ICurrencyService _currencyservice;
         private readonly IContentLoader _contentLoader;
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
 
         public CommerceSearchService(ICurrentMarket currentMarket,
             ICurrencyService currencyService,
             LanguageResolver languageResolver,
             IClient findClient,
             IFacetRegistry facetRegistry,
-            IFindUIConfiguration findUIConfiguration,
             ReferenceConverter referenceConverter,
             IContentRepository contentRepository,
             IPriceService priceService,
             IPromotionService promotionService,
-            ICurrencyService currencyservice,
-            IContentLoader contentLoader
-            )
+            IContentLoader contentLoader)
         {
             _currentMarket = currentMarket;
             _currencyService = currencyService;
             _languageResolver = languageResolver;
             _findClient = findClient;
             _facetRegistry = facetRegistry;
-            _findUIConfiguration = findUIConfiguration;
             //_findClient.Personalization().Refresh();
             _referenceConverter = referenceConverter;
             _contentRepository = contentRepository;
             _priceService = priceService;
             _promotionService = promotionService;
-            _currencyservice = currencyservice;
             _contentLoader = contentLoader;
         }
 
@@ -132,6 +126,7 @@ namespace Foundation.Find.Commerce
             {
                 searchQuery = searchQuery.For(query);
             }
+
             var results = searchQuery.Skip((page - 1) * pageSize).Take(pageSize).GetResult();
             if (results != null && results.Any())
             {
@@ -155,7 +150,7 @@ namespace Foundation.Find.Commerce
                 .Select(_ => _.VariationModels())
                 .GetResult()
                 .SelectMany(x => x)
-                .ToList(); ;
+                .ToList();
 
             if (results != null && results.Any())
             {
@@ -174,6 +169,7 @@ namespace Foundation.Find.Commerce
                     };
                 });
             }
+
             return Enumerable.Empty<SkuSearchResultModel>();
         }
 
@@ -186,7 +182,7 @@ namespace Foundation.Find.Commerce
             var result = query.GetContentResult();
             var searchProducts = CreateProductViewModels(result, currentContent, "").ToList();
             GetManaualInclusion(searchProducts, currentContent as SalesPage, market, currency);
-            pages = GetPages(currentContent, page, searchProducts.Count());
+            pages = GetPages(currentContent, page, searchProducts.Count);
             return searchProducts;
         }
 
@@ -200,7 +196,7 @@ namespace Foundation.Find.Commerce
             var result = query.GetContentResult();
             var searchProducts = CreateProductViewModels(result, currentContent, "").ToList();
             GetManaualInclusion(searchProducts, currentContent, market, currency);
-            pages = GetPages(currentContent, page, searchProducts.Count());
+            pages = GetPages(currentContent, page, searchProducts.Count);
             return searchProducts;
         }
 
@@ -220,6 +216,7 @@ namespace Foundation.Find.Commerce
             {
                 pages.Add(p);
             }
+
             return pages;
         }
 
@@ -234,6 +231,7 @@ namespace Foundation.Find.Commerce
                 list[k] = list[n];
                 list[n] = value;
             }
+
             return list;
         }
 
@@ -345,6 +343,7 @@ namespace Foundation.Find.Commerce
                     results.Add(item as EntryContentBase);
                 }
             }
+
             return results.DistinctBy(e => e.ContentGuid);
         }
 
@@ -354,7 +353,6 @@ namespace Foundation.Find.Commerce
             IEnumerable<Filter> filters = null,
             int catalogId = 0)
         {
-
             //If contact belong organization, only find product that belong the categories that has owner is this organization
             var contact = PrincipalInfo.CurrentPrincipal.GetCustomerContact();
             var organizationId = contact?.ContactOrganization?.PrimaryKeyId ?? Guid.Empty;
@@ -415,7 +413,6 @@ namespace Foundation.Find.Commerce
                 DidYouMeans = string.IsNullOrEmpty(filterOptions.Q) ? null : _findClient.Statistics().GetDidYouMean(filterOptions.Q),
                 Query = filterOptions.Q,
             };
-
         }
 
         public IEnumerable<ProductTileViewModel> CreateProductViewModels(IContentResult<EntryContentBase> searchResult, IContent content, string searchQuery)
@@ -430,7 +427,7 @@ namespace Foundation.Find.Commerce
             }
 
             productViewModels = searchResult.Select(document => document.GetProductTileViewModel(market, currency)).ToList();
-            ApplyBoostedProperties(ref productViewModels, searchResult, content, searchQuery);
+            ApplyBoostedProperties(ref productViewModels, content, searchQuery);
             return productViewModels;
         }
 
@@ -441,6 +438,7 @@ namespace Foundation.Find.Commerce
             {
                 return nodes;
             }
+
             nodes[nodes.Count - 1] = nodes[nodes.Count - 1].Replace("*", "");
             return nodes;
         }
@@ -453,6 +451,7 @@ namespace Foundation.Find.Commerce
             {
                 return "";
             }
+
             var outline = nodeCode;
             var currentNode = _contentRepository.Get<NodeContent>(_referenceConverter.GetContentLink(nodeCode));
             var parent = _contentRepository.Get<CatalogContentBase>(currentNode.ParentLink);
@@ -471,8 +470,8 @@ namespace Foundation.Find.Commerce
                 }
 
                 parent = _contentRepository.Get<CatalogContentBase>(parent.ParentLink);
-
             }
+
             return outline;
         }
 
@@ -492,37 +491,40 @@ namespace Foundation.Find.Commerce
             return query;
         }
 
-        private ITypeSearch<EntryContentBase> OrderBy(ITypeSearch<EntryContentBase> query, CommerceFilterOptionViewModel CommerceFilterOptionViewModel)
+        private ITypeSearch<EntryContentBase> OrderBy(ITypeSearch<EntryContentBase> query, CommerceFilterOptionViewModel commerceFilterOptionViewModel)
         {
-            if (string.IsNullOrEmpty(CommerceFilterOptionViewModel.Sort) || CommerceFilterOptionViewModel.Sort.Equals("Position"))
+            if (string.IsNullOrEmpty(commerceFilterOptionViewModel.Sort) || commerceFilterOptionViewModel.Sort.Equals("Position"))
             {
-                if (CommerceFilterOptionViewModel.SortDirection.Equals("Asc"))
+                if (commerceFilterOptionViewModel.SortDirection.Equals("Asc"))
                 {
                     query = query.OrderBy(x => x.SortOrder());
                     return query;
                 }
+
                 query = query.OrderByDescending(x => x.SortOrder());
                 return query;
             }
 
-            if (CommerceFilterOptionViewModel.Sort.Equals("Price"))
+            if (commerceFilterOptionViewModel.Sort.Equals("Price"))
             {
-                if (CommerceFilterOptionViewModel.SortDirection.Equals("Asc"))
+                if (commerceFilterOptionViewModel.SortDirection.Equals("Asc"))
                 {
                     query = query.OrderBy(x => x.DefaultPrice());
                     return query;
                 }
+
                 query = query.OrderByDescending(x => x.DefaultPrice());
                 return query;
             }
 
-            if (CommerceFilterOptionViewModel.Sort.Equals("Name"))
+            if (commerceFilterOptionViewModel.Sort.Equals("Name"))
             {
-                if (CommerceFilterOptionViewModel.SortDirection.Equals("Asc"))
+                if (commerceFilterOptionViewModel.SortDirection.Equals("Asc"))
                 {
                     query = query.OrderBy(x => x.DisplayName);
                     return query;
                 }
+
                 query = query.OrderByDescending(x => x.DisplayName);
                 return query;
             }
@@ -550,7 +552,6 @@ namespace Foundation.Find.Commerce
             {
                 GroupFieldName = x.FieldName,
                 GroupName = x.DisplayName,
-
             }).ToList();
 
             query = facets.Aggregate(query, (current, facet) => facet.Facet(current, GetSelectedFilter(options, facet.FieldName)));
@@ -577,6 +578,7 @@ namespace Foundation.Find.Commerce
 
                 filter.PopulateFacet(facetGroup, facet, selectedfacets);
             }
+
             return facetGroups;
         }
 
@@ -626,6 +628,7 @@ namespace Foundation.Find.Commerce
                         {
                             continue;
                         }
+
                         filters.Add(RangeFilter.Create(_findClient.GetFullFieldName(facetGroupOption.GroupFieldName, typeof(double)),
                             rangeFilter.From ?? 0,
                             rangeFilter.To ?? double.MaxValue));
@@ -648,8 +651,8 @@ namespace Foundation.Find.Commerce
             {
                 boolFilter.Should.Add(filter);
             }
-            return boolFilter;
 
+            return boolFilter;
         }
 
         private ITypeSearch<T> FilterSelected<T>(ITypeSearch<T> query, List<FacetGroupOption> options)
@@ -695,6 +698,7 @@ namespace Foundation.Find.Commerce
                         {
                             continue;
                         }
+
                         ranges.Add(new SelectableNumericRange
                         {
                             From = range.From,
@@ -707,6 +711,7 @@ namespace Foundation.Find.Commerce
                     query = numericFilter.Filter(query, ranges);
                 }
             }
+
             return query;
         }
 
@@ -722,8 +727,8 @@ namespace Foundation.Find.Commerce
             {
                 query = query.Filter(filter);
             }
-            return query;
 
+            return query;
         }
 
         private static ProductSearchResults CreateEmptyResult()
@@ -738,11 +743,10 @@ namespace Foundation.Find.Commerce
         /// <summary>
         /// Sets Featured Product property and Best Bet Product property to ProductViewModels.
         /// </summary>
-        /// <param name="searchResult">The search result (product list).</param>
+        /// <param name="productViewModels">The ProductViewModels is added two properties: Featured Product and Best Bet.</param>
         /// <param name="currentContent">The product category.</param>
         /// <param name="searchQuery">The search query string to filter Best Bet result.</param>
-        /// <param name="productViewModels">The ProductViewModels is added two properties: Featured Product and Best Bet.</param>
-        private void ApplyBoostedProperties(ref List<ProductTileViewModel> productViewModels, IContentResult<EntryContentBase> searchResult, IContent currentContent, string searchQuery)
+        private void ApplyBoostedProperties(ref List<ProductTileViewModel> productViewModels, IContent currentContent, string searchQuery)
         {
             var node = currentContent as GenericNode;
             var products = new List<EntryContentBase>();
@@ -769,13 +773,12 @@ namespace Foundation.Find.Commerce
                                  {
                                      p.IsBestBetProduct = true;
                                  }
+
                                  if (ownStyleBestBet.Any(i => ((CommerceBestBetSelector)i.BestBetSelector).ContentLink.ID == p.ProductId))
                                  {
                                      p.HasBestBetStyle = true;
                                  }
                              });
         }
-
-
     }
 }

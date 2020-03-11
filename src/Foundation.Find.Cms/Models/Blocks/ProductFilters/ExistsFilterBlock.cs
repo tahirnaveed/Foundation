@@ -19,6 +19,7 @@ namespace Foundation.Find.Cms.Models.Blocks.ProductFilters
             {
                 return null;
             }
+
             var fullFieldName = SearchClient.Instance.GetFullFieldName(FieldName);
             return new ExistsFilter(fullFieldName);
         }

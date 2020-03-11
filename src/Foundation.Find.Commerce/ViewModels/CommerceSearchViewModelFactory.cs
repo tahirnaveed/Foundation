@@ -103,6 +103,7 @@ namespace Foundation.Find.Commerce.ViewModels
             {
                 catalogId = node.CatalogId;
             }
+
             var catalog = _contentLoader.GetChildren<CatalogContentBase>(_referenceConverter.GetRootLink())
                 .FirstOrDefault(x => catalogId == 0 || x.CatalogId == catalogId);
 
@@ -158,8 +159,8 @@ namespace Foundation.Find.Commerce.ViewModels
                         }
                     }
                 }
-
             }
+
             return viewModel;
         }
     }

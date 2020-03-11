@@ -42,6 +42,7 @@ namespace Foundation.Find.Commerce
             {
                 parentContentLinks.AddRange(parents);
             }
+
             IndexContentsIfNeeded(parentContentLinks, GetIndexContentAction());
         }
     }

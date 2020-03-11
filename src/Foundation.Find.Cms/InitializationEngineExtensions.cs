@@ -23,7 +23,7 @@ namespace Foundation.Find.Cms
             _contentEvents.Value.PublishedContent += OnPublishedContent;
         }
 
-        static void OnPublishedContent(object sender, ContentEventArgs contentEventArgs)
+        private static void OnPublishedContent(object sender, ContentEventArgs contentEventArgs)
         {
             if (contentEventArgs.Content is IFacetConfiguration facetConfiguration)
             {

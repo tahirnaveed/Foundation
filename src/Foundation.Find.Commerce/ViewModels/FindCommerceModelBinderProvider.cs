@@ -17,6 +17,7 @@ namespace Foundation.Find.Commerce.ViewModels
             {
                 return DependencyResolver.Current.GetService(ModelBinderTypeMappings[modelType]) as IModelBinder;
             }
+
             return null;
         }
     }

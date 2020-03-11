@@ -68,7 +68,7 @@ namespace Foundation.Find.Cms
             Type backingType)
         {
             var fieldName = search.Client.GetFullFieldName(name, backingType);
-            ;
+            
             var action = NumericRangfeFacetRequestAction(search.Client, name, range, backingType);
             return new Search<TSource, IQuery>(search, context =>
             {
@@ -134,9 +134,10 @@ namespace Foundation.Find.Cms
             Type type)
         {
             if (type != null)
+            {
                 return fieldName + searchClient.Conventions.FieldNameConvention.GetFieldName(
                            Expression.Variable(type, fieldName));
-
+            }
 
             return fieldName;
         }
@@ -227,7 +228,6 @@ namespace Foundation.Find.Cms
                 filters.Add(rangeFilter);
             }
 
-
             var orFilter = new OrFilter(filters);
             var filterBuilder = new FilterBuilder<T>(client, orFilter);
             return filterBuilder;
@@ -312,6 +312,7 @@ namespace Foundation.Find.Cms
             {
                 fieldName = search.Client.GetFullFieldName(name, type);
             }
+
             return new Search<TSource, IQuery>(search,
                 context =>
                 {
@@ -324,6 +325,7 @@ namespace Foundation.Find.Cms
                     {
                         facetRequestAction(facetRequest);
                     }
+
                     context.RequestBody.Facets.Add(facetRequest);
                 });
         }

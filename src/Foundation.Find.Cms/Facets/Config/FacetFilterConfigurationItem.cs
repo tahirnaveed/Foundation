@@ -136,10 +136,10 @@ namespace Foundation.Find.Cms.Facets.Config
                             {
                                 return new SelectableNumericRange() { From = Convert.ToDouble(arr[0]) };
                             }
+
                         default:
                             return new SelectableNumericRange();
                     }
-
                 })
                 .ToList();
 

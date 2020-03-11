@@ -14,6 +14,7 @@ namespace Foundation.Cms.EditorDescriptors
             {
                 DisabledViews = new List<string>();
             }
+
             DisabledViews.Add(CmsViewNames.OnPageEditView);
             DisabledViews.Add(CmsViewNames.PreviewView);
             DisabledViews.Add(CmsViewNames.SideBySideCompareView);

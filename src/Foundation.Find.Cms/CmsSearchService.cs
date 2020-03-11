@@ -87,17 +87,25 @@ namespace Foundation.Find.Cms
             if (pagination.Sort == CategorySorting.PublishedDate.ToString())
             {
                 if (pagination.SortDirection.ToLower() == "asc")
+                {
                     query = query.OrderBy(x => x.StartPublish);
+                }
                 else
+                {
                     query = query.OrderByDescending(x => x.StartPublish);
+                }
             }
 
             if (pagination.Sort == CategorySorting.Name.ToString())
             {
                 if (pagination.SortDirection.ToLower() == "asc")
+                {
                     query = query.OrderBy(x => x.Name);
+                }
                 else
+                {
                     query = query.OrderByDescending(x => x.Name);
+                }
             }
 
             query = query.Skip((pagination.Page - 1) * pagination.PageSize).Take(pagination.PageSize);

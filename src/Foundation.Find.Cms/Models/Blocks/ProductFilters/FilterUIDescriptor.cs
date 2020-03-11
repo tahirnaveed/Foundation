@@ -13,6 +13,7 @@ namespace Foundation.Find.Cms.Models.Blocks.ProductFilters
             {
                 DisabledViews = new List<string>();
             }
+
             DisabledViews.Add(CmsViewNames.OnPageEditView);
             DisabledViews.Add(CmsViewNames.PreviewView);
             DisabledViews.Add(CmsViewNames.SideBySideCompareView);

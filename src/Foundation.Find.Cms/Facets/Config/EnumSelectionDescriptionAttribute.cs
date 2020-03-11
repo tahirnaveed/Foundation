@@ -2,9 +2,10 @@
 
 namespace Foundation.Find.Cms.Facets.Config
 {
-    public class EnumSelectionDescriptionAttribute : DescriptionAttribute
+    public sealed class EnumSelectionDescriptionAttribute : DescriptionAttribute
     {
         public string Text { get; set; }
+
         public object Value { get; set; }
     }
 }

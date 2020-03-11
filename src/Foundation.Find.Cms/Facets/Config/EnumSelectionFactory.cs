@@ -33,7 +33,9 @@ namespace Foundation.Find.Cms.Facets.Config
             var member = type.GetMember(enumName).FirstOrDefault();
 
             if (object.Equals(member, null))
+            {
                 return null;
+            }
 
             return member
                 .GetCustomAttributes(_descriptionType, false)

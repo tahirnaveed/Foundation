@@ -57,11 +57,11 @@ namespace Foundation.Find.Commerce.Facets
 
                         return rangeDefinition;
                     }
+
                     break;
             }
 
             return base.GetFacetDefinition(facetConfiguration);
-
         }
 
         public override List<FacetDefinition> GetDefaultFacetDefinitions()
@@ -89,7 +89,6 @@ namespace Foundation.Find.Commerce.Facets
                 DisplayName = "Price",
                 FieldName = "DefaultPrice",
                 BackingType = typeof(double)
-
             };
             priceRanges.Range.Add(new SelectableNumericRange() { To = 50 });
             priceRanges.Range.Add(new SelectableNumericRange() { From = 50, To = 100 });

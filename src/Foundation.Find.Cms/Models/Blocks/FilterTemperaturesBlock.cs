@@ -38,6 +38,7 @@ namespace Foundation.Find.Cms.Models.Blocks
                     query = query.Filter(x => x.AvgTempDbl.InRange(f, t));
                 }
             }
+
             return query;
         }
     }

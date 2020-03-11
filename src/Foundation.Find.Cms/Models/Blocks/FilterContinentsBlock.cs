@@ -39,6 +39,7 @@ namespace Foundation.Find.Cms.Models.Blocks
                                                         (current, name) => current.Or(x => x.Continent.Match(name)));
                 query = query.Filter(x => continentsFilter);
             }
+
             return query;
         }
     }

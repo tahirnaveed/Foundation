@@ -68,7 +68,7 @@ namespace Foundation.Find.Commerce
                     Logger.Service.Log(Level.Error, ex.Message, ex);
                 }
 
-                var indexed = batchNumber * _batchSize + contacts.Count;
+                var indexed = (batchNumber * _batchSize) + contacts.Count;
                 OnStatusChanged($"Indexed {indexed} contacts");
                 batchNumber++;
             } while (contacts.Count > 0);

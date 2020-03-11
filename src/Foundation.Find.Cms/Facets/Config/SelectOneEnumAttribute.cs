@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 namespace Foundation.Find.Cms.Facets.Config
 {
-    public class SelectOneEnumAttribute : SelectOneAttribute, IMetadataAware
+    public sealed class SelectOneEnumAttribute : SelectOneAttribute, IMetadataAware
     {
         public SelectOneEnumAttribute(Type enumType)
         {

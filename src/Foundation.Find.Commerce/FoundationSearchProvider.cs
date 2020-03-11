@@ -32,7 +32,6 @@ namespace BurlingtonWeb.Business.Search
     [Browsable(false)]
     public class FoundationSearchProvider : ContentSearchProviderBase<EntryContentBase, ContentType>
     {
-        private const int StartRowIndex = 0;
         [NonSerialized]
         private readonly ILogger _log = LogManager.GetLogger(typeof(FoundationSearchProvider));
 
@@ -177,7 +176,7 @@ namespace BurlingtonWeb.Business.Search
 
         private SearchResult CreateMySearchResult(EntryContentBase entry)
         {
-            var result = base.CreateSearchResult(entry);
+            var result = CreateSearchResult(entry);
             result.Metadata.Add("parentType", _referenceConverter.GetContentType(entry.ParentLink).ToString());
             result.Metadata.Add("code", entry.Code);
             return result;
@@ -195,5 +194,4 @@ namespace BurlingtonWeb.Business.Search
             return search.OrFilter(filter);
         }
     }
-
 }

@@ -31,6 +31,7 @@ namespace Foundation.Find.Cms.ViewModels
                 {
                     return new List<int>();
                 }
+
                 var totalPages = (TotalCount + PageSize - 1) / PageSize;
                 var pages = new List<int>();
                 var startPage = Page > 2 ? Page - 2 : 1;
@@ -38,9 +39,9 @@ namespace Foundation.Find.Cms.ViewModels
                 {
                     pages.Add(page);
                 }
+
                 return pages;
             }
         }
-
     }
 }

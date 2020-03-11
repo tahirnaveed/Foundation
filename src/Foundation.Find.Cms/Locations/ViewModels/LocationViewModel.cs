@@ -34,11 +34,11 @@ namespace Foundation.Find.Cms.Locations.ViewModels
             CloseBy = Enumerable.Empty<LocationItemPage>();
             ContinentLocations = Enumerable.Empty<LocationItemPage>();
         }
+
         public IEnumerable<LocationItemPage> CloseBy { get; set; }
 
         public IEnumerable<LocationItemPage> ContinentLocations { get; set; }
 
         public LocationItemPage CurrentLocation { get; set; }
-
     }
 }
