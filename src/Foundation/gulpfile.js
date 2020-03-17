@@ -42,6 +42,8 @@ gulp.task('watch', () => {
 
 gulp.task('default', gulp.parallel('sass', 'lint'));
 
+gulp.task('ci', gulp.parallel('sass', 'pretty-lint'));
+
 gulp.task('pretty-lint', gulp.series('js', () => {
     return gulp.src(['./assets/js/main.min.js', './clientresources/scripts/**/*.js', './modules/_protected/**/*.js'])
         .pipe(eslint())
