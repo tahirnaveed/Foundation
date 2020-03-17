@@ -53,6 +53,7 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: True
 
 - task: PublishBuildArtifacts@1
   inputs:
