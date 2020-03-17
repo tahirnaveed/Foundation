@@ -31,7 +31,7 @@ steps:
 - task: Gulp@1
   inputs:
     gulpFile: 'sites/Foundation/gulpfile.js'
-    targets: 'lint'
+    targets: 'ci'
     enableCodeCoverage: false
     
 - task: CmdLine@2
