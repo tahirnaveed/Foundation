@@ -26,11 +26,11 @@ steps:
 - task: Npm@1
   inputs:
     command: 'ci'
-    workingDir: 'src/Foundation'
+    workingDir: 'sites/Foundation'
 
 - task: Gulp@1
   inputs:
-    gulpFile: 'src/Foundation/gulpfile.js'
+    gulpFile: 'sites/Foundation/gulpfile.js'
     targets: 'default'
     enableCodeCoverage: false
     
