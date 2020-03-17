@@ -32,7 +32,7 @@ steps:
   inputs:
     gulpFile: 'sites/Foundation/gulpfile.js'
     targets: 'ci'
-    enableCodeCoverage: true
+    enableCodeCoverage: false
     
 - task: CmdLine@2
   inputs:
