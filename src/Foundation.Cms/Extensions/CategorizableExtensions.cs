@@ -2,6 +2,7 @@
 using EPiServer.DataAbstraction;
 using EPiServer.ServiceLocation;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Foundation.Cms.Extensions
@@ -20,15 +21,23 @@ namespace Foundation.Cms.Extensions
         /// <remarks>Content's categorization may map to more than one theme. This method assumes there are website categories called "Meet", "Track", and "Plan"</remarks>
         public static string[] GetThemeCssClassNames(this ICategorizable content)
         {
+            if (content is null)
+            {
+                throw new System.ArgumentNullException(nameof(content));
+            }
+
             if (content.Category == null)
             {
-                return new string[0];
+                return System.Array.Empty<string>();
             }
 
             var cssClasses = new HashSet<string>(); // Although with some overhead, a HashSet allows us to ensure we never add a CSS class more than once
             var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
 
-            foreach (var categoryName in content.Category.Select(category => categoryRepository.Get(category).Name.ToLower()))
+            foreach (var categoryName in content.Category.Select(category => categoryRepository
+                .Get(category)
+                .Name
+                .ToLower(CultureInfo.InvariantCulture)))
             {
                 switch (categoryName)
                 {

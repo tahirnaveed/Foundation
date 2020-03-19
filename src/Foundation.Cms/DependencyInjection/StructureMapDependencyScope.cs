@@ -10,7 +10,7 @@ namespace Foundation.Cms.DependencyInjection
     {
         private readonly IContainer _container;
 
-        public StructureMapDependencyScope(IContainer container) => _container = container ?? throw new ArgumentNullException("container");
+        public StructureMapDependencyScope(IContainer container) => _container = container ?? throw new ArgumentNullException(nameof(container));
 
         public object GetService(Type serviceType)
         {

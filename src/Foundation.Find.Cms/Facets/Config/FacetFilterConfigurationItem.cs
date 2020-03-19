@@ -12,9 +12,9 @@ namespace Foundation.Find.Cms.Facets.Config
     {
         public FacetFilterConfigurationItem()
         {
-            FieldType = FacetFieldType.String.ToString();
-            DisplayMode = FacetDisplayMode.Checkbox.ToString();
-            DisplayDirection = FacetDisplayDirection.Vertical.ToString();
+            FieldType = nameof(FacetFieldType.String);
+            DisplayMode = nameof(FacetDisplayMode.Checkbox);
+            DisplayDirection = nameof(FacetDisplayDirection.Vertical);
         }
 
         [Display(
@@ -49,7 +49,9 @@ namespace Foundation.Find.Cms.Facets.Config
         [SelectOneEnum(typeof(FacetFieldType))]
         [DefaultValue(FacetFieldType.String)]
         [Required]
+#pragma warning disable CA1721 // Property names should not match get methods
         public virtual string FieldType { get; set; }
+#pragma warning restore CA1721 // Property names should not match get methods
 
         public Type GetFieldType()
         {
@@ -81,7 +83,9 @@ namespace Foundation.Find.Cms.Facets.Config
         [SelectOneEnum(typeof(FacetDisplayMode))]
         [DefaultValue(FacetDisplayMode.Button)]
         [Required]
+#pragma warning disable CA1721 // Property names should not match get methods
         public virtual string DisplayMode { get; set; }
+#pragma warning restore CA1721 // Property names should not match get methods
 
         public FacetDisplayMode GetDisplayMode()
         {
@@ -98,7 +102,9 @@ namespace Foundation.Find.Cms.Facets.Config
               Description = "Only applies to color swatch and size swatch.")]
         [SelectOneEnum(typeof(FacetDisplayDirection))]
         [DefaultValue(FacetDisplayDirection.Vertical)]
+#pragma warning disable CA1721 // Property names should not match get methods
         public virtual string DisplayDirection { get; set; }
+#pragma warning restore CA1721 // Property names should not match get methods
 
         public FacetDisplayDirection GetDisplayDirection()
         {
@@ -139,7 +145,6 @@ namespace Foundation.Find.Cms.Facets.Config
                         default:
                             return new SelectableNumericRange();
                     }
-
                 })
                 .ToList();
 

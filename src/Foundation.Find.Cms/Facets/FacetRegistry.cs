@@ -13,10 +13,7 @@ namespace Foundation.Find.Cms.Facets
 
         public FacetRegistry(IEnumerable<FacetDefinition> facetDefinitions) => _facetDefinitions = facetDefinitions.ToList();
 
-        public void Clear()
-        {
-            _facetDefinitions.Clear();
-        }
+        public void Clear() => _facetDefinitions.Clear();
 
         public List<FacetDefinition> GetFacetDefinitions() => _facetDefinitions;
 

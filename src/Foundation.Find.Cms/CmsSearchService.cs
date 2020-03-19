@@ -84,7 +84,7 @@ namespace Foundation.Find.Cms
             var query = _findClient.Search<FoundationPageData>();
             query = query.FilterByCategories(pagination.Categories);
 
-            if (pagination.Sort == CategorySorting.PublishedDate.ToString())
+            if (pagination.Sort == nameof(CategorySorting.PublishedDate))
             {
                 if (pagination.SortDirection.ToLower() == "asc")
                     query = query.OrderBy(x => x.StartPublish);
@@ -92,7 +92,7 @@ namespace Foundation.Find.Cms
                     query = query.OrderByDescending(x => x.StartPublish);
             }
 
-            if (pagination.Sort == CategorySorting.Name.ToString())
+            if (pagination.Sort == nameof(CategorySorting.Name))
             {
                 if (pagination.SortDirection.ToLower() == "asc")
                     query = query.OrderBy(x => x.Name);
@@ -111,9 +111,6 @@ namespace Foundation.Find.Cms
             return model;
         }
 
-        public ITypeSearch<T> FilterByCategories<T>(ITypeSearch<T> query, IEnumerable<ContentReference> categories) where T : ICategorizableContent
-        {
-            return query.FilterByCategories(categories);
-        }
+        public ITypeSearch<T> FilterByCategories<T>(ITypeSearch<T> query, IEnumerable<ContentReference> categories) where T : ICategorizableContent => query.FilterByCategories(categories);
     }
 }

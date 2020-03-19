@@ -53,7 +53,6 @@ namespace Foundation.Find.Cms.Models.Blocks.ProductFilters
                     return lessThanFilter;
                 default:
                     return new TermFilter(fullFieldName, FieldValue);
-
             }
         }
     }

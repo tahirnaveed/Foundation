@@ -208,8 +208,7 @@ namespace Foundation.Commerce.Order.ViewModelFactories
             viewModel.SelectedPayment = method.Description;
             var payment = cart.GetFirstForm().
                 Payments.FirstOrDefault();
-            var creditCardPayment = payment as ICreditCardPayment;
-            if (creditCardPayment != null)
+            if (payment is ICreditCardPayment creditCardPayment)
             {
                 viewModel.SelectedPayment +=
                     $" - ({creditCardPayment.CreditCardNumber.Substring(creditCardPayment.CreditCardNumber.Length - 4)})";

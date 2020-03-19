@@ -385,11 +385,7 @@ namespace Foundation.Demo.Install.Steps
 
         private void SaveCustomer(CustomerPoco customer, PrimaryKeyId orgId)
         {
-
-            var user = _userManager.FindByEmailAsync(customer.Email)
-                .GetAwaiter()
-                .GetResult();
-
+            var user = AsyncHelpers.RunSync(() => _userManager.FindByEmailAsync(customer.Email));
             if (user == null)
             {
                 user = new SiteUser
@@ -400,13 +396,9 @@ namespace Foundation.Demo.Install.Steps
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
                     IsApproved = true
-
                 };
 
-                var result = _userManager.CreateAsync(user, "Episerver123!")
-                .GetAwaiter()
-                .GetResult();
-
+                var result = AsyncHelpers.RunSync(() => _userManager.CreateAsync(user, "Episerver123!"));
                 if (!result.Succeeded)
                 {
                     return;
@@ -415,23 +407,17 @@ namespace Foundation.Demo.Install.Steps
 
             foreach (var role in customer.Roles)
             {
-                if (!_roleManager.RoleExistsAsync(role)
-                    .GetAwaiter()
-                    .GetResult())
+                if (!AsyncHelpers.RunSync(() => _roleManager.RoleExistsAsync(role)))
                 {
                     var createdRole = new IdentityRole(role);
-
-                    var roleResult = _roleManager.CreateAsync(createdRole)
-                        .GetAwaiter()
-                        .GetResult();
+                    var roleResult = AsyncHelpers.RunSync(() => _roleManager.CreateAsync(createdRole));
 
                     if (!roleResult.Succeeded)
                     {
                         continue;
                     }
-                    _userManager.AddToRoleAsync(user.Id, role)
-                        .GetAwaiter()
-                        .GetResult();
+
+                    AsyncHelpers.RunSync(() => _userManager.AddToRoleAsync(user.Id, role));
                 }
             }
 
@@ -470,7 +456,6 @@ namespace Foundation.Demo.Install.Steps
             MapAddressesFromCustomerToContact(customer, foundationContact.Contact);
             MapCreditCardsFromCustomerToContact(customer.CreditCards, foundationContact.Contact);
             foundationContact.SaveChanges();
-
         }
 
         private static void MapAddressesFromCustomerToContact(CustomerPoco customer, CustomerContact contact)
@@ -548,7 +533,6 @@ namespace Foundation.Demo.Install.Steps
             public int DemoSortOrder { get; set; }
             public List<AddressPoco> Addresses { get; set; }
             public List<CreditCardPoco> CreditCards { get; set; }
-
         }
 
         private class AddressPoco

@@ -22,7 +22,6 @@ namespace Foundation.Demo.Install.Steps
             ReferenceConverter referenceConverter,
             IMarketService marketService) : base(contentRepository, referenceConverter, marketService)
         {
-
         }
 
         public override int Order => 5;

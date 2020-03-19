@@ -4,6 +4,7 @@ namespace Foundation.Demo.PowerBi
 {
     public class BiReportsController : Controller
     {
+        [HttpGet]
         public ActionResult Index(string id)
         {
             var action = id;

@@ -13,10 +13,7 @@ namespace Foundation.Demo.Campaign
         {
         }
 
-        protected override string GetOptinProcessName(long optinProcessId)
-        {
-            return optinProcessId == 0 ? "DEMO ONLY - No double opt in" : base.GetOptinProcessName(optinProcessId);
-        }
+        protected override string GetOptinProcessName(long optinProcessId) => optinProcessId == 0 ? "DEMO ONLY - No double opt in" : base.GetOptinProcessName(optinProcessId);
 
         protected override IEnumerable<long> GetAllOptinProcessIds()
         {
@@ -27,9 +24,6 @@ namespace Foundation.Demo.Campaign
             return results;
         }
 
-        protected override string GetOptinProcessType(long optinProcessId)
-        {
-            return optinProcessId == 0 ? "double" : base.GetOptinProcessType(optinProcessId);
-        }
+        protected override string GetOptinProcessType(long optinProcessId) => optinProcessId == 0 ? "double" : base.GetOptinProcessType(optinProcessId);
     }
 }

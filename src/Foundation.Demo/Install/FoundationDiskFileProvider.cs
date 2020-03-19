@@ -8,8 +8,6 @@ namespace Foundation.Demo.Install
 {
     public class FoundationDiskFileProvider : FileProvider
     {
-        private const string KeySplitter = "::";
-
         private bool _searchSubdirectories;
         private static Dictionary<string, List<FoundationDiskFileDescriptor>> _cache = new Dictionary<string, List<FoundationDiskFileDescriptor>>();
 
@@ -63,7 +61,7 @@ namespace Foundation.Demo.Install
                 {
                     list = new List<FoundationDiskFileDescriptor>();
 
-                    Dictionary<string, int> moduleOrderByName = new Dictionary<string, int>();
+                    var moduleOrderByName = new Dictionary<string, int>();
                     int index = 0;
                     foreach (string name in FileResolver.GetOrderedModules())
                     {
@@ -114,7 +112,6 @@ namespace Foundation.Demo.Install
 
             return list.ToArray();
         }
-
 
         private static string GetTrimmedConfigurationString(NameValueCollection config, string name)
         {

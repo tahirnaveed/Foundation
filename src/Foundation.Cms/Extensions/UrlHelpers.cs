@@ -61,8 +61,7 @@ namespace Foundation.Cms.Extensions
                     return new MvcHtmlString(UrlResolver.Value.GetUrl(page.PageLink));
 
                 case PageShortcutType.Shortcut:
-                    var shortcutProperty = page.Property["PageShortcutLink"] as PropertyPageReference;
-                    if (shortcutProperty != null && !ContentReference.IsNullOrEmpty(shortcutProperty.PageLink))
+                    if (page.Property["PageShortcutLink"] is PropertyPageReference shortcutProperty && !ContentReference.IsNullOrEmpty(shortcutProperty.PageLink))
                         return urlHelper.PageLinkUrl(shortcutProperty.PageLink);
                     break;
 
@@ -88,10 +87,7 @@ namespace Foundation.Cms.Extensions
         }
 
         public static IHtmlString ImageExternalUrl(this UrlHelper urlHelper,
-            ImageData image)
-        {
-            return new MvcHtmlString(UrlResolver.Value.GetUrl(image.ContentLink));
-        }
+            ImageData image) => new MvcHtmlString(UrlResolver.Value.GetUrl(image.ContentLink));
 
         public static IHtmlString ImageExternalUrl(this UrlHelper urlHelper,
             ImageData image,
@@ -132,18 +128,7 @@ namespace Foundation.Cms.Extensions
             return new MvcHtmlString(s + "?utm_campaign=" + HttpContext.Current.Server.UrlEncode(campaign));
         }
 
-        public static IHtmlString GetFriendlyUrl(this UrlHelper urlHelper, string url)
-        {
-            return new HtmlString(UrlResolver.Value.GetUrl(url) ?? url);
-
-        }
-
-        private static IHtmlString WriteShortenedUrl(string root, string segment)
-        {
-            var fullUrlPath = string.Format("{0}{1}/", root, segment.ToLower().Replace(" ", "-"));
-
-            return new MvcHtmlString(fullUrlPath);
-        }
+        public static IHtmlString GetFriendlyUrl(this UrlHelper urlHelper, string url) => new HtmlString(UrlResolver.Value.GetUrl(url) ?? url);
 
         private static RouteValueDictionary Union(this RouteValueDictionary first,
            RouteValueDictionary second)

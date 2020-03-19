@@ -12,11 +12,14 @@ namespace Foundation.Cms.Extensions
             var oldContext = SynchronizationContext.Current;
             var synch = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(synch);
+#pragma warning disable VSTHRD101 // Avoid unsupported async delegates
             synch.Post(async _ =>
             {
                 try
                 {
+#pragma warning disable RCS1090 // Call 'ConfigureAwait(false)'.
                     await task();
+#pragma warning restore RCS1090 // Call 'ConfigureAwait(false)'.
                 }
                 catch (Exception e)
                 {
@@ -28,6 +31,7 @@ namespace Foundation.Cms.Extensions
                     synch.EndMessageLoop();
                 }
             }, null);
+#pragma warning restore VSTHRD101 // Avoid unsupported async delegates
             synch.BeginMessageLoop();
 
             SynchronizationContext.SetSynchronizationContext(oldContext);
@@ -39,6 +43,7 @@ namespace Foundation.Cms.Extensions
             var synch = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(synch);
             var ret = default(T);
+#pragma warning disable VSTHRD101 // Avoid unsupported async delegates
             synch.Post(async _ =>
             {
                 try
@@ -55,12 +60,15 @@ namespace Foundation.Cms.Extensions
                     synch.EndMessageLoop();
                 }
             }, null);
+#pragma warning restore VSTHRD101 // Avoid unsupported async delegates
             synch.BeginMessageLoop();
             SynchronizationContext.SetSynchronizationContext(oldContext);
             return ret;
         }
 
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
         private class ExclusiveSynchronizationContext : SynchronizationContext
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
         {
             private readonly Queue<Tuple<SendOrPostCallback, object>> _items =
                 new Queue<Tuple<SendOrPostCallback, object>>();

@@ -13,7 +13,6 @@ namespace Foundation.Commerce.Personalization
     [ImageUrl("~/assets/icons/cms/blocks/CMS-icon-block-07.png")]
     public class WidgetBlock : BlockData
     {
-
         [SelectOne(SelectionFactoryType = typeof(WidgetSelectionFactory))]
         [Display(
             Name = "Widget Type",
@@ -31,7 +30,9 @@ namespace Foundation.Commerce.Personalization
             Name = "Attribute Value",
             GroupName = SystemTabNames.Content,
             Order = 4)]
+#pragma warning disable CA1721 // Property names should not match get methods
         public virtual string Value { get; set; }
+#pragma warning restore CA1721 // Property names should not match get methods
 
         [Display(
             Name = "Number Of Recommendations",
@@ -44,6 +45,5 @@ namespace Foundation.Commerce.Personalization
             base.SetDefaultValues(contentType);
             NumberOfRecommendations = 4;
         }
-
     }
 }

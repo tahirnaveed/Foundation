@@ -1,6 +1,8 @@
 ﻿namespace Foundation.Find.Cms.Facets.Config
 {
+#pragma warning disable CA1008 // Enums should have zero value
     public enum FacetDisplayMode
+#pragma warning restore CA1008 // Enums should have zero value
     {
         [EnumSelectionDescription(Text = "Checkbox", Value = "Checkbox")]
         Checkbox = 1,
@@ -20,7 +22,9 @@
         PriceRange,
     }
 
+#pragma warning disable CA1008 // Enums should have zero value
     public enum FacetContentFieldName
+#pragma warning restore CA1008 // Enums should have zero value
     {
         [EnumSelectionDescription(Text = "Type of Content", Value = "PageTypes")]
         ContentType = 1,
@@ -32,7 +36,9 @@
         ArticleType,
     }
 
+#pragma warning disable CA1008 // Enums should have zero value
     public enum FacetFieldType
+#pragma warning restore CA1008 // Enums should have zero value
     {
         [EnumSelectionDescription(Text = "String", Value = "String")]
         String = 1,
@@ -48,7 +54,9 @@
         NullableBoolean
     }
 
+#pragma warning disable CA1008 // Enums should have zero value
     public enum FacetDisplayDirection
+#pragma warning restore CA1008 // Enums should have zero value
     {
         [EnumSelectionDescription(Text = "Vertical", Value = "Vertical")]
         Vertical = 1,

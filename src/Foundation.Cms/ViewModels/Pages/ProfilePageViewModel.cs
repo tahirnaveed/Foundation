@@ -7,12 +7,10 @@ namespace Foundation.Cms.ViewModels.Pages
     {
         public ProfilePageViewModel()
         {
-
         }
 
         public ProfilePageViewModel(TContent profilePage) : base(profilePage)
         {
-
         }
     }
 }

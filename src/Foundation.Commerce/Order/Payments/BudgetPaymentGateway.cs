@@ -59,7 +59,7 @@ namespace Foundation.Commerce.Order.Payments
                 }
             }
 
-            if (payment.TransactionType == TransactionType.Capture.ToString())
+            if (payment.TransactionType == nameof(TransactionType.Capture))
             {
                 UpdateUserBudgets(purchaserCustomer, payment.Amount);
                 payment.Status = PaymentStatus.Processed.ToString();

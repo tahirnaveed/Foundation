@@ -12,10 +12,6 @@ namespace Foundation.Demo.Campaign
         {
         }
 
-        protected override bool IsOptinListConnectorList(long recipientListId)
-        {
-            return true;
-        }
-
+        protected override bool IsOptinListConnectorList(long recipientListId) => true;
     }
 }

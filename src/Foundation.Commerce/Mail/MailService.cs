@@ -31,7 +31,7 @@ namespace Foundation.Commerce.Mail
 
         public async Task SendAsync(ContentReference mailReference, NameValueCollection nameValueCollection, string toEmail, string language)
         {
-            var body = await GetHtmlBodyForMail(mailReference, nameValueCollection, language);
+            var body = await GetHtmlBodyForMailAsync(mailReference, nameValueCollection, language);
             var mailPage = _contentLoader.Get<MailBasePage>(mailReference);
 
             await SendAsync(new MailMessage
@@ -42,7 +42,7 @@ namespace Foundation.Commerce.Mail
             });
         }
 
-        public async Task<string> GetHtmlBodyForMail(ContentReference mailReference, NameValueCollection nameValueCollection,
+        public async Task<string> GetHtmlBodyForMailAsync(ContentReference mailReference, NameValueCollection nameValueCollection,
             string language)
         {
             var urlBuilder = new UrlBuilder(_urlResolver.GetUrl(mailReference, language))
@@ -58,7 +58,7 @@ namespace Foundation.Commerce.Mail
                 relativePath = relativePath.Substring(basePath.Length);
             }
 
-            return await _htmlDownloader.Download(basePath, relativePath);
+            return await _htmlDownloader.DownloadAsync(basePath, relativePath);
         }
 
         public void Send(string subject, string body, string toEmail)

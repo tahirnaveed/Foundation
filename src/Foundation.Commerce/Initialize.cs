@@ -75,15 +75,11 @@ namespace Foundation.Commerce
             services.AddSingleton<ICouponUsage, FoundationCouponUsage>();
         }
 
-        void IInitializableModule.Initialize(InitializationEngine context)
-        {
-            MarketEvent.ChangeMarket += ChangeMarket;
-        }
+        void IInitializableModule.Initialize(InitializationEngine context) => MarketEvent.ChangeMarket += ChangeMarket;
 
         private void ChangeMarket(object o, EventArgs e)
         {
-            var market = o as IMarket;
-            if (market != null)
+            if (o is IMarket market)
             {
                 var marketCache = CacheManager.Get(Constant.CacheKeys.MarketViewModel) as MarketViewModel;
                 if (marketCache.MarketId != market.MarketId)

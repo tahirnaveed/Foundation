@@ -7,7 +7,6 @@ namespace Foundation.Cms.ViewModels.Pages
     {
         public ForgotPasswordViewModel(ResetPasswordPage resetPasswordPage) : base(resetPasswordPage)
         {
-
         }
 
         public ForgotPasswordViewModel() { }

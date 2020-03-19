@@ -41,26 +41,25 @@ namespace Foundation.Cms.ViewModels.Header
             _databaseMode = databaseMode;
         }
 
-        public THeaderViewModel CreateHeaderViewModel<THeaderViewModel>(IContent currentContent, CmsHomePage homePage)
+        public THeaderViewModel CreateHeaderViewModel<THeaderViewModel>(IContent content, CmsHomePage home)
             where THeaderViewModel : HeaderViewModel, new()
         {
             var menuItems = new List<MenuItemViewModel>();
-            var homeLanguage = homePage.Language.DisplayName;
-            menuItems = homePage.MainMenu?.FilteredItems.Select(x =>
+            var homeLanguage = home.Language.DisplayName;
+            menuItems = home.MainMenu?.FilteredItems.Select(x =>
             {
-                var itemCached = CacheManager.Get(x.ContentLink.ID + homeLanguage + ":" + MenuCacheKey) as MenuItemViewModel;
-                if (itemCached != null && !PageEditing.PageIsInEditMode)
+                if (CacheManager.Get(x.ContentLink.ID + homeLanguage + ":" + MenuCacheKey) is MenuItemViewModel itemCached && !PageEditing.PageIsInEditMode)
                 {
                     return itemCached;
                 }
                 else
                 {
-                    var content = _contentLoader.Get<IContent>(x.ContentLink);
+                    var currentContent = _contentLoader.Get<IContent>(x.ContentLink);
                     MenuItemBlock _;
                     MenuItemViewModel menuItem;
-                    if (content is MenuItemBlock)
+                    if (currentContent is MenuItemBlock)
                     {
-                        _ = content as MenuItemBlock;
+                        _ = currentContent as MenuItemBlock;
                         menuItem = new MenuItemViewModel
                         {
                             Name = _.Name,
@@ -76,8 +75,8 @@ namespace Foundation.Cms.ViewModels.Header
                     {
                         menuItem = new MenuItemViewModel
                         {
-                            Name = content.Name,
-                            Uri = _urlResolver.GetUrl(content.ContentLink),
+                            Name = currentContent.Name,
+                            Uri = _urlResolver.GetUrl(currentContent.ContentLink),
                             ChildLinks = new List<GroupLinkCollection>()
                         };
                     }
@@ -85,7 +84,7 @@ namespace Foundation.Cms.ViewModels.Header
                     if (!PageEditing.PageIsInEditMode)
                     {
                         var keyDependency = new List<string>();
-                        keyDependency.Add(_contentCacheKeyCreator.CreateCommonCacheKey(homePage.ContentLink)); // If The HomePage updates menu (remove MenuItems)
+                        keyDependency.Add(_contentCacheKeyCreator.CreateCommonCacheKey(home.ContentLink)); // If The HomePage updates menu (remove MenuItems)
                         keyDependency.Add(_contentCacheKeyCreator.CreateCommonCacheKey(x.ContentLink));
 
                         var eviction = new CacheEvictionPolicy(TimeSpan.FromDays(1), CacheTimeoutType.Sliding, keyDependency);
@@ -97,9 +96,9 @@ namespace Foundation.Cms.ViewModels.Header
 
             return new THeaderViewModel
             {
-                HomePage = homePage,
-                CurrentContentLink = currentContent?.ContentLink,
-                CurrentContentGuid = currentContent?.ContentGuid ?? Guid.Empty,
+                HomePage = home,
+                CurrentContentLink = content?.ContentLink,
+                CurrentContentGuid = content?.ContentGuid ?? Guid.Empty,
                 UserLinks = new LinkItemCollection(),
                 Name = PrincipalInfo.Current.Name,
                 MenuItems = menuItems,

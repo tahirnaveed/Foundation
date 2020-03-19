@@ -28,7 +28,7 @@ namespace Foundation.Commerce.Order.ViewModels
         public bool IsPaymentApproved
             =>
                 BudgetPayment == null ||
-                (BudgetPayment != null && BudgetPayment.TransactionType.Equals(TransactionType.Capture.ToString()));
+                (BudgetPayment != null && BudgetPayment.TransactionType.Equals(nameof(TransactionType.Capture)));
         public bool IsOrganizationOrder => BudgetPayment != null || !string.IsNullOrEmpty(QuoteStatus);
     }
 }

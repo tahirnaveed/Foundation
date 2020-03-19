@@ -44,18 +44,18 @@ namespace Foundation.Demo.ProfileStore
 
         #region Profile Store Api
 
-        async Task<ProfileStoreItems> IProfileStoreService.GetAllProfiles(ProfileStoreFilterOptions profileStoreFilterOptions)
+        async Task<ProfileStoreItems> IProfileStoreService.GetAllProfilesAsync(ProfileStoreFilterOptions profileStoreFilterOptions)
         {
             HttpResponseMessage response = null;
             var profileStoreItems = new ProfileStoreItems();
 
             if (profileStoreFilterOptions == null)
             {
-                response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/");
+                response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/");
             }
             else
             {
-                response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/{CreateFilterOptionsUrl(profileStoreFilterOptions)}");
+                response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/{CreateFilterOptionsUrl(profileStoreFilterOptions)}");
             }
 
             var getProfiles = await response.Content.ReadAsStringAsync();
@@ -76,13 +76,13 @@ namespace Foundation.Demo.ProfileStore
             return profileStoreItems;
         }
 
-        async Task<ProfileStoreItems> IProfileStoreService.GetProfiles(string queryString)
+        async Task<ProfileStoreItems> IProfileStoreService.GetProfilesAsync(string queryString)
         {
             HttpResponseMessage response;
             var profileStoreItems = new ProfileStoreItems();
 
             var uri = $"{apiBaseUrl}/{profilesUrl}/{queryString}";
-            response = await Request(HttpMethod.Get, uri);
+            response = await RequestAsync(HttpMethod.Get, uri);
             var getProfileStoreItems = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrEmpty(getProfileStoreItems))
@@ -102,10 +102,10 @@ namespace Foundation.Demo.ProfileStore
             return profileStoreItems;
         }
 
-        async Task<ProfileStoreModel> IProfileStoreService.GetProfileById(string scope, Guid profileId)
+        async Task<ProfileStoreModel> IProfileStoreService.GetProfileByIdAsync(string scope, Guid profileId)
         {
             var profileStoreModel = new ProfileStoreModel();
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/{scope}/{profileId.ToString()}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{profilesUrl}/{scope}/{profileId.ToString()}");
             var getProfile = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(getProfile))
             {
@@ -119,19 +119,19 @@ namespace Foundation.Demo.ProfileStore
             return profileStoreModel;
         }
 
-        async Task IProfileStoreService.EditOrCreateProfile(string scope, ProfileStoreModel model)
+        async Task IProfileStoreService.EditOrCreateProfileAsync(string scope, ProfileStoreModel model)
         {
             var profileId = model.ProfileId == null ? Guid.NewGuid().ToString() : model.ProfileId.ToString();
-            await Request(HttpMethod.Put, $"{apiBaseUrl}/{profilesUrl}/{profileId}", JsonConvert.SerializeObject(model));
+            await RequestAsync(HttpMethod.Put, $"{apiBaseUrl}/{profilesUrl}/{profileId}", JsonConvert.SerializeObject(model));
         }
 
         #endregion
 
         #region Scopes Api
 
-        async Task<ScopeItems> IProfileStoreService.GetAllScopes()
+        async Task<ScopeItems> IProfileStoreService.GetAllScopesAsync()
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{scopesUrl}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{scopesUrl}");
             var getScopes = await response.Content.ReadAsStringAsync();
             var scopeItems = new ScopeItems();
 
@@ -152,9 +152,9 @@ namespace Foundation.Demo.ProfileStore
             return scopeItems;
         }
 
-        async Task<ScopeItems> IProfileStoreService.GetScopesById(Guid scopeId)
+        async Task<ScopeItems> IProfileStoreService.GetScopesByIdAsync(Guid scopeId)
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{scopesUrl}/{scopeId.ToString()}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{scopesUrl}/{scopeId.ToString()}");
             var getScope = await response.Content.ReadAsStringAsync();
             var scopeItems = new ScopeItems();
 
@@ -179,9 +179,9 @@ namespace Foundation.Demo.ProfileStore
 
         #region Segment Api
 
-        async Task<SegmentItems> IProfileStoreService.GetAllSegments()
+        async Task<SegmentItems> IProfileStoreService.GetAllSegmentsAsync()
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{segmentsUrl}/?$top=10000");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{segmentsUrl}/?$top=10000");
             var getSegments = await response.Content.ReadAsStringAsync();
             var segmentItems = new SegmentItems();
 
@@ -202,9 +202,9 @@ namespace Foundation.Demo.ProfileStore
             return segmentItems;
         }
 
-        async Task<SegmentItems> IProfileStoreService.GetSegmentById(Guid segmentId)
+        async Task<SegmentItems> IProfileStoreService.GetSegmentByIdAsync(Guid segmentId)
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{segmentsUrl}/{segmentId}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{segmentsUrl}/{segmentId}");
             var getSegment = await response.Content.ReadAsStringAsync();
             var segmentItems = new SegmentItems();
 
@@ -225,18 +225,18 @@ namespace Foundation.Demo.ProfileStore
             return segmentItems;
         }
 
-        async Task IProfileStoreService.EditOrCreateSegment(SegmentModel model)
+        async Task IProfileStoreService.EditOrCreateSegmentAsync(SegmentModel model)
         {
             var segmentId = model.SegmentId == null ? Guid.NewGuid().ToString() : model.SegmentId.ToString();
-            await Request(HttpMethod.Put, $"{apiBaseUrl}/{segmentsUrl}/{segmentId}", JsonConvert.SerializeObject(model));
+            await RequestAsync(HttpMethod.Put, $"{apiBaseUrl}/{segmentsUrl}/{segmentId}", JsonConvert.SerializeObject(model));
         }
         #endregion
 
         #region Blacklist Api
 
-        async Task<BlacklistItems> IProfileStoreService.GetAllBlacklist()
+        async Task<BlacklistItems> IProfileStoreService.GetAllBlacklistAsync()
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{blacklistsUrl}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{blacklistsUrl}");
             var getBlacklists = await response.Content.ReadAsStringAsync();
             var blacklistItems = new BlacklistItems();
 
@@ -257,9 +257,9 @@ namespace Foundation.Demo.ProfileStore
             return blacklistItems;
         }
 
-        async Task<BlacklistItems> IProfileStoreService.GetBlacklistById(Guid blaclistId)
+        async Task<BlacklistItems> IProfileStoreService.GetBlacklistByIdAsync(Guid blaclistId)
         {
-            var response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{blacklistsUrl}/{blaclistId}");
+            var response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{blacklistsUrl}/{blaclistId}");
             var getBlacklist = await response.Content.ReadAsStringAsync();
             var blacklistItems = new BlacklistItems();
 
@@ -284,13 +284,13 @@ namespace Foundation.Demo.ProfileStore
 
         #region Track Events Api
 
-        async Task<VisualizationItems> IProfileStoreService.GetVisualizationItems(string queryString)
+        async Task<VisualizationItems> IProfileStoreService.GetVisualizationItemsAsync(string queryString)
         {
             HttpResponseMessage response;
             var visualizationItems = new VisualizationItems();
 
             var uri = $"{apiBaseUrl}/{trackEventsUrl}/{queryString}";
-            response = await Request(HttpMethod.Get, uri);
+            response = await RequestAsync(HttpMethod.Get, uri);
             var getVisualizationItems = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrEmpty(getVisualizationItems))
@@ -310,19 +310,19 @@ namespace Foundation.Demo.ProfileStore
             return visualizationItems;
         }
 
-        async Task<TrackEventItems> IProfileStoreService.GetAllTrackEvents(ProfileStoreFilterOptions profileStoreFilterOptions)
+        async Task<TrackEventItems> IProfileStoreService.GetAllTrackEventsAsync(ProfileStoreFilterOptions profileStoreFilterOptions)
         {
             HttpResponseMessage response;
             var trackEventItems = new TrackEventItems();
 
             if (profileStoreFilterOptions == null)
             {
-                response = await Request(HttpMethod.Get, $"{apiBaseUrl}/{trackEventsUrl}/");
+                response = await RequestAsync(HttpMethod.Get, $"{apiBaseUrl}/{trackEventsUrl}/");
             }
             else
             {
                 var uri = $"{apiBaseUrl}/{trackEventsUrl}/{CreateFilterOptionsUrl(profileStoreFilterOptions)}";
-                response = await Request(HttpMethod.Get, uri);
+                response = await RequestAsync(HttpMethod.Get, uri);
             }
 
             var getTrackEvents = await response.Content.ReadAsStringAsync();
@@ -345,30 +345,6 @@ namespace Foundation.Demo.ProfileStore
 
         #endregion
 
-        #region Tracking customization
-
-        public void TrackSearch(PageData pageData, HttpContextBase httpContextBase, string keyword)
-        {
-            var trackingData = new TrackingData<dynamic>
-            {
-                EventType = "epiSearch",
-                Value = $"Searched {keyword}",
-            };
-
-            if (!string.IsNullOrWhiteSpace(EPiServer.Personalization.EPiServerProfile.Current.Email))
-            {
-                trackingData.User = new UserData
-                {
-                    Email = EPiServer.Personalization.EPiServerProfile.Current.Email,
-                    Name = EPiServer.Security.PrincipalInfo.CurrentPrincipal.Identity.Name
-                };
-            }
-
-            _trackingService.Track(trackingData, httpContextBase);
-        }
-
-        #endregion
-
         #region Other business
 
         /// <summary>
@@ -385,7 +361,7 @@ namespace Foundation.Demo.ProfileStore
         /// <param name="pJsonContent">String data to POST on the server.</param>
         /// <param name="pHeaders">If you use some kind of Authorization you should use this.</param>
         /// <returns></returns>
-        private async Task<HttpResponseMessage> Request(HttpMethod pMethod, string pUrl, string pJsonContent = "")
+        private async Task<HttpResponseMessage> RequestAsync(HttpMethod pMethod, string pUrl, string pJsonContent = "")
         {
             var httpRequestMessage = new HttpRequestMessage
             {
@@ -482,18 +458,6 @@ namespace Foundation.Demo.ProfileStore
         }
 
         /// <summary>
-        /// Updates data from ProfileStoreViewModel to Json token.
-        /// </summary>
-        /// <param name="jToken">Json Token that needs to be updated.</param>
-        /// <param name="profileStore">ProfileStore contain updated information.</param>
-        private void UpdateTokenData(ref JObject jToken, ProfileStoreModel newProfileStore)
-        {
-            var updateProfile = JsonConvert.DeserializeObject<ProfileStoreModel>(jToken.ToString());
-            MergeProfileStore(updateProfile, newProfileStore);
-            jToken = JObject.FromObject(updateProfile);
-        }
-
-        /// <summary>
         /// Updates profile store data by another profile store.
         /// </summary>
         /// <param name="destination"></param>
@@ -512,53 +476,6 @@ namespace Foundation.Demo.ProfileStore
             var allCountries = CountryManager.GetCountries().Country.Select(x => new CountryViewModel { Code = x.Code, Name = x.Name }).ToList();
             allCountries.Insert(0, new CountryViewModel { Code = string.Empty, Name = string.Empty });
             return allCountries;
-        }
-
-        private string GetUserPlatform(HttpRequestBase request)
-        {
-            var ua = request.UserAgent;
-
-            if (ua.Contains("Android"))
-                return string.Format("Android {0}", GetMobileVersion(ua, "Android"));
-
-            if (ua.Contains("iPad"))
-                return string.Format("iPad OS {0}", GetMobileVersion(ua, "OS"));
-
-            if (ua.Contains("iPhone"))
-                return string.Format("iPhone OS {0}", GetMobileVersion(ua, "OS"));
-
-            if (ua.Contains("Linux") && ua.Contains("KFAPWI"))
-                return "Kindle Fire";
-
-            if (ua.Contains("RIM Tablet") || (ua.Contains("BB") && ua.Contains("Mobile")))
-                return "Black Berry";
-
-            if (ua.Contains("Windows Phone"))
-                return string.Format("Windows Phone {0}", GetMobileVersion(ua, "Windows Phone"));
-
-            if (ua.Contains("Mac OS"))
-                return "Mac OS";
-
-            if (ua.Contains("Windows NT 5.1") || ua.Contains("Windows NT 5.2"))
-                return "Windows XP";
-
-            if (ua.Contains("Windows NT 6.0"))
-                return "Windows Vista";
-
-            if (ua.Contains("Windows NT 6.1"))
-                return "Windows 7";
-
-            if (ua.Contains("Windows NT 6.2"))
-                return "Windows 8";
-
-            if (ua.Contains("Windows NT 6.3"))
-                return "Windows 8.1";
-
-            if (ua.Contains("Windows NT 10"))
-                return "Windows 10";
-
-            // fallback to basic platform
-            return request.Browser.Platform + (ua.Contains("Mobile") ? " Mobile " : "");
         }
 
         private string GetMobileVersion(string userAgent, string device)

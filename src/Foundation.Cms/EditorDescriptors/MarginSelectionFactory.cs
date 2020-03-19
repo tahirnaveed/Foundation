@@ -11,7 +11,6 @@ namespace Foundation.Cms.EditorDescriptors
 
         public MarginSelectionFactory() : this(ServiceLocator.Current.GetInstance<LocalizationService>())
         {
-
         }
 
         public MarginSelectionFactory(LocalizationService localizationService)

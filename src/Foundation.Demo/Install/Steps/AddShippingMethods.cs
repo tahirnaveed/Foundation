@@ -20,7 +20,6 @@ namespace Foundation.Demo.Install.Steps
             ReferenceConverter referenceConverter,
             IMarketService marketService) : base(contentRepository, referenceConverter, marketService)
         {
-
         }
 
         public override int Order => 6;
@@ -68,7 +67,6 @@ namespace Foundation.Demo.Install.Steps
                     AssociateShippingMethodWithMarkets(dto, enabledMarkets.Where(x => x.Languages.Contains(language)), shippingMethods);
                     ShippingManager.SaveShipping(dto);
                 }
-
             }
         }
 
@@ -113,6 +111,5 @@ namespace Foundation.Demo.Install.Steps
                 }
             }
         }
-
     }
 }

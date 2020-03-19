@@ -53,10 +53,10 @@ namespace Foundation.Commerce.Customer.Services
         {
             contact.ContactId = Guid.Parse(contactId);
             contact.UserId = contact.Email;
-            contact.UserLocationId = contact.UserRole != B2BUserRoles.Admin.ToString() ? contact.UserLocationId : "";
+            contact.UserLocationId = contact.UserRole != nameof(B2BUserRoles.Admin) ? contact.UserLocationId : "";
             contact.SaveChanges();
 
-            if (contact.UserRole == B2BUserRoles.Admin.ToString())
+            if (contact.UserRole == nameof(B2BUserRoles.Admin))
             {
                 AddContactToOrganization(contact);
             }
@@ -231,7 +231,7 @@ namespace Foundation.Commerce.Customer.Services
 
         public virtual async Task<ExternalLoginInfo> GetExternalLoginInfoAsync() => await AuthenticationManager().GetExternalLoginInfoAsync();
 
-        public virtual async Task<IdentityContactResult> CreateUser(SiteUser user)
+        public virtual async Task<IdentityContactResult> CreateUserAsync(SiteUser user)
         {
             if (user == null)
             {

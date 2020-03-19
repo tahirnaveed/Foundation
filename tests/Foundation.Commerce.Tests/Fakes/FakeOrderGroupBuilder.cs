@@ -71,9 +71,6 @@ namespace Foundation.Commerce.Tests.Fakes
             return this;
         }
 
-        public void Clear()
-        {
-            OrderGroup.Forms = new List<IOrderForm>();
-        }
+        public void Clear() => OrderGroup.Forms = new List<IOrderForm>();
     }
 }

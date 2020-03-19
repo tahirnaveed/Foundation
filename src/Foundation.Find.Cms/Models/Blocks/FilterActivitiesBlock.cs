@@ -24,10 +24,7 @@ namespace Foundation.Find.Cms.Models.Blocks
         [Display(Name = "Name")]
         public virtual string FilterTitle { get; set; }
 
-        public ITypeSearch<LocationItemPage> AddFilter(ITypeSearch<LocationItemPage> query)
-        {
-            return query.TermsFacetFor(x => x.TagString(), facet => facet.Size = 25);
-        }
+        public ITypeSearch<LocationItemPage> AddFilter(ITypeSearch<LocationItemPage> query) => query.TermsFacetFor(x => x.TagString(), facet => facet.Size = 25);
 
         public ITypeSearch<LocationItemPage> ApplyFilter(ITypeSearch<LocationItemPage> query, NameValueCollection filters)
         {

@@ -102,7 +102,7 @@ namespace Foundation.Commerce.Order.Payments
             payment.Amount = amount;
             if (UseSelectedCreditCard && !string.IsNullOrEmpty(SelectedCreditCardId))
             {
-                CreditCard creditCard = _creditCardService.GetCreditCard(SelectedCreditCardId);
+                var creditCard = _creditCardService.GetCreditCard(SelectedCreditCardId);
                 payment.CreditCardNumber = creditCard.CreditCardNumber;
                 payment.CreditCardSecurityCode = creditCard.SecurityCode;
                 payment.ExpirationMonth = creditCard.ExpirationMonth ?? 1;
@@ -118,7 +118,7 @@ namespace Foundation.Commerce.Order.Payments
 
             payment.Status = PaymentStatus.Pending.ToString();
             payment.CustomerName = CreditCardName;
-            payment.TransactionType = TransactionType.Authorization.ToString();
+            payment.TransactionType = nameof(TransactionType.Authorization);
             return payment;
         }
 

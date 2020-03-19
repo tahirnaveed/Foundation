@@ -126,6 +126,5 @@ namespace Foundation.Demo
                 VisualFeatureTypes.Objects
             });
         }
-
     }
 }

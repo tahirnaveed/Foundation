@@ -18,7 +18,7 @@ namespace Foundation.Cms.EditorDescriptors
         }
     }
 
-    public class TemplateSelections
+    public static class TemplateSelections
     {
         public const string Grid = "Grid";
         public const string ImageLeft = "Left";

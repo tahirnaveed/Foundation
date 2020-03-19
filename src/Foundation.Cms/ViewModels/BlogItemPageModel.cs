@@ -29,6 +29,5 @@ namespace Foundation.Cms.ViewModels
             public int Count { get; set; }
             public string DisplayName { get; set; }
         }
-
     }
 }

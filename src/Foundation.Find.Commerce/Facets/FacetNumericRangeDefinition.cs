@@ -49,8 +49,7 @@ namespace Foundation.Find.Commerce.Facets
 
         public override void PopulateFacet(FacetGroupOption facetGroupOption, Facet facet, string selectedFacets)
         {
-            var numericRangeFacet = facet as NumericRangeFacet;
-            if (numericRangeFacet == null)
+            if (!(facet is NumericRangeFacet numericRangeFacet))
             {
                 return;
             }

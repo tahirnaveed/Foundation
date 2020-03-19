@@ -39,8 +39,7 @@ namespace Foundation.Cms.Extensions
                 return new MvcHtmlString("");
             }
 
-            var sitePageData = content as FoundationPageData;
-            if (sitePageData == null)
+            if (!(content is FoundationPageData sitePageData))
             {
                 return new MvcHtmlString("");
             }
@@ -72,8 +71,7 @@ namespace Foundation.Cms.Extensions
             }
 
             var output = new StringBuilder(string.Empty);
-            var sitePageData = content as FoundationPageData;
-            if (sitePageData == null)
+            if (!(content is FoundationPageData sitePageData))
             {
                 return new MvcHtmlString("");
             }
@@ -101,8 +99,7 @@ namespace Foundation.Cms.Extensions
             }
 
             var output = new StringBuilder(string.Empty);
-            var sitePageData = content as FoundationPageData;
-            if (sitePageData == null)
+            if (!(content is FoundationPageData sitePageData))
             {
                 return new MvcHtmlString("");
             }

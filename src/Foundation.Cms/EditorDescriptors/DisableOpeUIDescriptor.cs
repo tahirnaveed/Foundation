@@ -22,5 +22,4 @@ namespace Foundation.Cms.EditorDescriptors
             DisabledViews.Add(CmsViewNames.SideBySideCompareView);
         }
     }
-
 }

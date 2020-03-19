@@ -383,8 +383,7 @@ namespace Foundation.Commerce.Catalog.ViewModels
 
         private IEnumerable<TVariant> GetVariants<TVariant, TEntryBase>(TEntryBase currentContent) where TVariant : VariationContent where TEntryBase : EntryContentBase
         {
-            var bundle = currentContent as BundleContent;
-            if (bundle != null)
+            if (currentContent is BundleContent bundle)
             {
                 return _contentLoader
                     .GetItems(bundle.GetEntries(_relationRepository), _languageResolver.GetPreferredCulture())
@@ -393,8 +392,7 @@ namespace Foundation.Commerce.Catalog.ViewModels
                     .ToArray();
             }
 
-            var package = currentContent as PackageContent;
-            if (package != null)
+            if (currentContent is PackageContent package)
             {
                 return _contentLoader
                     .GetItems(package.GetEntries(_relationRepository), _languageResolver.GetPreferredCulture())
@@ -403,8 +401,7 @@ namespace Foundation.Commerce.Catalog.ViewModels
                     .ToArray();
             }
 
-            var product = currentContent as ProductContent;
-            if (product != null)
+            if (currentContent is ProductContent product)
             {
                 return _contentLoader
                     .GetItems(product.GetVariants(_relationRepository), _languageResolver.GetPreferredCulture())

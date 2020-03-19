@@ -71,8 +71,7 @@ namespace Foundation.Commerce.ViewModels.Header
         public virtual THeaderViewModel CreateHeaderViewModel<THeaderViewModel>(IContent content, CmsHomePage home)
             where THeaderViewModel : HeaderViewModel, new()
         {
-            var commerceHomePage = home as CommerceHomePage;
-            if (commerceHomePage == null)
+            if (!(home is CommerceHomePage commerceHomePage))
             {
                 return null;
             }
@@ -92,8 +91,7 @@ namespace Foundation.Commerce.ViewModels.Header
             where THeaderViewModel : HeaderViewModel, new()
             where THomePage : CmsHomePage
         {
-            var commerceHomePage = homePage as CommerceHomePage;
-            if (commerceHomePage == null)
+            if (!(homePage is CommerceHomePage commerceHomePage))
             {
                 return;
             }
@@ -176,8 +174,7 @@ namespace Foundation.Commerce.ViewModels.Header
             var homeLanguage = homePage.Language.DisplayName;
             menuItems = homePage.MainMenu?.FilteredItems.Select(x =>
             {
-                var itemCached = CacheManager.Get(x.ContentLink.ID + homeLanguage + ":" + Constant.CacheKeys.MenuItems) as MenuItemViewModel;
-                if (itemCached != null && !PageEditing.PageIsInEditMode)
+                if (CacheManager.Get(x.ContentLink.ID + homeLanguage + ":" + Constant.CacheKeys.MenuItems) is MenuItemViewModel itemCached && !PageEditing.PageIsInEditMode)
                 {
                     return itemCached;
                 }
@@ -247,8 +244,7 @@ namespace Foundation.Commerce.ViewModels.Header
 
         protected virtual void AddMarketViewModel(IContent currentContent, CommerceHeaderViewModel viewModel)
         {
-            var marketsViewModel = CacheManager.Get(Constant.CacheKeys.MarketViewModel) as MarketViewModel;
-            if (marketsViewModel != null)
+            if (CacheManager.Get(Constant.CacheKeys.MarketViewModel) is MarketViewModel marketsViewModel)
             {
                 viewModel.Markets = marketsViewModel;
             }

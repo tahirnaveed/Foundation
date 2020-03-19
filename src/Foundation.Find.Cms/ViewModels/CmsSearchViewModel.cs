@@ -17,12 +17,10 @@ namespace Foundation.Find.Cms.ViewModels
 
         public CmsSearchViewModel()
         {
-
         }
 
         public CmsSearchViewModel(T currentContent) : base(currentContent)
         {
-
         }
     }
 }

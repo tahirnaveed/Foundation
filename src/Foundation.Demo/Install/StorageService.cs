@@ -154,15 +154,21 @@ namespace Foundation.Demo.Install
             return children.OfType<CloudBlobDirectory>().ToList();
         }
 
-        private const string mysecurityKey = "FoundationBlobKey";
-
         public static string Encrypt(string toEncrypt)
         {
             var toEncryptArray = Encoding.UTF8.GetBytes(toEncrypt);
             var keyArray = Convert.FromBase64String("AAECAwQFBgcICQoLDA0ODw==");
+#pragma warning disable IDE0017 // Simplify object initialization
+#pragma warning disable CA5350 // Do Not Use Weak Cryptographic Algorithms
             var tdes = new TripleDESCryptoServiceProvider();
+#pragma warning restore CA5350 // Do Not Use Weak Cryptographic Algorithms
+#pragma warning restore IDE0017 // Simplify object initialization
+#pragma warning disable CA5390 // Do not hard-code encryption key
             tdes.Key = keyArray;
+#pragma warning restore CA5390 // Do not hard-code encryption key
+#pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes
             tdes.Mode = CipherMode.ECB;
+#pragma warning restore CA5358 // Do Not Use Unsafe Cipher Modes
             tdes.Padding = PaddingMode.PKCS7;
 
             var cTransform = tdes.CreateEncryptor();
@@ -175,9 +181,17 @@ namespace Foundation.Demo.Install
         {
             var toEncryptArray = Convert.FromBase64String(cipherString);
             var keyArray = Convert.FromBase64String("AAECAwQFBgcICQoLDA0ODw==");
+#pragma warning disable IDE0017 // Simplify object initialization
+#pragma warning disable CA5350 // Do Not Use Weak Cryptographic Algorithms
             var tdes = new TripleDESCryptoServiceProvider();
+#pragma warning restore CA5350 // Do Not Use Weak Cryptographic Algorithms
+#pragma warning restore IDE0017 // Simplify object initialization
+#pragma warning disable CA5390 // Do not hard-code encryption key
             tdes.Key = keyArray;
+#pragma warning restore CA5390 // Do not hard-code encryption key
+#pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes
             tdes.Mode = CipherMode.ECB;
+#pragma warning restore CA5358 // Do Not Use Unsafe Cipher Modes
             tdes.Padding = PaddingMode.PKCS7;
 
             var cTransform = tdes.CreateDecryptor();
@@ -185,6 +199,5 @@ namespace Foundation.Demo.Install
             tdes.Clear();
             return Encoding.UTF8.GetString(resultArray);
         }
-
     }
 }

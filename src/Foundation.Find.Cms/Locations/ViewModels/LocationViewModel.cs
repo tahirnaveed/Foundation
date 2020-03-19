@@ -39,6 +39,5 @@ namespace Foundation.Find.Cms.Locations.ViewModels
         public IEnumerable<LocationItemPage> ContinentLocations { get; set; }
 
         public LocationItemPage CurrentLocation { get; set; }
-
     }
 }

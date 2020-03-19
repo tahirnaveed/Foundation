@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <CodeAnalysisRuleSet>..\..\Foundation.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\default.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

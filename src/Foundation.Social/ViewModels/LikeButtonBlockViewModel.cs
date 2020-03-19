@@ -7,7 +7,6 @@ namespace Foundation.Social.ViewModels
     {
         public LikeButtonBlockViewModel() : this(null)
         {
-
         }
         public LikeButtonBlockViewModel(LikeButtonBlock block)
         {

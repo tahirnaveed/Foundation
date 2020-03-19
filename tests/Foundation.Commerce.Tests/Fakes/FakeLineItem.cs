@@ -85,15 +85,11 @@ namespace Foundation.Commerce.Tests.Fakes
         public decimal MaxQuantity { get; set; }
         public decimal MinQuantity { get; set; }
 
-        public static FakeLineItem CreateLineItem(string code, decimal price, decimal quantity, decimal lineItemDiscount = 0, bool isGift = false)
-        {
-            return CreateLineItem(++_counter, code, price, quantity, lineItemDiscount, isGift: isGift);
-        }
+        public static FakeLineItem CreateLineItem(string code, decimal price, decimal quantity, decimal lineItemDiscount = 0, bool isGift = false) => CreateLineItem(++_counter, code, price, quantity, lineItemDiscount, isGift: isGift);
 
         public static FakeLineItem CreateLineItem(int id, string code, decimal price, decimal quantity, decimal lineItemDiscount = 0, decimal orderLevelDiscount = 0,
             bool isGift = false, Hashtable properties = null, decimal returnQuantity = 0, string displayName = null)
         {
-
             var fakeLineItem = new FakeLineItem
             {
                 Code = code,
@@ -155,10 +151,7 @@ namespace Foundation.Commerce.Tests.Fakes
 
         public int? TaxCategoryId { get; set; }
 
-        internal void SetParentOrderGroup(FakeOrderGroup orderGroup)
-        {
-            _parentOrderGroup = orderGroup;
-        }
+        internal void SetParentOrderGroup(FakeOrderGroup orderGroup) => _parentOrderGroup = orderGroup;
 
         bool ILineItemCalculatedAmount.IsSalesTaxUpToDate { get; set; }
 
@@ -168,15 +161,12 @@ namespace Foundation.Commerce.Tests.Fakes
         {
             ((ILineItemCalculatedAmount)this).IsSalesTaxUpToDate = false;
 
-            var orderGroupCalculatedAmount = ParentOrderGroup as IOrderGroupCalculatedAmount;
-            var shipmentCalculatedPrices = this.Parent?.Shipments.FirstOrDefault(s => s.LineItems.Any(l => l.LineItemId == this.LineItemId)) as IShipmentCalculatedAmount;
-
-            if (orderGroupCalculatedAmount != null)
+            if (ParentOrderGroup is IOrderGroupCalculatedAmount orderGroupCalculatedAmount)
             {
                 orderGroupCalculatedAmount.IsTaxTotalUpToDate = false;
             }
 
-            if (shipmentCalculatedPrices != null && includedShipmentShippingTax)
+            if (this.Parent?.Shipments.FirstOrDefault(s => s.LineItems.Any(l => l.LineItemId == this.LineItemId)) is IShipmentCalculatedAmount shipmentCalculatedPrices && includedShipmentShippingTax)
             {
                 shipmentCalculatedPrices.IsShippingTaxUpToDate = false;
             }
@@ -201,7 +191,6 @@ namespace Foundation.Commerce.Tests.Fakes
         public static FakeReturnLineItem CreateReturnLineItem(int id, string code, decimal price, decimal quantity, decimal lineItemDiscount = 0, decimal orderLevelDiscount = 0,
             bool isGift = false, Hashtable properties = null, decimal returnQuantity = 0, string displayName = null)
         {
-
             var fakeLineItem = new FakeReturnLineItem()
             {
                 Code = code,

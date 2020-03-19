@@ -22,10 +22,7 @@ namespace Foundation.Find.Cms.Models.Blocks
         [Display(Name = "Name")]
         public virtual string FilterTitle { get; set; }
 
-        public ITypeSearch<LocationItemPage> AddFilter(ITypeSearch<LocationItemPage> query)
-        {
-            return query;
-        }
+        public ITypeSearch<LocationItemPage> AddFilter(ITypeSearch<LocationItemPage> query) => query;
 
         public ITypeSearch<LocationItemPage> ApplyFilter(ITypeSearch<LocationItemPage> query, NameValueCollection filters)
         {

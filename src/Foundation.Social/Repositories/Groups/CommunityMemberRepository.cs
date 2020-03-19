@@ -28,19 +28,19 @@ namespace Foundation.Social.Repositories.Groups
         /// <summary>
         ///     Adds a member to the Episerver Social Framework.
         /// </summary>
-        /// <param name="communityMember">The member to add.</param>
+        /// <param name="member">The member to add.</param>
         /// <returns>The added member.</returns>
-        public CommunityMember Add(CommunityMember communityMember)
+        public CommunityMember Add(CommunityMember member)
         {
             CommunityMember addedSocialMember = null;
 
             try
             {
-                var userReference = Reference.Create(communityMember.User);
-                var groupId = GroupId.Create(communityMember.GroupId);
-                var member = new Member(userReference, groupId);
-                var extensionData = new MemberExtensionData(communityMember.Email, communityMember.Company);
-                var addedCompositeMember = _memberService.Add(member, extensionData);
+                var userReference = Reference.Create(member.User);
+                var groupId = GroupId.Create(member.GroupId);
+                var memberInstance = new Member(userReference, groupId);
+                var extensionData = new MemberExtensionData(member.Email, member.Company);
+                var addedCompositeMember = _memberService.Add(memberInstance, extensionData);
                 addedSocialMember =
                     _communityMemberAdapter.Adapt(addedCompositeMember.Data, addedCompositeMember.Extension);
 
@@ -72,15 +72,15 @@ namespace Foundation.Social.Repositories.Groups
         /// <summary>
         ///     Retrieves a page of community members from the Episerver Social Framework.
         /// </summary>
-        /// <param name="communityMemberFilter">The filter by which to retrieve members by</param>
+        /// <param name="memberFilter">The filter by which to retrieve members by</param>
         /// <returns>The list of members that are part of the specified group.</returns>
-        public IEnumerable<CommunityMember> Get(CommunityMemberFilter communityMemberFilter)
+        public IEnumerable<CommunityMember> Get(CommunityMemberFilter memberFilter)
         {
             IEnumerable<CommunityMember> returnedMembers = null;
 
             try
             {
-                var compositeFilter = BuildCriteria(communityMemberFilter);
+                var compositeFilter = BuildCriteria(memberFilter);
 
                 var compositeMember = _memberService.Get(compositeFilter).Results;
                 returnedMembers = compositeMember.Select(x => _communityMemberAdapter.Adapt(x.Data, x.Extension));

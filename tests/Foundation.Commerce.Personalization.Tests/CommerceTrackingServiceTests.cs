@@ -36,15 +36,15 @@ namespace Foundation.Commerce.Personalization.Tests
     public class CommerceTrackingServiceTests
     {
         [Fact]
-        public async Task TrackProduct_WhenContextModeIsNotDefault()
+        public async Task TrackProduct_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackProduct(_httpContextBase.Object, "test", false);
+            var result = await _subject.TrackProductAsync(_httpContextBase.Object, "test", false);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackProduct_WhenSuccess()
+        public async Task TrackProduct_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateProductTrackingData(It.IsAny<string>(), It.IsAny<HttpContextBase>())).Returns(new ProductTrackingData("test", "en", new RequestData
             {
@@ -57,27 +57,27 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackProduct(_httpContextBase.Object, "test", true);
+            var result = await _subject.TrackProductAsync(_httpContextBase.Object, "test", true);
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackSearch_WhenContextModeIsNotDefault()
+        public async Task TrackSearch_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackSearch(_httpContextBase.Object, null, 10, Enumerable.Empty<string>());
+            var result = await _subject.TrackSearchAsync(_httpContextBase.Object, null, 10, Enumerable.Empty<string>());
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackSearch_WhenSearchTermIsNull()
+        public async Task TrackSearch_WhenSearchTermIsNullAsync()
         {
-            var result = await _subject.TrackSearch(_httpContextBase.Object, null, 10, Enumerable.Empty<string>());
+            var result = await _subject.TrackSearchAsync(_httpContextBase.Object, null, 10, Enumerable.Empty<string>());
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackSearch_WhenSuccess()
+        public async Task TrackSearch_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateSearchTrackingData(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<HttpContextBase>())).Returns(new SearchTrackingData("test", new[] { "test" }, 20, "en", new RequestData
             {
@@ -90,20 +90,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackSearch(_httpContextBase.Object, "test", 10, new[] { "test" });
+            var result = await _subject.TrackSearchAsync(_httpContextBase.Object, "test", 10, new[] { "test" });
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackOrder_WhenContextModeIsNotDefault()
+        public async Task TrackOrder_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackOrder(_httpContextBase.Object, new FakePurchaseOrder());
+            var result = await _subject.TrackOrderAsync(_httpContextBase.Object, new FakePurchaseOrder());
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackOrder_WhenSuccess()
+        public async Task TrackOrder_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateOrderTrackingData(It.IsAny<IPurchaseOrder>(), It.IsAny<HttpContextBase>())).Returns(new OrderTrackingData(new List<CartItemData>(), "USD", 100, 10, 110, "po-32", "en", new RequestData
             {
@@ -116,20 +116,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackOrder(_httpContextBase.Object, new FakePurchaseOrder());
+            var result = await _subject.TrackOrderAsync(_httpContextBase.Object, new FakePurchaseOrder());
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackCategory_WhenContextModeIsNotDefault()
+        public async Task TrackCategory_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackCategory(_httpContextBase.Object, null);
+            var result = await _subject.TrackCategoryAsync(_httpContextBase.Object, null);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackCategory_WhenSuccess()
+        public async Task TrackCategory_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateCategoryTrackingData(It.IsAny<NodeContent>(), It.IsAny<HttpContextBase>())).Returns(new CategoryTrackingData("test", "en", new RequestData
             {
@@ -142,35 +142,35 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackCategory(_httpContextBase.Object, new NodeContent());
+            var result = await _subject.TrackCategoryAsync(_httpContextBase.Object, new NodeContent());
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackCart_WhenContextModeIsNotDefault()
+        public async Task TrackCart_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackCart(_httpContextBase.Object, new FakeCart());
+            var result = await _subject.TrackCartAsync(_httpContextBase.Object, new FakeCart());
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackCart_WhenSuccess()
+        public async Task TrackCart_WhenSuccessAsync()
         {
-            var result = await _subject.TrackCart(_httpContextBase.Object, new FakeCart());
+            var result = await _subject.TrackCartAsync(_httpContextBase.Object, new FakeCart());
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackWishlist_WhenContextModeIsNotDefault()
+        public async Task TrackWishlist_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackWishlist(_httpContextBase.Object);
+            var result = await _subject.TrackWishlistAsync(_httpContextBase.Object);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackWishlist_WhenSuccess()
+        public async Task TrackWishlist_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateWishListTrackingData(It.IsAny<HttpContextBase>())).Returns(new WishListTrackingData(new List<ProductData>(), "en", new RequestData
             {
@@ -183,20 +183,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackWishlist(_httpContextBase.Object);
+            var result = await _subject.TrackWishlistAsync(_httpContextBase.Object);
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackCheckout_WhenContextModeIsNotDefault()
+        public async Task TrackCheckout_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackCheckout(_httpContextBase.Object);
+            var result = await _subject.TrackCheckoutAsync(_httpContextBase.Object);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackCheckout_WhenSuccess()
+        public async Task TrackCheckout_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateCheckoutTrackingData(It.IsAny<HttpContextBase>())).Returns(new CheckoutTrackingData(new List<CartItemData>(), "USD", 10, 10, 10, "en", new RequestData
             {
@@ -209,20 +209,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackCheckout(_httpContextBase.Object);
+            var result = await _subject.TrackCheckoutAsync(_httpContextBase.Object);
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackHome_WhenContextModeIsNotDefault()
+        public async Task TrackHome_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackHome(_httpContextBase.Object);
+            var result = await _subject.TrackHomeAsync(_httpContextBase.Object);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackHome_WhenSuccess()
+        public async Task TrackHome_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateHomeTrackingData(It.IsAny<HttpContextBase>())).Returns(new HomeTrackingData("en", new RequestData
             {
@@ -235,20 +235,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackHome(_httpContextBase.Object);
+            var result = await _subject.TrackHomeAsync(_httpContextBase.Object);
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackBrand_WhenContextModeIsNotDefault()
+        public async Task TrackBrand_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackBrand(_httpContextBase.Object, "test");
+            var result = await _subject.TrackBrandAsync(_httpContextBase.Object, "test");
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackBrand_WhenSuccess()
+        public async Task TrackBrand_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateBrandTrackingData(It.IsAny<string>(), It.IsAny<HttpContextBase>())).Returns(new BrandTrackingData("test", "en", new RequestData
             {
@@ -261,20 +261,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackBrand(_httpContextBase.Object, "test");
+            var result = await _subject.TrackBrandAsync(_httpContextBase.Object, "test");
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackAttribute_WhenContextModeIsNotDefault()
+        public async Task TrackAttribute_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackAttribute(_httpContextBase.Object, "test", "test");
+            var result = await _subject.TrackAttributeAsync(_httpContextBase.Object, "test", "test");
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackAttribute_WhenSuccess()
+        public async Task TrackAttribute_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateAttributeTrackingData(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<HttpContextBase>())).Returns(new AttributeTrackingData("test", "test", "en", new RequestData
             {
@@ -287,20 +287,20 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackAttribute(_httpContextBase.Object, "test", "test");
+            var result = await _subject.TrackAttributeAsync(_httpContextBase.Object, "test", "test");
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 
         [Fact]
-        public async Task TrackDefault_WhenContextModeIsNotDefault()
+        public async Task TrackDefault_WhenContextModeIsNotDefaultAsync()
         {
             _contextModeResolver.Setup(x => x.CurrentMode).Returns(ContextMode.Undefined);
-            var result = await _subject.TrackDefault(_httpContextBase.Object);
+            var result = await _subject.TrackDefaultAsync(_httpContextBase.Object);
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task TrackDefault_WhenSuccess()
+        public async Task TrackDefault_WhenSuccessAsync()
         {
             _trackingDataFactory.Setup(x => x.CreateOtherTrackingData(It.IsAny<HttpContextBase>())).Returns(new OtherTrackingData("en", new RequestData
             {
@@ -313,7 +313,7 @@ namespace Foundation.Commerce.Personalization.Tests
                 Id = "id",
             }));
 
-            var result = await _subject.TrackDefault(_httpContextBase.Object);
+            var result = await _subject.TrackDefaultAsync(_httpContextBase.Object);
             _trackingService.Verify(x => x.Track(It.IsAny<TrackingData<CommerceTrackingData>>(), It.IsAny<HttpContextBase>()), Times.Once);
         }
 

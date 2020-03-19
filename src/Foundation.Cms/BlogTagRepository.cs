@@ -64,7 +64,5 @@ namespace Foundation.Cms
         }
 
         public BlogTagItem LoadTag(BlogTagItem tag) => LoadTags().FirstOrDefault(x => x.TagName == tag.TagName);
-
     }
-
 }

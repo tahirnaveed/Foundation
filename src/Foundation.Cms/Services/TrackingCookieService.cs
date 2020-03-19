@@ -11,16 +11,10 @@ namespace Foundation.Cms.Services
         {
             _cookieService = cookieService;
         }
-       
 
-        public string GetTrackingCookie()
-        {
-            return _cookieService.Get(TrackingCookieName);
-        }
 
-        public void SetTrackingCookie(string value)
-        {
-            _cookieService.Set(TrackingCookieName, value);
-        }
+        public string GetTrackingCookie() => _cookieService.Get(TrackingCookieName);
+
+        public void SetTrackingCookie(string value) => _cookieService.Set(TrackingCookieName, value);
     }
 }

@@ -27,8 +27,7 @@ namespace Foundation.Cms
             var children = _contentLoader.GetChildren<PageData>(rootLink);
             foreach (var child in children)
             {
-                var childOfRequestedTyped = child as T;
-                if (childOfRequestedTyped != null)
+                if (child is T childOfRequestedTyped)
                 {
                     yield return childOfRequestedTyped;
                 }
@@ -50,7 +49,7 @@ namespace Foundation.Cms
         {
             if (ContentReference.IsNullOrEmpty(pageLink))
             {
-                throw new ArgumentNullException("pageLink", "No page link specified, unable to find pages");
+                throw new ArgumentNullException(nameof(pageLink), "No page link specified, unable to find pages");
             }
 
             var pages = recursive

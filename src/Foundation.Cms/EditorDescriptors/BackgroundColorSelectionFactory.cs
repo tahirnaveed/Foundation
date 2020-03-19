@@ -11,7 +11,6 @@ namespace Foundation.Cms.EditorDescriptors
 
         public BackgroundColorSelectionFactory() : this(ServiceLocator.Current.GetInstance<LocalizationService>())
         {
-
         }
 
         public BackgroundColorSelectionFactory(LocalizationService localizationService)
@@ -33,5 +32,4 @@ namespace Foundation.Cms.EditorDescriptors
             };
         }
     }
-
 }

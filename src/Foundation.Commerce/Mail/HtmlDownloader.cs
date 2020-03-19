@@ -7,7 +7,7 @@ namespace Foundation.Commerce.Mail
 {
     public class HtmlDownloader : IHtmlDownloader
     {
-        public async Task<string> Download(string baseUrl, string relativeUrl)
+        public async Task<string> DownloadAsync(string baseUrl, string relativeUrl)
         {
             var client = new HttpClient { BaseAddress = new Uri(baseUrl) };
             var fullUrl = client.BaseAddress + relativeUrl;
@@ -22,7 +22,7 @@ namespace Foundation.Commerce.Mail
             {
                 throw new HttpRequestException(
                     string.Format("Request to '{0}' was unsuccessful. Content:\n{1}",
-                        fullUrl, response.Content.ReadAsStringAsync().Result));
+                        fullUrl, await response.Content.ReadAsStringAsync()));
             }
 
             return await response.Content.ReadAsStringAsync();

@@ -95,10 +95,7 @@ namespace Foundation.Cms.Tests.Services
         private Mock<HttpContextBase> _httpContextBase;
         private Mock<HttpRequestBase> _httpRequestBaseMock;
 
-        private ServiceAccessor<T> Setup_ServiceAccessors<T>(T value)
-        {
-            return new ServiceAccessor<T>(() => value);
-        }
+        private ServiceAccessor<T> Setup_ServiceAccessors<T>(T value) => new ServiceAccessor<T>(() => value);
 
         private HttpCookieCollection SetupCollection(string name, string value)
         {

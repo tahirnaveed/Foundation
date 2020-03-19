@@ -105,12 +105,10 @@ namespace Foundation.Demo.Install
                 {
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == elementName)
                     {
-                        var element = XNode.ReadFrom(reader) as XElement;
-                        if (element != null)
+                        if (XNode.ReadFrom(reader) is XElement element)
                         {
                             yield return element;
                         }
-
                     }
                 }
             }

@@ -11,7 +11,6 @@ namespace Foundation.Commerce.Personalization
 {
     public class TrackingDataFactory : EPiServer.Tracking.Commerce.TrackingDataFactory
     {
-
         private readonly ICurrentMarket _currentMarket;
         private readonly IOrderRepository _orderRepository;
         private readonly ICartService _cartService;
@@ -38,5 +37,4 @@ namespace Foundation.Commerce.Personalization
 
         protected override IOrderGroup GetCurrentWishlist() => _orderRepository.LoadCart<ICart>(GetContactId(), _cartService.DefaultWishListName, _currentMarket);
     }
-
 }

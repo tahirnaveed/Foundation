@@ -16,8 +16,7 @@ namespace Foundation.Find.Cms.Facets
 
         public override void PopulateFacet(FacetGroupOption facetGroupOption, Facet facet, string selectedFacets)
         {
-            var termsFacet = facet as TermsFacet;
-            if (termsFacet == null)
+            if (!(facet is TermsFacet termsFacet))
             {
                 return;
             }

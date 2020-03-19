@@ -30,8 +30,8 @@ namespace Foundation.Find.Commerce.Facets
                     };
 
                 case FacetFieldType.Double:
-                    if (facetConfiguration.DisplayMode == FacetDisplayMode.Range.ToString()
-                        || facetConfiguration.DisplayMode == FacetDisplayMode.PriceRange.ToString())
+                    if (facetConfiguration.DisplayMode == nameof(FacetDisplayMode.Range)
+                        || facetConfiguration.DisplayMode == nameof(FacetDisplayMode.PriceRange))
                     {
                         var rangeDefinition = new FacetNumericRangeDefinition(_currentMarket)
                         {
@@ -44,7 +44,7 @@ namespace Foundation.Find.Commerce.Facets
 
                         return rangeDefinition;
                     }
-                    else if (facetConfiguration.DisplayMode == FacetDisplayMode.Rating.ToString())
+                    else if (facetConfiguration.DisplayMode == nameof(FacetDisplayMode.Rating))
                     {
                         var rangeDefinition = new FacetAverageRatingDefinition(_currentMarket)
                         {
@@ -61,7 +61,6 @@ namespace Foundation.Find.Commerce.Facets
             }
 
             return base.GetFacetDefinition(facetConfiguration);
-
         }
 
         public override List<FacetDefinition> GetDefaultFacetDefinitions()
@@ -89,7 +88,6 @@ namespace Foundation.Find.Commerce.Facets
                 DisplayName = "Price",
                 FieldName = "DefaultPrice",
                 BackingType = typeof(double)
-
             };
             priceRanges.Range.Add(new SelectableNumericRange() { To = 50 });
             priceRanges.Range.Add(new SelectableNumericRange() { From = 50, To = 100 });

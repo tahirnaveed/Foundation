@@ -111,12 +111,12 @@ namespace Foundation.Social.Repositories.Moderation
         /// <summary>
         ///     Retrieves specific workflowitem extension data from the underlying repository.
         /// </summary>
-        /// <param name="userId">The unique id of the user under moderation.</param>
-        /// <param name="communityId">The unique id of the community to which membership has been requested.</param>
+        /// <param name="user">The unique id of the user under moderation.</param>
+        /// <param name="community">The unique id of the community to which membership has been requested.</param>
         /// <returns>The state of the request</returns>
-        public string GetMembershipRequestState(string userId, string communityId)
+        public string GetMembershipRequestState(string user, string community)
         {
-            var compositeMember = GetComposite(userId, communityId);
+            var compositeMember = GetComposite(user, community);
             return compositeMember?.Data.State.Name;
         }
 
@@ -318,9 +318,9 @@ namespace Foundation.Social.Repositories.Moderation
         ///     Returns true if the specified group has a moderation workflow,
         ///     false otherwise.
         /// </summary>
-        /// <param name="groudId">ID of the group</param>
+        /// <param name="communityId">ID of the group</param>
         /// <returns>True if the specified group has a moderation workflow, false otherwise</returns>
-        public bool IsModerated(string groudId) => GetWorkflowFor(groudId) != null;
+        public bool IsModerated(string communityId) => GetWorkflowFor(communityId) != null;
 
         /// <summary>
         ///     Retrieves specific workflowitem extension data from the underlying repository
@@ -398,7 +398,7 @@ namespace Foundation.Social.Repositories.Moderation
             try
             {
                 listOfWorkflow = _workflowService.Get(criteria).Results;
-                if (listOfWorkflow.Count() > 0)
+                if (listOfWorkflow.Any())
                 {
                     var workflow = listOfWorkflow.First().Data;
                     expectedSocialWorkflow =

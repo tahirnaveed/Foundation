@@ -11,6 +11,5 @@ namespace Foundation.Cms.Pages
     [ImageUrl("~/assets/icons/cms/pages/elected.png")]
     public class ProfilePage : FoundationPageData
     {
-
     }
 }

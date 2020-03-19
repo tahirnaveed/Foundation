@@ -60,12 +60,10 @@ namespace Foundation.Find.Cms
                 page => new Uri(context.Locate.Advanced.GetInstance<UrlResolver>().GetUrl(page.PageImage), UriKind.Relative));
 
             SearchClient.Instance.Conventions.ForInstancesOf<LocationItemPage>().IncludeField(dp => dp.TagString());
-
         }
 
         void IInitializableModule.Uninitialize(InitializationEngine context)
         {
         }
-
     }
 }

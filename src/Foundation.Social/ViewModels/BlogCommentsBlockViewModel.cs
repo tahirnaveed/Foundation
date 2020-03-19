@@ -38,6 +38,5 @@ namespace Foundation.Social.ViewModels
         /// Gets and sets paging information
         /// </summary>
         public PagingInfo PagingInfo { get; set; }
-
     }
 }

@@ -54,19 +54,18 @@ namespace Foundation.Demo.ViewModels
             _cmsHeaderViewModelFactory = cmsHeaderViewModelFactory;
         }
 
-        public override THeaderViewModel CreateHeaderViewModel<THeaderViewModel>(IContent currentContent, CmsHomePage homePage)
+        public override THeaderViewModel CreateHeaderViewModel<THeaderViewModel>(IContent content, CmsHomePage home)
         {
-            var demoHomePage = homePage as DemoHomePage;
-            if (demoHomePage == null)
+            if (!(home is DemoHomePage demoHomePage))
             {
                 return null;
             }
             var contact = _customerService.GetCurrentContact();
-            var isBookmarked = IsBookmarked(currentContent);
-            var viewModel = CreateViewModel<DemoHeaderViewModel>(currentContent, demoHomePage, contact, isBookmarked);
+            var isBookmarked = IsBookmarked(content);
+            var viewModel = CreateViewModel<DemoHeaderViewModel>(content, demoHomePage, contact, isBookmarked);
             AddCommerceComponents(contact, viewModel);
             AddAnonymousComponents(demoHomePage, viewModel);
-            AddMarketViewModel(currentContent, viewModel);
+            AddMarketViewModel(content, viewModel);
             AddMyAccountMenu(demoHomePage, viewModel);
             viewModel.LargeHeaderMenu = demoHomePage.LargeHeaderMenu;
             viewModel.ShowCommerceControls = demoHomePage.ShowCommerceHeaderComponents;
@@ -76,8 +75,7 @@ namespace Foundation.Demo.ViewModels
 
         public override void AddMyAccountMenu<THomePage, THeaderViewModel>(THomePage homePage, THeaderViewModel viewModel)
         {
-            var demoHomePage = homePage as DemoHomePage;
-            if (demoHomePage == null)
+            if (!(homePage is DemoHomePage demoHomePage))
             {
                 return;
             }

@@ -16,10 +16,7 @@ namespace Foundation.Commerce.Order.Services
             LoadShippingAddressesFromAddressBook(viewModel);
         }
 
-        public virtual void UpdateAnonymousUserAddresses(CheckoutViewModel viewModel)
-        {
-            SetDefaultBillingAddressName(viewModel);
-        }
+        public virtual void UpdateAnonymousUserAddresses(CheckoutViewModel viewModel) => SetDefaultBillingAddressName(viewModel);
 
         public virtual void ChangeAddress(CheckoutViewModel viewModel, UpdateAddressViewModel updateViewModel)
         {

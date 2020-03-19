@@ -157,7 +157,7 @@ namespace Foundation.Commerce.Order.ViewModelFactories
 
         private CartItemViewModel[] FlattenCartItems(IEnumerable<CartItemViewModel> cartItems)
         {
-            List<CartItemViewModel> list = new List<CartItemViewModel>();
+            var list = new List<CartItemViewModel>();
 
             foreach (var item in cartItems)
             {

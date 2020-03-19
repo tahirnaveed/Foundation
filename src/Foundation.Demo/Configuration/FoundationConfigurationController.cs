@@ -43,10 +43,7 @@ namespace Foundation.Demo.Configuration
         }
 
         [HttpGet]
-        public ActionResult Index()
-        {
-            return View(GetConfigurationViewModel());
-        }
+        public ActionResult Index() => View(GetConfigurationViewModel());
 
         [HttpGet]
         public JsonResult GetTree(string parentId = null)
@@ -115,7 +112,6 @@ namespace Foundation.Demo.Configuration
 
             using (var stream = new MemoryStream())
             {
-
                 _catalogImportExport.Export(model.LocalSelectedCatalogName, stream, "");
                 stream.Position = 0;
 
@@ -236,7 +232,7 @@ namespace Foundation.Demo.Configuration
                 var file = StorageService.GetCloudBlockBlob(new Uri(model.SelectedSiteName));
                 if (!file.Exists())
                 {
-                    throw new Exception("Site blob does not exist");
+                    throw new InvalidOperationException("Site blob does not exist");
                 }
                 siteStream = file.OpenRead();
             }
@@ -292,7 +288,7 @@ namespace Foundation.Demo.Configuration
                 var file = StorageService.GetCloudBlockBlob(new Uri(model.SelectedCatalogName));
                 if (!file.Exists())
                 {
-                    throw new Exception("Catalog blob does not exist");
+                    throw new InvalidOperationException("Catalog blob does not exist");
                 }
 
                 CreateCatalog(file);
@@ -310,7 +306,7 @@ namespace Foundation.Demo.Configuration
         [ValidateAntiForgeryToken]
         public ActionResult ExportVisitorGroups(ConfigurationViewModel model)
         {
-            if (model.SelectedVisitorGroupItems?.Count() == 0)
+            if (model.SelectedVisitorGroupItems?.Count == 0)
             {
                 model = GetConfigurationViewModel();
                 ModelState.AddModelError(nameof(model.SelectedVisitorGroupItems), "SelectedVisitorGroups is required.");
@@ -352,7 +348,7 @@ namespace Foundation.Demo.Configuration
                 var file = StorageService.GetCloudBlockBlob(new Uri(model.SelectedRemoteVisitorGroup));
                 if (!file.Exists())
                 {
-                    throw new Exception("Site blob does not exist");
+                    throw new InvalidOperationException("Site blob does not exist");
                 }
                 visitorGroupStream = file.OpenRead();
             }

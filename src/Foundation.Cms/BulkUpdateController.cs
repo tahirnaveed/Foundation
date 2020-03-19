@@ -48,10 +48,7 @@ namespace Foundation.Cms
 
         [HttpGet]
         [MenuItem("/global/foundation/bulkupdate", Text = "Bulk Update", TextResourceKey = "Bulk Update", SortIndex = 15)]
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index() => View();
 
         [HttpGet]
         public ActionResult GetContentTypes(string type)
@@ -78,7 +75,7 @@ namespace Foundation.Cms
             var contentType = _contentTypeRepository.Load(id);
             var properties = contentType.PropertyDefinitions
                     .Where(o => o.Type.DataType == PropertyDataType.LongString && o.Type.DefinitionType.Name == typeof(PropertyLongString).Name
-                        || o.Type.DataType == PropertyDataType.String && o.Type.DefinitionType.Name == typeof(PropertyString).Name
+                        || (o.Type.DataType == PropertyDataType.String && o.Type.DefinitionType.Name == typeof(PropertyString).Name)
                         || o.Type.DataType == PropertyDataType.Number
                         || o.Type.DataType == PropertyDataType.FloatNumber
                         || o.Type.DataType == PropertyDataType.Boolean
@@ -132,6 +129,7 @@ namespace Foundation.Cms
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateContent(UpdateContentModel updateContentModel)
         {
             var props = updateContentModel.Properties.Split(',');
@@ -178,12 +176,12 @@ namespace Foundation.Cms
 
         private IEnumerable<IContent> GetItemsWithFallback(IEnumerable<ContentReference> contentReferences, string language)
         {
-            if (contentReferences == null || !contentReferences.Any())
+            if (contentReferences?.Any() != true)
             {
                 return Enumerable.Empty<IContent>();
             }
 
-            var fallbackLanguageSelector = string.IsNullOrWhiteSpace(language) ? LanguageSelector.MasterLanguage() : LanguageSelector.Fallback(language, false); ;
+            var fallbackLanguageSelector = string.IsNullOrWhiteSpace(language) ? LanguageSelector.MasterLanguage() : LanguageSelector.Fallback(language, false);
             return _contentLoader.GetItems(contentReferences, fallbackLanguageSelector);
         }
 

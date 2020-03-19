@@ -39,7 +39,7 @@ namespace Foundation.Find.Commerce
             catch (Exception ex)
             {
                 Logger.Service.Log(Level.Critical, ex.Message, ex);
-                throw new Exception("Error: " + ex.Message);
+                throw new InvalidOperationException("Error: " + ex.Message);
             }
         }
 

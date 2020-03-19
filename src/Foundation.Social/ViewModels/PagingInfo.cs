@@ -7,7 +7,6 @@ namespace Foundation.Social.ViewModels
     {
         public PagingInfo()
         {
-
         }
 
         public PagingInfo(int pageId, int pageSize, int pageIndex)

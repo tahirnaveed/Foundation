@@ -146,8 +146,7 @@ namespace Foundation.Demo
 
         private void OnSavingContent(object sender, ContentEventArgs contentEventArgs)
         {
-            var contentData = contentEventArgs?.Content as ImageMediaData;
-            if (contentData == null || ((SaveContentEventArgs)contentEventArgs).Action != EPiServer.DataAccess.SaveAction.Publish)
+            if (!(contentEventArgs?.Content is ImageMediaData contentData) || ((SaveContentEventArgs)contentEventArgs).Action != EPiServer.DataAccess.SaveAction.Publish)
             {
                 return;
             }
@@ -160,7 +159,6 @@ namespace Foundation.Demo
             {
                 Logger.Error(e.Message, e);
             }
-
         }
     }
 }

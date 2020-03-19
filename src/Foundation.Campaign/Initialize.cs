@@ -11,7 +11,6 @@ namespace Foundation.Campaign
         {
             var services = context.Services;
             services.AddSingleton<ICampaignSoapService, CampaignSoapService>();
-
         }
 
         void IInitializableModule.Initialize(InitializationEngine context)

@@ -9,7 +9,6 @@ namespace Foundation.Commerce.Tests.Customer.Services
 {
     public class B2BNavigationServiceTests
     {
-
         [Fact]
         public void FilterB2BNavigationForCurrentUser_WhenNotB2BUser()
         {

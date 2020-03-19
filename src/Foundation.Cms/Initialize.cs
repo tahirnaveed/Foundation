@@ -28,35 +28,26 @@ namespace Foundation.Cms
 
         void IConfigurableModule.ConfigureContainer(ServiceConfigurationContext context)
         {
-            var services = context.Services;
-            services.AddTransient(_ => HttpContext.Current.GetOwinContext());
-            services.AddTransient(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager<SiteUser>>()).AddServiceAccessor();
-            services.AddTransient(locator => locator.GetInstance<IOwinContext>().Authentication).AddServiceAccessor();
-            services.AddTransient(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager<SiteUser>>()).AddServiceAccessor();
-            services.AddSingleton<IDisplayModeFallbackProvider, FoundationDisplayModeProvider>();
-            services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);
-            services.AddSingleton<ServiceAccessor<IContentRouteHelper>>(locator => locator.GetInstance<IContentRouteHelper>);
-            services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
-            services.AddSingleton<ICookieService, CookieService>();
-            services.AddSingleton<ITrackingCookieService, TrackingCookieService>();
-            services.AddSingleton<BlogTagFactory>();
-            services.AddTransient<IQuickNavigatorItemProvider, FoundationQuickNavigatorItemProvider>();
-            services.AddTransient<IViewTemplateModelRegistrator, ViewTemplateModelRegistrator>();
+            _services = context.Services;
+            _services.AddTransient(_ => HttpContext.Current.GetOwinContext());
+            _services.AddTransient(locator => locator.GetInstance<IOwinContext>().GetUserManager<ApplicationUserManager<SiteUser>>()).AddServiceAccessor();
+            _services.AddTransient(locator => locator.GetInstance<IOwinContext>().Authentication).AddServiceAccessor();
+            _services.AddTransient(locator => locator.GetInstance<IOwinContext>().Get<ApplicationSignInManager<SiteUser>>()).AddServiceAccessor();
+            _services.AddSingleton<IDisplayModeFallbackProvider, FoundationDisplayModeProvider>();
+            _services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);
+            _services.AddSingleton<ServiceAccessor<IContentRouteHelper>>(locator => locator.GetInstance<IContentRouteHelper>);
+            _services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
+            _services.AddSingleton<ICookieService, CookieService>();
+            _services.AddSingleton<ITrackingCookieService, TrackingCookieService>();
+            _services.AddSingleton<BlogTagFactory>();
+            _services.AddTransient<IQuickNavigatorItemProvider, FoundationQuickNavigatorItemProvider>();
+            _services.AddTransient<IViewTemplateModelRegistrator, ViewTemplateModelRegistrator>();
         }
 
-        void IInitializableModule.Initialize(InitializationEngine context)
-        {
-            context.InitComplete += ContextOnInitComplete;
-        }
+        void IInitializableModule.Initialize(InitializationEngine context) => context.InitComplete += ContextOnInitComplete;
 
-        void IInitializableModule.Uninitialize(InitializationEngine context)
-        {
-            context.InitComplete -= ContextOnInitComplete;
-        }
+        void IInitializableModule.Uninitialize(InitializationEngine context) => context.InitComplete -= ContextOnInitComplete;
 
-        private void ContextOnInitComplete(object sender, EventArgs eventArgs)
-        {
-            _services.AddTransient<ContentAreaRenderer, FoundationContentAreaRenderer>();
-        }
+        private void ContextOnInitComplete(object sender, EventArgs eventArgs) => _services.AddTransient<ContentAreaRenderer, FoundationContentAreaRenderer>();
     }
 }

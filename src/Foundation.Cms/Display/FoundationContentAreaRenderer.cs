@@ -11,26 +11,31 @@ namespace Foundation.Cms.Display
         {
         }
 
-        protected override void RenderContentAreaItems(HtmlHelper html, IEnumerable<ContentAreaItem> contentAreaItems)
+        protected override void RenderContentAreaItems(HtmlHelper htmlHelper, IEnumerable<ContentAreaItem> contentAreaItems)
         {
+            if (contentAreaItems == null)
+            {
+                throw new System.ArgumentNullException(nameof(contentAreaItems));
+            }
+
             TagBuilder currentRow;
 
             foreach (var contentAreaItem in contentAreaItems)
             {
-                string templateTag = GetContentAreaItemTemplateTag(html, contentAreaItem);
+                string templateTag = GetContentAreaItemTemplateTag(htmlHelper, contentAreaItem);
                 bool isScreenContentAreaItem = IsScreenWidthTag(templateTag);
 
                 if (isScreenContentAreaItem)
                 {
                     currentRow = new TagBuilder("div");
                     currentRow.AddCssClass("screen-width-block");
-                    html.ViewContext.Writer.Write(currentRow.ToString(TagRenderMode.StartTag));
-                    RenderContentAreaItem(html, contentAreaItem, templateTag, GetContentAreaItemHtmlTag(html, contentAreaItem), GetContentAreaItemCssClass(html, contentAreaItem, templateTag));
-                    html.ViewContext.Writer.Write(currentRow.ToString(TagRenderMode.EndTag));
+                    htmlHelper.ViewContext.Writer.Write(currentRow.ToString(TagRenderMode.StartTag));
+                    RenderContentAreaItem(htmlHelper, contentAreaItem, templateTag, GetContentAreaItemHtmlTag(htmlHelper, contentAreaItem), GetContentAreaItemCssClass(htmlHelper, contentAreaItem, templateTag));
+                    htmlHelper.ViewContext.Writer.Write(currentRow.ToString(TagRenderMode.EndTag));
                 }
                 else
                 {
-                    RenderContentAreaItem(html, contentAreaItem, templateTag, GetContentAreaItemHtmlTag(html, contentAreaItem), GetContentAreaItemCssClass(html, contentAreaItem, templateTag));
+                    RenderContentAreaItem(htmlHelper, contentAreaItem, templateTag, GetContentAreaItemHtmlTag(htmlHelper, contentAreaItem), GetContentAreaItemCssClass(htmlHelper, contentAreaItem, templateTag));
                 }
             }
         }
@@ -47,9 +52,6 @@ namespace Foundation.Cms.Display
             return string.Format("block {0}", templateTag);
         }
 
-        protected virtual bool IsScreenWidthTag(string templateTag)
-        {
-            return templateTag == "displaymode-screen";
-        }
+        protected virtual bool IsScreenWidthTag(string templateTag) => templateTag == "displaymode-screen";
     }
 }

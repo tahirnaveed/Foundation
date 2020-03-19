@@ -158,23 +158,6 @@ namespace Foundation.Social.Repositories.ActivityStreams
         }
 
         /// <summary>
-        ///     Adapt a list of Episerver Social Subscription to application's PageSubscription.
-        /// </summary>
-        /// <param name="subscriptions">The list of Episerver Social Subscription.</param>
-        /// <returns>The list of application PageSubscription.</returns>
-        private IEnumerable<PageSubscription> AdaptSocialSubscription(List<Subscription> subscriptions)
-        {
-            return subscriptions.Select(c =>
-                new PageSubscription
-                {
-                    Id = c.Id.ToString(),
-                    Subscriber = c.Subscriber.ToString(),
-                    Target = c.Target.ToString()
-                }
-            );
-        }
-
-        /// <summary>
         ///     Adapt a PageSubscriptionFilter to a SubscriptionFilter
         /// </summary>
         /// <param name="filter">The PageSubscriptionFilter </param>

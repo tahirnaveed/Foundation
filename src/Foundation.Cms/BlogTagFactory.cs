@@ -70,7 +70,6 @@ namespace Foundation.Cms
                         tagitem.Count++;
                     }
                 }
-
             }
 
             if (!tags.Any())
@@ -121,11 +120,9 @@ namespace Foundation.Cms
                 }
 
                 tag.Weight = weight;
-
             }
 
             return tags;
-
         }
     }
 }

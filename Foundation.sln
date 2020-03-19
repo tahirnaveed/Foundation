@@ -30,9 +30,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FF8D6035-87F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sites", "sites", "{78ABDE71-A2B6-481F-9797-A96F8FBA3966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation", "src\Foundation\Foundation.csproj", "{856C325A-2CC0-422C-B964-1BD10EA14C99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation", "sites\Foundation\Foundation.csproj", "{856C325A-2CC0-422C-B964-1BD10EA14C99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.CommerceManager", "src\Foundation.CommerceManager\Foundation.CommerceManager.csproj", "{121D8737-4300-4828-83D4-61D807A6339F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.CommerceManager", "sites\Foundation.CommerceManager\Foundation.CommerceManager.csproj", "{121D8737-4300-4828-83D4-61D807A6339F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2DD06BBC-B60B-45BE-8F2C-B76B60F6CEFA}"
 EndProject

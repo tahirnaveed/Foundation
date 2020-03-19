@@ -38,7 +38,6 @@ namespace Foundation.Cms.Display
 
         private string Translate(string resurceKey)
         {
-
             if (!LocalizationService.Service.TryGetString(resurceKey, out var value))
             {
                 value = resurceKey;

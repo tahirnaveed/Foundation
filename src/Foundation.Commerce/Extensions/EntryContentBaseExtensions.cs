@@ -283,10 +283,7 @@ namespace Foundation.Commerce.Extensions
             return ContentLoader.Value.Get<EntryContentBase>(entryContentLink);
         }
 
-        public static IEnumerable<VariationContent> GetAllVariants(this ContentReference contentLink)
-        {
-            return GetAllVariants<VariationContent>(contentLink);
-        }
+        public static IEnumerable<VariationContent> GetAllVariants(this ContentReference contentLink) => GetAllVariants<VariationContent>(contentLink);
 
         public static IEnumerable<T> GetAllVariants<T>(this ContentReference contentLink) where T : VariationContent
         {
@@ -362,7 +359,6 @@ namespace Foundation.Commerce.Extensions
                 ? (minDiscountPrice.Value.Price < minPrice.UnitPrice ? true : false)
                 : false;
 
-            var entryRecommendations = entry as IProductRecommendations;
             var product = entry;
             var entryUrl = "";
             var firstCode = "";
@@ -414,7 +410,7 @@ namespace Foundation.Commerce.Extensions
                     .Any(x => x.UnitPrice.Currency == currency),
                 OnSale = entry.Property.Keys.Contains("OnSale") && ((bool?)entry.Property["OnSale"]?.Value ?? false),
                 NewArrival = entry.Property.Keys.Contains("NewArrival") && ((bool?)entry.Property["NewArrival"]?.Value ?? false),
-                ShowRecommendations = entryRecommendations != null ? entryRecommendations.ShowRecommendations : true,
+                ShowRecommendations = entry is IProductRecommendations entryRecommendations ? entryRecommendations.ShowRecommendations : true,
                 EntryType = type,
                 ProductStatus = entry.Property.Keys.Contains("ProductStatus") ? entry.Property["ProductStatus"]?.Value?.ToString() ?? "Active" : "Active",
                 Created = entry.Created

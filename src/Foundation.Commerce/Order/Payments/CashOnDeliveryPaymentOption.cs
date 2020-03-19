@@ -35,7 +35,7 @@ namespace Foundation.Commerce.Order.Payments
             payment.PaymentMethodName = SystemKeyword;
             payment.Amount = amount;
             payment.Status = PaymentStatus.Pending.ToString();
-            payment.TransactionType = TransactionType.Authorization.ToString();
+            payment.TransactionType = nameof(TransactionType.Authorization);
             return payment;
         }
     }

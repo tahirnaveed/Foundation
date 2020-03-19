@@ -10,7 +10,6 @@ using EPiServer.Find.Framework.BestBets;
 using EPiServer.Find.Framework.Statistics;
 using EPiServer.Find.Helpers;
 using EPiServer.Find.Statistics;
-using EPiServer.Find.UI;
 using EPiServer.Globalization;
 using EPiServer.Security;
 using Foundation.Commerce.Catalog;
@@ -46,12 +45,10 @@ namespace Foundation.Find.Commerce
         private readonly IClient _findClient;
         private readonly IFacetRegistry _facetRegistry;
         private const int DefaultPageSize = 18;
-        private readonly IFindUIConfiguration _findUIConfiguration;
         private readonly ReferenceConverter _referenceConverter;
         private readonly IContentRepository _contentRepository;
         private readonly IPriceService _priceService;
         private readonly IPromotionService _promotionService;
-        private readonly ICurrencyService _currencyservice;
         private readonly IContentLoader _contentLoader;
         private static Random _random = new Random();
 
@@ -60,12 +57,10 @@ namespace Foundation.Find.Commerce
             LanguageResolver languageResolver,
             IClient findClient,
             IFacetRegistry facetRegistry,
-            IFindUIConfiguration findUIConfiguration,
             ReferenceConverter referenceConverter,
             IContentRepository contentRepository,
             IPriceService priceService,
             IPromotionService promotionService,
-            ICurrencyService currencyservice,
             IContentLoader contentLoader
             )
         {
@@ -74,13 +69,10 @@ namespace Foundation.Find.Commerce
             _languageResolver = languageResolver;
             _findClient = findClient;
             _facetRegistry = facetRegistry;
-            _findUIConfiguration = findUIConfiguration;
-            //_findClient.Personalization().Refresh();
             _referenceConverter = referenceConverter;
             _contentRepository = contentRepository;
             _priceService = priceService;
             _promotionService = promotionService;
-            _currencyservice = currencyservice;
             _contentLoader = contentLoader;
         }
 
@@ -144,7 +136,7 @@ namespace Foundation.Find.Commerce
         public IEnumerable<SkuSearchResultModel> SearchSkus(string query)
         {
             var market = _currentMarket.GetCurrentMarket();
-            var currency = _currencyservice.GetCurrentCurrency();
+            var currency = _currencyService.GetCurrentCurrency();
 
             var results = _findClient.Search<GenericProduct>()
                 .Filter(_ => _.VariationModels(), x => x.Code.PrefixCaseInsensitive(query))
@@ -186,7 +178,7 @@ namespace Foundation.Find.Commerce
             var result = query.GetContentResult();
             var searchProducts = CreateProductViewModels(result, currentContent, "").ToList();
             GetManaualInclusion(searchProducts, currentContent as SalesPage, market, currency);
-            pages = GetPages(currentContent, page, searchProducts.Count());
+            pages = GetPages(currentContent, page, searchProducts.Count);
             return searchProducts;
         }
 
@@ -200,7 +192,7 @@ namespace Foundation.Find.Commerce
             var result = query.GetContentResult();
             var searchProducts = CreateProductViewModels(result, currentContent, "").ToList();
             GetManaualInclusion(searchProducts, currentContent, market, currency);
-            pages = GetPages(currentContent, page, searchProducts.Count());
+            pages = GetPages(currentContent, page, searchProducts.Count);
             return searchProducts;
         }
 
@@ -230,7 +222,7 @@ namespace Foundation.Find.Commerce
             {
                 n--;
                 int k = _random.Next(n + 1);
-                T value = list[k];
+                var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
@@ -354,7 +346,6 @@ namespace Foundation.Find.Commerce
             IEnumerable<Filter> filters = null,
             int catalogId = 0)
         {
-
             //If contact belong organization, only find product that belong the categories that has owner is this organization
             var contact = PrincipalInfo.CurrentPrincipal.GetCustomerContact();
             var organizationId = contact?.ContactOrganization?.PrimaryKeyId ?? Guid.Empty;
@@ -379,8 +370,7 @@ namespace Foundation.Find.Commerce
                 query = query.Filter(x => x.Outline().PrefixCaseInsensitive(catalogOrganization.Name));
             }
 
-            var nodeContent = currentContent as NodeContent;
-            if (nodeContent != null)
+            if (currentContent is NodeContent nodeContent)
             {
                 var outline = GetOutline(nodeContent.Code);
                 query = query.FilterOutline(new[] { outline });
@@ -415,7 +405,6 @@ namespace Foundation.Find.Commerce
                 DidYouMeans = string.IsNullOrEmpty(filterOptions.Q) ? null : _findClient.Statistics().GetDidYouMean(filterOptions.Q),
                 Query = filterOptions.Q,
             };
-
         }
 
         public IEnumerable<ProductTileViewModel> CreateProductViewModels(IContentResult<EntryContentBase> searchResult, IContent content, string searchQuery)
@@ -430,7 +419,7 @@ namespace Foundation.Find.Commerce
             }
 
             productViewModels = searchResult.Select(document => document.GetProductTileViewModel(market, currency)).ToList();
-            ApplyBoostedProperties(ref productViewModels, searchResult, content, searchQuery);
+            ApplyBoostedProperties(ref productViewModels, content, searchQuery);
             return productViewModels;
         }
 
@@ -458,20 +447,17 @@ namespace Foundation.Find.Commerce
             var parent = _contentRepository.Get<CatalogContentBase>(currentNode.ParentLink);
             while (!ContentReference.IsNullOrEmpty(parent.ParentLink))
             {
-                var catalog = parent as CatalogContent;
-                if (catalog != null)
+                if (parent is CatalogContent catalog)
                 {
                     outline = string.Format("{1}/{0}", outline, catalog.Name);
                 }
 
-                var parentNode = parent as NodeContent;
-                if (parentNode != null)
+                if (parent is NodeContent parentNode)
                 {
                     outline = string.Format("{1}/{0}", outline, parentNode.Code);
                 }
 
                 parent = _contentRepository.Get<CatalogContentBase>(parent.ParentLink);
-
             }
             return outline;
         }
@@ -550,7 +536,6 @@ namespace Foundation.Find.Commerce
             {
                 GroupFieldName = x.FieldName,
                 GroupName = x.DisplayName,
-
             }).ToList();
 
             query = facets.Aggregate(query, (current, facet) => facet.Facet(current, GetSelectedFilter(options, facet.FieldName)));
@@ -649,7 +634,6 @@ namespace Foundation.Find.Commerce
                 boolFilter.Should.Add(filter);
             }
             return boolFilter;
-
         }
 
         private ITypeSearch<T> FilterSelected<T>(ITypeSearch<T> query, List<FacetGroupOption> options)
@@ -723,7 +707,6 @@ namespace Foundation.Find.Commerce
                 query = query.Filter(filter);
             }
             return query;
-
         }
 
         private static ProductSearchResults CreateEmptyResult()
@@ -742,12 +725,11 @@ namespace Foundation.Find.Commerce
         /// <param name="currentContent">The product category.</param>
         /// <param name="searchQuery">The search query string to filter Best Bet result.</param>
         /// <param name="productViewModels">The ProductViewModels is added two properties: Featured Product and Best Bet.</param>
-        private void ApplyBoostedProperties(ref List<ProductTileViewModel> productViewModels, IContentResult<EntryContentBase> searchResult, IContent currentContent, string searchQuery)
+        private void ApplyBoostedProperties(ref List<ProductTileViewModel> productViewModels, IContent currentContent, string searchQuery)
         {
-            var node = currentContent as GenericNode;
             var products = new List<EntryContentBase>();
 
-            if (node != null)
+            if (currentContent is GenericNode node)
             {
                 //products = node.FeaturedProducts?.FilteredItems?.Select(x => x.GetContent() as EntryContentBase).ToList() ?? new List<EntryContentBase>();
 
@@ -775,7 +757,6 @@ namespace Foundation.Find.Commerce
                                  }
                              });
         }
-
 
     }
 }

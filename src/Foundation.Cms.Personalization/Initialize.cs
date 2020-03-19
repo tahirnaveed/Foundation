@@ -11,7 +11,6 @@ namespace Foundation.Cms.Personalization
         {
             var services = context.Services;
             services.AddTransient<ICmsTrackingService, CmsTrackingService>();
-
         }
 
         void IInitializableModule.Initialize(InitializationEngine context)

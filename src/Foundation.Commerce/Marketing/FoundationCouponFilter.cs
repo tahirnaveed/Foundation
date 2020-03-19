@@ -43,10 +43,7 @@ namespace Foundation.Commerce.Marketing
             return filterContext;
         }
 
-        protected virtual IEqualityComparer<string> GetCodeEqualityComparer()
-        {
-            return StringComparer.OrdinalIgnoreCase;
-        }
+        protected virtual IEqualityComparer<string> GetCodeEqualityComparer() => StringComparer.OrdinalIgnoreCase;
 
         private void CheckSingleCoupon(PromotionFilterContext filterContext, IEnumerable<string> couponCodes, string couponCode, PromotionData includedPromotion)
         {

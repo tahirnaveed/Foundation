@@ -91,8 +91,7 @@ namespace Foundation.Demo.Extensions
 
         public static AzureBlob GetAzureBlob(this IListBlobItem item)
         {
-            var directory = item as CloudBlobDirectory;
-            if (directory != null)
+            if (item is CloudBlobDirectory directory)
             {
                 return new AzureBlob
                 {
@@ -102,8 +101,7 @@ namespace Foundation.Demo.Extensions
                 };
             }
 
-            var blob = item as CloudBlockBlob;
-            if (blob != null)
+            if (item is CloudBlockBlob blob)
             {
                 var name = blob.Name.Substring(blob.Name.LastIndexOf('/') == 0 ? 0 : blob.Name.LastIndexOf('/') + 1);
                 return new AzureBlob

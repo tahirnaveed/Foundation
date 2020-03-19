@@ -21,9 +21,9 @@ namespace Foundation.Social.Repositories.Common
         /// </summary>
         /// <param name="Identity"></param>
         /// <returns></returns>
-        public string GetUserId(IPrincipal user)
+        public string GetUserId(IPrincipal identity)
         {
-            var userId = user.Identity.GetUserId();
+            var userId = identity.Identity.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
             {
                 return string.Empty;

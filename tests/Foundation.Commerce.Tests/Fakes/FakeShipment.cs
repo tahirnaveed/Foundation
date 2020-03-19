@@ -105,7 +105,6 @@ namespace Foundation.Commerce.Tests.Fakes
                 WarehouseCode = "default",
                 LineItems = items,
                 Properties = properties ?? new Hashtable()
-
             };
         }
 
@@ -148,8 +147,7 @@ namespace Foundation.Commerce.Tests.Fakes
             ((IShipmentCalculatedAmount)this).IsShippingCostUpToDate = false;
             ((IShipmentCalculatedAmount)this).IsShippingTaxUpToDate = false;
 
-            var orderGroupCalculatedAmount = ParentOrderGroup as IOrderGroupCalculatedAmount;
-            if (orderGroupCalculatedAmount != null)
+            if (ParentOrderGroup is IOrderGroupCalculatedAmount orderGroupCalculatedAmount)
             {
                 orderGroupCalculatedAmount.IsTaxTotalUpToDate = false;
             }

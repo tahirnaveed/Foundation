@@ -10,9 +10,7 @@ namespace Foundation.Social
     {
         private const string UserReferenceFormat = "user://{0}";
         private const string ResourceReferenceFormat = "resource://{0}";
-        private static readonly ICommentService Service;
-
-        static CommentExtensions() => Service = ServiceLocator.Current.GetInstance<ICommentService>();
+        private static readonly ICommentService Service = ServiceLocator.Current.GetInstance<ICommentService>();
 
         public static ResultPage<Comment> GetComments(this IContent content, Visibility visibile, int offset, int size)
         {

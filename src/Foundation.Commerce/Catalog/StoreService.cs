@@ -57,8 +57,7 @@ namespace Foundation.Commerce.Catalog
             }
             else if (entry.ClassTypeId.Equals("Product"))
             {
-                var product = entry as ProductContent;
-                if (product != null)
+                if (entry is ProductContent product)
                 {
                     codes.AddRange(product.GetVariants(_relationRepository).Select(x => _referenceConverter.GetCode(x)));
                 }

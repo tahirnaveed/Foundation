@@ -74,7 +74,6 @@ namespace Foundation.Demo.Install
             }
 
             return null;
-
         }
 
         public Stream ExportEpiserverContent(ContentReference root, ContentExport contentExport)
@@ -117,7 +116,6 @@ namespace Foundation.Demo.Install
             }
 
             return success;
-
 
         }
 

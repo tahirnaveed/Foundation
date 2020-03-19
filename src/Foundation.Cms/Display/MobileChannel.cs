@@ -10,9 +10,6 @@ namespace Foundation.Cms.Display
 
         public override string ResolutionId => typeof(IphoneVerticalResolution).FullName;
 
-        public override bool IsActive(HttpContextBase context)
-        {
-            return context.GetOverriddenBrowser().IsMobileDevice;
-        }
+        public override bool IsActive(HttpContextBase context) => context.GetOverriddenBrowser().IsMobileDevice;
     }
 }

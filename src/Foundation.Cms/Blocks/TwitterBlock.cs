@@ -18,9 +18,9 @@ namespace Foundation.Cms.Blocks
         [Display(Name = "Number of items", GroupName = SystemTabNames.Content, Order = 20)]
         public virtual int NumberOfItems { get; set; }
 
-        public override void SetDefaultValues(ContentType pageType)
+        public override void SetDefaultValues(ContentType contentType)
         {
-            base.SetDefaultValues(pageType);
+            base.SetDefaultValues(contentType);
 
             NumberOfItems = 5;
         }

@@ -63,7 +63,6 @@ namespace Foundation.Find.Cms
             if (additionalcats.Count > 0) segmentContext.SetCustomRouteData("Category", string.Join(",", additionalcats.ToArray()));
 
             return cp;
-
         }
     }
 }

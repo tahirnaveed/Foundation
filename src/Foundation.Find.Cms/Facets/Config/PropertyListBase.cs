@@ -17,9 +17,6 @@ namespace Foundation.Find.Cms.Facets.Config
             _objectSerializer = this._objectSerializerFactory.Service.GetSerializer("application/json");
         }
 
-        protected override T ParseItem(string value)
-        {
-            return JsonConvert.DeserializeObject<T>(value);
-        }
+        protected override T ParseItem(string value) => JsonConvert.DeserializeObject<T>(value);
     }
 }

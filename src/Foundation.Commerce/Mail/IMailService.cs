@@ -12,6 +12,6 @@ namespace Foundation.Commerce.Mail
         void Send(MailMessage message);
         Task SendAsync(ContentReference mailReference, NameValueCollection nameValueCollection, string toEmail, string language);
         Task SendAsync(MailMessage message);
-        Task<string> GetHtmlBodyForMail(ContentReference mailReference, NameValueCollection nameValueCollection, string language);
+        Task<string> GetHtmlBodyForMailAsync(ContentReference mailReference, NameValueCollection nameValueCollection, string language);
     }
 }

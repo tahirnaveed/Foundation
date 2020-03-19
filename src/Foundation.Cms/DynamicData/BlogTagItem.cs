@@ -5,7 +5,6 @@ namespace Foundation.Cms.DynamicData
     [EPiServerDataStore(AutomaticallyCreateStore = true, AutomaticallyRemapStore = true)]
     public class BlogTagItem : IDynamicData
     {
-
         public string TagName { get; set; }
         public int Count { get; set; }
         public int Weight { get; set; }

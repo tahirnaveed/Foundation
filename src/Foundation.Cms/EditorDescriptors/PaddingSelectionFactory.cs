@@ -11,7 +11,6 @@ namespace Foundation.Cms.EditorDescriptors
 
         public PaddingSelectionFactory() : this(ServiceLocator.Current.GetInstance<LocalizationService>())
         {
-
         }
 
         public PaddingSelectionFactory(LocalizationService localizationService)

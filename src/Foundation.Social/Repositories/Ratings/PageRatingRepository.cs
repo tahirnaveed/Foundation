@@ -111,7 +111,7 @@ namespace Foundation.Social.Repositories.Ratings
                     PageInfo = new PageInfo { PageSize = 1 }
                 });
 
-                if (ratingPage.Results.Count() > 0)
+                if (ratingPage.Results.Any())
                 {
                     result = ratingPage.Results.ToList().FirstOrDefault().Value.Value;
                 }
@@ -163,7 +163,7 @@ namespace Foundation.Social.Repositories.Ratings
                     PageInfo = new PageInfo { PageSize = 1 }
                 });
 
-                if (ratingStatisticsPage.Results.Count() > 0)
+                if (ratingStatisticsPage.Results.Any())
                 {
                     var statistics = ratingStatisticsPage.Results.ToList().FirstOrDefault();
                     if (statistics.TotalCount > 0)

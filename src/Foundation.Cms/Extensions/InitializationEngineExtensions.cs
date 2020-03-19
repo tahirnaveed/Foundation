@@ -6,9 +6,6 @@ namespace Foundation.Cms.Extensions
 {
     public static class InitializationEngineExtensions
     {
-        public static void InitializeFoundationCms(this InitializationEngine context)
-        {
-            ViewEngines.Engines.Insert(0, new FeaturesViewEngine());
-        }
+        public static void InitializeFoundationCms(this InitializationEngine context) => ViewEngines.Engines.Insert(0, new FeaturesViewEngine());
     }
 }

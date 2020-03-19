@@ -18,6 +18,5 @@ namespace Foundation.Cms.Media
             Order = 100)]
         [BackingType(typeof(PropertyFloatNumber))]
         public virtual double  Height { get; set; }
-
     }
 }

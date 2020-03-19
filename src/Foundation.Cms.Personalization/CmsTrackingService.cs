@@ -15,7 +15,7 @@ namespace Foundation.Cms.Personalization
             _trackingService = trackingService;
         }
 
-        public virtual async Task VideoBlockViewed(HttpContextBase context, string blockId, string blockName, string pageName)
+        public virtual async Task VideoBlockViewedAsync(HttpContextBase context, string blockId, string blockName, string pageName)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Foundation.Cms.Personalization
             }
         }
 
-        public virtual async Task HeroBlockClicked(HttpContextBase context, string blockId, string blockName, string pageName)
+        public virtual async Task HeroBlockClickedAsync(HttpContextBase context, string blockId, string blockName, string pageName)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace Foundation.Cms.Personalization
             }
         }
 
-        public virtual async Task BlockViewed(BlockData block, IContent page, HttpContextBase httpContext)
+        public virtual async Task BlockViewedAsync(BlockData block, IContent page, HttpContextBase httpContext)
         {
             try
             {
@@ -86,10 +86,9 @@ namespace Foundation.Cms.Personalization
             catch
             {
             }
-
         }
 
-        public virtual async Task ImageViewed(ImageData image, IContent page, HttpContextBase httpContext)
+        public virtual async Task ImageViewedAsync(ImageData image, IContent page, HttpContextBase httpContext)
         {
             try
             {
@@ -114,7 +113,7 @@ namespace Foundation.Cms.Personalization
             }
         }
 
-        public virtual async Task SearchedKeyword(HttpContextBase httpContextBase, string keyword)
+        public virtual async Task SearchedKeywordAsync(HttpContextBase httpContextBase, string keyword)
         {
             await _trackingService.Track(new TrackingData<dynamic>
             {
@@ -122,6 +121,5 @@ namespace Foundation.Cms.Personalization
                 Value = $"Searched {keyword}",
             }, httpContextBase);
         }
-       
     }
 }

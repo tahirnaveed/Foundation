@@ -94,8 +94,8 @@ namespace Foundation.Commerce.Order.Services
                 if (budgetPayment != null)
                 {
                     orderViewModel.IsPaymentApproved = orderViewModel.IsOrganizationOrder &&
-                                                       budgetPayment.TransactionType.Equals(TransactionType.Capture
-                                                           .ToString());
+                                                       budgetPayment.TransactionType.Equals(nameof(TransactionType.Capture
+));
                     orderViewModel.Status = orderViewModel.IsPaymentApproved
                         ? orderViewModel.Status
                         : Constant.Order.PendingApproval;
@@ -128,15 +128,14 @@ namespace Foundation.Commerce.Order.Services
                 return false;
             }
 
-            var budgetPayment = GetOrderBudgetPayment(purchaseOrder) as Payment;
-            if (budgetPayment == null)
+            if (!(GetOrderBudgetPayment(purchaseOrder) is Payment budgetPayment))
             {
                 return false;
             }
 
             try
             {
-                budgetPayment.TransactionType = TransactionType.Capture.ToString();
+                budgetPayment.TransactionType = nameof(TransactionType.Capture);
                 budgetPayment.Status = PaymentStatus.Pending.ToString();
                 budgetPayment.AcceptChanges();
                 purchaseOrder.ProcessPayments();
@@ -146,7 +145,7 @@ namespace Foundation.Commerce.Order.Services
             }
             catch (Exception ex)
             {
-                budgetPayment.TransactionType = TransactionType.Authorization.ToString();
+                budgetPayment.TransactionType = nameof(TransactionType.Authorization);
                 budgetPayment.Status = PaymentStatus.Processed.ToString();
                 budgetPayment.AcceptChanges();
                 _orderRepository.Save(purchaseOrder);
@@ -280,7 +279,7 @@ namespace Foundation.Commerce.Order.Services
 
             var note = _orderGroupFactory.CreateOrderNote(order);
             note.CustomerId = contact?.PrimaryKeyId ?? PrincipalInfo.CurrentPrincipal.GetContactId();
-            note.Type = OrderNoteTypes.Custom.ToString();
+            note.Type = nameof(OrderNoteTypes.Custom);
             note.Title = title;
             note.Detail = detail;
             note.Created = DateTime.UtcNow;

@@ -40,11 +40,11 @@ namespace Foundation.Tests.Features.Api
             _customerService.Verify(_ => _.SignOut(), Times.Once);
             _trackingCookieService.Verify(_ => _.SetTrackingCookie(It.IsAny<string>()), Times.Once);
             
-            result.Should().BeOfType<System.Web.Mvc.RedirectToRouteResult>().Which.RouteValues["action"].Should().Be("Index");
+            result.Should().BeOfType<RedirectToRouteResult>().Which.RouteValues["action"].Should().Be("Index");
         }
 
         [Fact]
-        public async Task Login_WhenUserDoesNotExist()
+        public async Task Login_WhenUserDoesNotExistAsync()
         {
             var userManager = Setup_UserManager((store) =>
             {
@@ -54,14 +54,14 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.UserManager)
                 .Returns(() => Setup_ServiceAccessors(userManager));
 
-            var result = await _subject.Login("mark", It.IsAny<string>());
+            var result = await _subject.LoginAsync("mark", It.IsAny<string>());
             
             _customerService.Verify(s => s.SignOut(), Times.Once);
             result.Should().BeOfType<EmptyResult>();
         }
 
         [Fact]
-        public async Task Login_WhenUserDoesExist()
+        public async Task Login_WhenUserDoesExistAsync()
         {
             var userManager = Setup_UserManager((store) =>
             {
@@ -70,7 +70,6 @@ namespace Foundation.Tests.Features.Api
                 {
                     Username = "mark"
                 }));
-
             });
             _customerService.Setup(_ => _.UserManager)
                 .Returns(() => Setup_ServiceAccessors(userManager));
@@ -78,14 +77,14 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.Login("mark", "http://foundation");
+            var result = await _subject.LoginAsync("mark", "http://foundation");
 
             
             result.Should().BeOfType<RedirectResult>().Which.Url.Should().Be("http://foundation");
         }
 
         [Fact]
-        public async Task RegisterAccount_WhenModelStateisInvalid()
+        public async Task RegisterAccount_WhenModelStateisInvalidAsync()
         {
             var viewModel = new RegisterAccountViewModel
             {
@@ -94,9 +93,9 @@ namespace Foundation.Tests.Features.Api
 
             _subject.ModelState.AddModelError("test", "not valid");
 
-            var result = await _subject.RegisterAccount(viewModel);
+            var result = await _subject.RegisterAccountAsync(viewModel);
 
-            _customerService.Verify(s => s.CreateUser(It.IsAny<SiteUser>()), Times.Never);
+            _customerService.Verify(s => s.CreateUserAsync(It.IsAny<SiteUser>()), Times.Never);
             result.Should().BeEquivalentTo(new JsonResult()
             {
                 Data = new
@@ -108,11 +107,11 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task RegisterAccount_WhenSuccess()
+        public async Task RegisterAccount_WhenSuccessAsync()
         {
             var identityResult = GetIdentityResult();
 
-            _customerService.Setup(x => x.CreateUser(It.IsAny<SiteUser>()))
+            _customerService.Setup(x => x.CreateUserAsync(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new IdentityContactResult
                 {
                     IdentityResult = identityResult,
@@ -124,9 +123,9 @@ namespace Foundation.Tests.Features.Api
                 Address = new AddressModel()
             };
 
-            var result = await _subject.RegisterAccount(viewModel);
+            var result = await _subject.RegisterAccountAsync(viewModel);
 
-            _customerService.Verify(s => s.CreateUser(It.IsAny<SiteUser>()), Times.Once);
+            _customerService.Verify(s => s.CreateUserAsync(It.IsAny<SiteUser>()), Times.Once);
             _addressBookService.Verify(x => x.Save(It.IsAny<AddressModel>(), It.IsAny<FoundationContact>()), Times.Once);
             result.Should().BeOfType<EmptyResult>();
         }
@@ -134,9 +133,9 @@ namespace Foundation.Tests.Features.Api
         
 
         [Fact]
-        public async Task RegisterAccount_WhenFailure()
+        public async Task RegisterAccount_WhenFailureAsync()
         {
-            _customerService.Setup(x => x.CreateUser(It.IsAny<SiteUser>()))
+            _customerService.Setup(x => x.CreateUserAsync(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new IdentityContactResult
                 {
                     IdentityResult = new IdentityResult("error"),
@@ -148,9 +147,9 @@ namespace Foundation.Tests.Features.Api
                 Address = new AddressModel()
             };
 
-            var result = await _subject.RegisterAccount(viewModel);
+            var result = await _subject.RegisterAccountAsync(viewModel);
 
-            _customerService.Verify(s => s.CreateUser(It.IsAny<SiteUser>()), Times.Once);
+            _customerService.Verify(s => s.CreateUserAsync(It.IsAny<SiteUser>()), Times.Once);
             _addressBookService.Verify(x => x.Save(It.IsAny<AddressModel>(), It.IsAny<FoundationContact>()), Times.Never);
             result.Should().BeEquivalentTo(new JsonResult()
             {
@@ -163,12 +162,12 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task InternalLogin_WhenModelStateisInvalid()
+        public async Task InternalLogin_WhenModelStateisInvalidAsync()
         {
             _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://mark"));
             _subject.ModelState.AddModelError("test", "not valid");
 
-            var result = await _subject.InternalLogin(new LoginViewModel());
+            var result = await _subject.InternalLoginAsync(new LoginViewModel());
 
             result.Should().BeEquivalentTo(new JsonResult()
             {
@@ -181,7 +180,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task InternalLogin_WhenPasswodFailure()
+        public async Task InternalLogin_WhenPasswodFailureAsync()
         {
             var siteUser = new SiteUser
             {
@@ -209,7 +208,7 @@ namespace Foundation.Tests.Features.Api
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
             _localizationService.Setup(x => x.GetStringByCulture(It.IsAny<string>(), It.IsAny<FallbackBehaviors>(), It.IsAny<string>(), It.IsAny<CultureInfo>())).Returns("You have entered wrong username or password");
-            var result = await _subject.InternalLogin(new LoginViewModel
+            var result = await _subject.InternalLoginAsync(new LoginViewModel
             {
                 Password = "password",
                 RememberMe = true,
@@ -226,7 +225,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task InternalLogin_WhenLockedOut()
+        public async Task InternalLogin_WhenLockedOutAsync()
         {
             var siteUser = new SiteUser
             {
@@ -253,7 +252,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            Func<Task<ActionResult>> action = async ()=> await _subject.InternalLogin(new LoginViewModel
+            Func<Task<ActionResult>> action = async ()=> await _subject.InternalLoginAsync(new LoginViewModel
             {
                 Password = "password",
                 RememberMe = true,
@@ -263,7 +262,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task InternalLogin_WhenSuccess()
+        public async Task InternalLogin_WhenSuccessAsync()
         {
             var siteUser = new SiteUser
             {
@@ -292,7 +291,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.InternalLogin(new LoginViewModel
+            var result = await _subject.InternalLoginAsync(new LoginViewModel
             {
                 Password = "password",
                 RememberMe = true,
@@ -308,12 +307,12 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task InternalLogin_WhenUserIsNull()
+        public async Task InternalLogin_WhenUserIsNullAsync()
         {
             _httpRequestBaseMock.Setup(x => x.UrlReferrer).Returns(new Uri("http://mark.com?returnUrl=/"));
             _customerService.Setup(x => x.GetSiteUser(It.IsAny<string>())).Returns<SiteUser>(null);
             _localizationService.Setup(x => x.GetStringByCulture(It.IsAny<string>(), It.IsAny<FallbackBehaviors>(), It.IsAny<string>(), It.IsAny<CultureInfo>())).Returns("You have entered wrong username or password");
-            var result = await _subject.InternalLogin(new LoginViewModel
+            var result = await _subject.InternalLoginAsync(new LoginViewModel
             {
                 Password = "password",
                 RememberMe = true,
@@ -340,16 +339,16 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginCallback_WhenLoginInfoIsNull()
+        public async Task ExternalLoginCallback_WhenLoginInfoIsNullAsync()
         {
             _customerService.Setup(x => x.GetExternalLoginInfoAsync()).Returns(Task.FromResult<ExternalLoginInfo>(null));
-            var result = await _subject.ExternalLoginCallback("/");
+            var result = await _subject.ExternalLoginCallbackAsync("/");
 
             result.Should().BeEquivalentTo(new RedirectResult("/"));
         }
 
         [Fact]
-        public async Task ExternalLoginCallback_WhenSuccess()
+        public async Task ExternalLoginCallback_WhenSuccessAsync()
         {
             var siteUser = new SiteUser
             {
@@ -374,12 +373,12 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.ExternalLoginCallback("/");
+            var result = await _subject.ExternalLoginCallbackAsync("/");
             result.Should().BeEquivalentTo(new RedirectResult("/"));
         }
 
         [Fact]
-        public async Task ExternalLoginCallback_WhenLockedOut()
+        public async Task ExternalLoginCallback_WhenLockedOutAsync()
         {
             var siteUser = new SiteUser
             {
@@ -404,7 +403,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.ExternalLoginCallback("/");
+            var result = await _subject.ExternalLoginCallbackAsync("/");
             result.Should().BeEquivalentTo(new RedirectToRouteResult(new RouteValueDictionary(new
             {
                 action = "Lockout",
@@ -413,7 +412,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginCallback_WhenRequiresVerification()
+        public async Task ExternalLoginCallback_WhenRequiresVerificationAsync()
         {
             var siteUser = new SiteUser
             {
@@ -446,7 +445,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.ExternalLoginCallback("/");
+            var result = await _subject.ExternalLoginCallbackAsync("/");
             result.Should().BeEquivalentTo(new RedirectToRouteResult(new RouteValueDictionary(new
             {
                 action = "SendCode",
@@ -457,7 +456,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginCallback_WhenAccountDoesNotExist()
+        public async Task ExternalLoginCallback_WhenAccountDoesNotExistAsync()
         {
             var siteUser = new SiteUser
             {
@@ -480,7 +479,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                 .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.ExternalLoginCallback("/");
+            var result = await _subject.ExternalLoginCallbackAsync("/");
             var viewData = new ViewDataDictionary(new ExternalLoginConfirmationViewModel { ReturnUrl = "/" });
             viewData.Add("ReturnUrl", "/");
             viewData.Add("LoginProvider", "test");
@@ -492,10 +491,10 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginConfirmation_WhenUserIsAuthenticated()
+        public async Task ExternalLoginConfirmation_WhenUserIsAuthenticatedAsync()
         {
             _httpContextBase.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity("test@email.com"), new[] { "admin" }));
-            var result = await _subject.ExternalLoginConfirmation(null);
+            var result = await _subject.ExternalLoginConfirmationAsync(null);
             result.Should().BeEquivalentTo(new RedirectToRouteResult(new RouteValueDictionary(new
             {
                 action = "Index",
@@ -504,11 +503,11 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginConfirmation_WhenModelStateIsInvalid()
+        public async Task ExternalLoginConfirmation_WhenModelStateIsInvalidAsync()
         {
             _httpContextBase.Setup(x => x.User).Returns(new ClaimsPrincipal(new ClaimsIdentity()));
             _subject.ModelState.AddModelError("test", "not valid");
-            var result = await _subject.ExternalLoginConfirmation(new ExternalLoginConfirmationViewModel());
+            var result = await _subject.ExternalLoginConfirmationAsync(new ExternalLoginConfirmationViewModel());
             result.Should().BeEquivalentTo(new ViewResult
             {
                 ViewData = new ViewDataDictionary(new ExternalLoginConfirmationViewModel())
@@ -516,11 +515,11 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginConfirmation_WhenExternalLoginIsNull()
+        public async Task ExternalLoginConfirmation_WhenExternalLoginIsNullAsync()
         {
             _httpContextBase.Setup(x => x.User).Returns(new ClaimsPrincipal(new ClaimsIdentity()));
             _customerService.Setup(x => x.GetExternalLoginInfoAsync()).Returns(Task.FromResult<ExternalLoginInfo>(null));
-            var result = await _subject.ExternalLoginConfirmation(null);
+            var result = await _subject.ExternalLoginConfirmationAsync(null);
             result.Should().BeEquivalentTo(new ViewResult
             {
                 ViewName = "ExternalLoginFailure",
@@ -528,7 +527,7 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginConfirmation_WhenSuccess()
+        public async Task ExternalLoginConfirmation_WhenSuccessAsync()
         {
             var siteUser = new SiteUser
             {
@@ -549,7 +548,7 @@ namespace Foundation.Tests.Features.Api
             
             var identityResult = GetIdentityResult();
 
-            _customerService.Setup(x => x.CreateUser(It.IsAny<SiteUser>()))
+            _customerService.Setup(x => x.CreateUserAsync(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new IdentityContactResult
                 {
                     IdentityResult = identityResult,
@@ -570,7 +569,7 @@ namespace Foundation.Tests.Features.Api
             _customerService.Setup(_ => _.SignInManager)
                .Returns(() => Setup_ServiceAccessors(Setup_SignInManager(userManager)));
 
-            var result = await _subject.ExternalLoginConfirmation(new ExternalLoginConfirmationViewModel() {  ReturnUrl = "/" });
+            var result = await _subject.ExternalLoginConfirmationAsync(new ExternalLoginConfirmationViewModel() {  ReturnUrl = "/" });
             result.Should().BeEquivalentTo(new RedirectToRouteResult(new RouteValueDictionary(new
             {
                 action = "Index",
@@ -579,9 +578,8 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public async Task ExternalLoginConfirmation_WhenFailure()
+        public async Task ExternalLoginConfirmation_WhenFailureAsync()
         {
-            
             _httpContextBase.Setup(x => x.User).Returns(new ClaimsPrincipal(new ClaimsIdentity()));
             _customerService.Setup(x => x.GetExternalLoginInfoAsync()).Returns(Task.FromResult(new ExternalLoginInfo
             {
@@ -593,21 +591,21 @@ namespace Foundation.Tests.Features.Api
                 }, DefaultAuthenticationTypes.ApplicationCookie)
             }));
 
-            _customerService.Setup(x => x.CreateUser(It.IsAny<SiteUser>()))
+            _customerService.Setup(x => x.CreateUserAsync(It.IsAny<SiteUser>()))
                 .Returns(Task.FromResult(new IdentityContactResult
                 {
                     IdentityResult = new IdentityResult("error"),
                     FoundationContact = FoundationContact.New()
                 }));
             
-            var result = await _subject.ExternalLoginConfirmation(new ExternalLoginConfirmationViewModel());
+            var result = await _subject.ExternalLoginConfirmationAsync(new ExternalLoginConfirmationViewModel());
             _subject.ModelState.Count.Should().Be(1);
         }
 
         [Fact]
-        public void TrackHeroBlock_WhenSuccess()
+        public async Task TrackHeroBlock_WhenSuccess()
         {
-            var result = _subject.TrackHeroBlock("id","block", "page");
+            var result = await _subject.TrackHeroBlockAsync("id","block", "page");
             result.Should().BeEquivalentTo(new ContentResult()
             {
                Content = "block"
@@ -615,9 +613,9 @@ namespace Foundation.Tests.Features.Api
         }
 
         [Fact]
-        public void TrackVideoBlock_WhenSuccess()
+        public async Task TrackVideoBlock_WhenSuccess()
         {
-            var result = _subject.TrackVideoBlock("id", "block", "page");
+            var result = await _subject.TrackVideoBlockAsync("id", "block", "page");
             result.Should().BeEquivalentTo(new ContentResult()
             {
                 Content = "block"
@@ -626,7 +624,6 @@ namespace Foundation.Tests.Features.Api
 
         public PublicApiControllerTests()
         {
-
             _addressBookService = new Mock<IAddressBookService>();
             _campaignService = new Mock<ICampaignService>();
             _cmsTrackingService = new Mock<ICmsTrackingService>();
@@ -664,10 +661,7 @@ namespace Foundation.Tests.Features.Api
         private Mock<ITrackingCookieService> _trackingCookieService;
         private Mock<HttpRequestBase> _httpRequestBaseMock;
         private Mock<IAuthenticationManager> _authenticationManger;
-        private ServiceAccessor<T> Setup_ServiceAccessors<T>(T value)
-        {
-            return new ServiceAccessor<T>(() => value);
-        }
+        private ServiceAccessor<T> Setup_ServiceAccessors<T>(T value) => new ServiceAccessor<T>(() => value);
 
         private ApplicationUserManager<SiteUser> Setup_UserManager(Action<Mock<IUserStore<SiteUser>>> configureStore = null)
         {
@@ -676,10 +670,7 @@ namespace Foundation.Tests.Features.Api
             return new ApplicationUserManager<SiteUser>(userStore.Object);
         }
 
-        private ApplicationSignInManager<SiteUser> Setup_SignInManager(ApplicationUserManager<SiteUser> userManager)
-        {
-            return new ApplicationSignInManager<SiteUser>(userManager, _authenticationManger.Object, new ApplicationOptions());
-        }
+        private ApplicationSignInManager<SiteUser> Setup_SignInManager(ApplicationUserManager<SiteUser> userManager) => new ApplicationSignInManager<SiteUser>(userManager, _authenticationManger.Object, new ApplicationOptions());
 
         private static IdentityResult GetIdentityResult()
         {

@@ -5,6 +5,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.Personalization.VisitorGroups;
 using EPiServer.Scheduler;
 using EPiServer.Web;
+using Foundation.Cms.Extensions;
 using Foundation.Demo.Extensions;
 using Foundation.Demo.Install;
 using Foundation.Demo.ViewModels;
@@ -105,10 +106,7 @@ namespace Foundation.Demo.Configuration
                  .ToList();
         }
 
-        protected virtual List<VisitorGroup> GetVisitorGroups()
-        {
-            return VisitorGroupRepository.List().ToList();
-        }
+        protected virtual List<VisitorGroup> GetVisitorGroups() => VisitorGroupRepository.List().ToList();
 
         protected virtual List<AzureBlob> GetBlobs(string path)
         {
@@ -126,7 +124,7 @@ namespace Foundation.Demo.Configuration
                 return;
             }
 
-            ScheduledJobExecutor.StartAsync(job, new JobExecutionOptions { Trigger = ScheduledJobTrigger.User });
+            AsyncHelpers.RunSync(() => ScheduledJobExecutor.StartAsync(job, new JobExecutionOptions { Trigger = ScheduledJobTrigger.User }));
         }
 
         protected virtual void CreateSite(Stream stream, SiteDefinition siteDefinition, ContentReference startPage)
@@ -164,7 +162,7 @@ namespace Foundation.Demo.Configuration
 
             if (catalogXml == null || assests == null)
             {
-                throw new Exception("Zip does not contain catalog.xml or ProductAssets.episerverdata");
+                throw new InvalidOperationException("Zip does not contain catalog.xml or ProductAssets.episerverdata");
             }
 
             var catalogFolder = ContentRepository.GetChildren<ContentFolder>(ContentReference.GlobalBlockFolder)
@@ -196,7 +194,7 @@ namespace Foundation.Demo.Configuration
         {
             if (file == null || file.InputStream == null)
             {
-                throw new Exception("File is required");
+                throw new InvalidOperationException("File is required");
             }
             var name = file.FileName.Substring(file.FileName.LastIndexOf("\\") == 0 ? 0 : file.FileName.LastIndexOf("\\") + 1);
             var path = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"..\appData\Imports\Catalog");
@@ -235,7 +233,7 @@ namespace Foundation.Demo.Configuration
 
             if (catalogXml == null || assests == null)
             {
-                throw new Exception("Zip does not contain catalog.xml or ProductAssets.episerverdata");
+                throw new InvalidOperationException("Zip does not contain catalog.xml or ProductAssets.episerverdata");
             }
 
             var catalogFolder = ContentRepository.GetChildren<ContentFolder>(ContentReference.GlobalBlockFolder)

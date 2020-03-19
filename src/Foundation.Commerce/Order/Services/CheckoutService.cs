@@ -230,7 +230,7 @@ namespace Foundation.Commerce.Order.Services
             return null;
         }
 
-        public virtual async Task<bool> SendConfirmation(CheckoutViewModel viewModel, IPurchaseOrder purchaseOrder)
+        public virtual async Task<bool> SendConfirmationAsync(CheckoutViewModel viewModel, IPurchaseOrder purchaseOrder)
         {
             var startpage = _contentRepository.Get<CommerceHomePage>(ContentReference.StartPage);
             var sendOrderConfirmationMail = startpage.SendOrderConfirmationMail;
@@ -307,7 +307,7 @@ namespace Foundation.Commerce.Order.Services
             paymentPlan.IsActive = paymentPlanSetting.IsActive;
 
             var principal = PrincipalInfo.CurrentPrincipal;
-            AddNoteToCart(paymentPlan, $"Note: New payment plan placed by {principal.Identity.Name} in 'vnext site'.", OrderNoteTypes.System.ToString(), principal.GetContactId());
+            AddNoteToCart(paymentPlan, $"Note: New payment plan placed by {principal.Identity.Name} in 'vnext site'.", nameof(OrderNoteTypes.System), principal.GetContactId());
 
             _orderRepository.Save(paymentPlan);
 

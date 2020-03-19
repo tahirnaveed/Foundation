@@ -64,11 +64,7 @@ namespace Foundation.Commerce.Extensions
 
         public static T GetEntryContent<T>(this ILineItem lineItem) where T : EntryContentBase => GetEntryContent<T>(lineItem.Code);
 
-        public static bool IsVirtualVariant(this ILineItem lineItem)
-        {
-            var entry = lineItem.GetEntryContent<EntryContentBase>() as GenericVariant;
-            return entry != null && entry.VirtualProductMode != null && !string.IsNullOrWhiteSpace(entry.VirtualProductMode) && !entry.VirtualProductMode.Equals("None");
-        }
+        public static bool IsVirtualVariant(this ILineItem lineItem) => lineItem.GetEntryContent<EntryContentBase>() is GenericVariant entry && entry.VirtualProductMode != null && !string.IsNullOrWhiteSpace(entry.VirtualProductMode) && !entry.VirtualProductMode.Equals("None");
 
         public static ContentReference GetContentReference(this LinkItem linkItem)
         {

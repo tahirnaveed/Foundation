@@ -15,8 +15,10 @@ namespace Foundation.Demo.GiftCards
         public GiftCardManagerController(IGiftCardService giftCardService) => _giftCardService = giftCardService;
 
         [MenuItem("/global/foundation/giftcards", TextResourceKey = "/Shared/GiftCards", SortIndex = 300)]
+        [HttpGet]
         public ActionResult Index() => View();
 
+        [HttpGet]
         public ContentResult GetAllGiftCards()
         {
             var data = _giftCardService.GetAllGiftCards();
@@ -28,15 +30,19 @@ namespace Foundation.Demo.GiftCards
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public string AddGiftCard(GiftCard giftCard) => _giftCardService.CreateGiftCard(giftCard);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public string UpdateGiftCard(GiftCard giftCard) => _giftCardService.UpdateGiftCard(giftCard);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public string DeleteGiftCard(string giftCardId) => _giftCardService.DeleteGiftCard(giftCardId);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ContentResult GetAllContacts()
         {
             var data = CustomerContext.Current.GetContacts(0, 1000).Select(c => new

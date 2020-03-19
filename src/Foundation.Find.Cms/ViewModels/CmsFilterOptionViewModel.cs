@@ -41,6 +41,5 @@ namespace Foundation.Find.Cms.ViewModels
                 return pages;
             }
         }
-
     }
 }

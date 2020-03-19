@@ -20,7 +20,7 @@ namespace Foundation.Social
         {
         }
 
-        protected SocialRepositoryException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        protected SocialRepositoryException(SerializationInfo serializationInfo, StreamingContext streamingContext) : base(serializationInfo, streamingContext)
         {
         }
     }

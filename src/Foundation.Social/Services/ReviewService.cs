@@ -14,7 +14,6 @@ namespace Foundation.Social.Services
         private readonly ICommentService _commentService;
         private readonly IRatingService _ratingService;
         private readonly IRatingStatisticsService _ratingStatisticsService;
-        private readonly ILogger _logger = LogManager.GetLogger(typeof(ReviewService));
 
         public ReviewService(ICommentService commentService, IRatingService ratingService,
             IRatingStatisticsService ratingStatisticsService)
@@ -217,57 +216,6 @@ namespace Foundation.Social.Services
             try
             {
                 ratings = _commentService.Get(commentCriteria);
-                //return this._commentService.Get(commentCriteria).Results;
-            }
-            catch (SocialAuthenticationException ex)
-            {
-                throw new SocialRepositoryException("The application failed to authenticate with Episerver Social.",
-                    ex);
-            }
-            catch (MaximumDataSizeExceededException ex)
-            {
-                throw new SocialRepositoryException(
-                    "The application request was deemed too large for Episerver Social.", ex);
-            }
-            catch (SocialCommunicationException ex)
-            {
-                throw new SocialRepositoryException("The application failed to communicate with Episerver Social.", ex);
-            }
-            catch (SocialException ex)
-            {
-                throw new SocialRepositoryException("Episerver Social failed to process the application request.", ex);
-            }
-
-            return ratings.Results;
-        }
-
-        private IEnumerable<Composite<Comment, Review>> GetProductReviews(Visibility visibility, int page, int limit,
-            out long total)
-        {
-            var commentCriteria = new CompositeCriteria<CommentFilter, Review>
-            {
-                Filter = new CommentFilter
-                {
-                    Visibility = visibility
-                },
-                PageInfo = new PageInfo
-                {
-                    PageSize = limit,
-                    CalculateTotalCount = true,
-                    PageOffset = (page - 1) * limit
-                },
-                OrderBy = new List<SortInfo>
-                {
-                    new SortInfo(CommentSortFields.Created, false)
-                }
-            };
-
-            ResultPage<Composite<Comment, Review>> ratings = null;
-
-            try
-            {
-                ratings = _commentService.Get(commentCriteria);
-                total = ratings.TotalCount;
                 //return this._commentService.Get(commentCriteria).Results;
             }
             catch (SocialAuthenticationException ex)

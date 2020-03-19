@@ -72,7 +72,7 @@ namespace Foundation.Commerce.Personalization
             _productService = productService;
         }
 
-        public async Task<TrackingResponseData> TrackProduct(HttpContextBase httpContext, string productCode,
+        public async Task<TrackingResponseData> TrackProductAsync(HttpContextBase httpContext, string productCode,
             bool skipRecommendations)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
@@ -90,7 +90,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackSearch(HttpContextBase httpContext, string searchTerm,
+        public async Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm,
             int pageSize, IEnumerable<string> productCodes)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default || string.IsNullOrWhiteSpace(searchTerm))
@@ -103,7 +103,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackOrder(HttpContextBase httpContext, IPurchaseOrder order)
+        public async Task<TrackingResponseData> TrackOrderAsync(HttpContextBase httpContext, IPurchaseOrder order)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -114,7 +114,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCategory(HttpContextBase httpContext, NodeContent category)
+        public async Task<TrackingResponseData> TrackCategoryAsync(HttpContextBase httpContext, NodeContent category)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -125,7 +125,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCart(HttpContextBase httpContext, ICart cart)
+        public async Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext, ICart cart)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -148,7 +148,7 @@ namespace Foundation.Commerce.Personalization
             return null;
         }
 
-        public async Task<TrackingResponseData> TrackWishlist(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackWishlistAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -159,7 +159,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackCheckout(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackCheckoutAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -170,7 +170,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackHome(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackHomeAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -183,7 +183,7 @@ namespace Foundation.Commerce.Personalization
                 .ConfigureAwait(false);
         }
 
-        public async Task<TrackingResponseData> TrackBrand(HttpContextBase httpContext, string brandName)
+        public async Task<TrackingResponseData> TrackBrandAsync(HttpContextBase httpContext, string brandName)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -194,7 +194,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackAttribute(HttpContextBase httpContext, string attributeName,
+        public async Task<TrackingResponseData> TrackAttributeAsync(HttpContextBase httpContext, string attributeName,
             string attributeValue)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
@@ -207,7 +207,7 @@ namespace Foundation.Commerce.Personalization
             return await _trackingService.TrackAsync(trackingData, httpContext, _contentRouteHelperAccessor().Content);
         }
 
-        public async Task<TrackingResponseData> TrackDefault(HttpContextBase httpContext)
+        public async Task<TrackingResponseData> TrackDefaultAsync(HttpContextBase httpContext)
         {
             if (_contextModeResolver.CurrentMode != ContextMode.Default)
             {
@@ -233,7 +233,6 @@ namespace Foundation.Commerce.Personalization
                         returnValue.Add(
                             new RecommendedProductTileViewModel(recommendation.RecommendationId,
                             _productService.GetProductTileViewModel(_contentLoader.Get<EntryContentBase>(recommendation.ContentLink, language))));
-                        
                     }
                     catch
                     {

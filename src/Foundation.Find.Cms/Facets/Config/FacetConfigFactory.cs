@@ -15,10 +15,7 @@ namespace Foundation.Find.Cms.Facets.Config
             _contentLoader = contentLoader;
         }
 
-        public virtual List<FacetDefinition> GetDefaultFacetDefinitions()
-        {
-            return new List<FacetDefinition>();
-        }
+        public virtual List<FacetDefinition> GetDefaultFacetDefinitions() => new List<FacetDefinition>();
 
         public virtual FacetDefinition GetFacetDefinition(FacetFilterConfigurationItem facetConfiguration)
         {

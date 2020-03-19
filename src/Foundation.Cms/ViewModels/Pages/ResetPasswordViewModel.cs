@@ -7,7 +7,6 @@ namespace Foundation.Cms.ViewModels.Pages
     {
         public ResetPasswordViewModel(ResetPasswordPage resetPasswordPage) : base(resetPasswordPage)
         {
-
         }
 
         public ResetPasswordViewModel() { }
@@ -28,6 +27,5 @@ namespace Foundation.Cms.ViewModels.Pages
         [LocalizedCompare("Password", "/ResetPassword/Form/Error/PasswordMatch")]
         [LocalizedStringLength("/ResetPassword/Form/Error/PasswordLength2", 5, 100)]
         public string NewPassword { get; set; }
-
     }
 }

@@ -14,7 +14,9 @@ using System.IO;
 namespace Foundation.Demo.Install
 {
     [Flags]
+#pragma warning disable CA1714 // Flags enums should have plural names
     public enum ContentExport
+#pragma warning restore CA1714 // Flags enums should have plural names
     {
         ExportContentTypes = 1,
         ExportFrames = 2,

@@ -7,12 +7,10 @@ namespace Foundation.Social.ViewModels
     {
         public ProfilePageViewModel()
         {
-
         }
 
         public ProfilePageViewModel(T profilePage) : base(profilePage)
         {
-
         }
     }
 }

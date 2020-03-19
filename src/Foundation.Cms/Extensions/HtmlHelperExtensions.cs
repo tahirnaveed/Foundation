@@ -25,9 +25,6 @@ namespace Foundation.Cms.Extensions
                     "The site is currently undergoing maintenance.Certain features are disabled until the maintenance has completed.")));
         }
 
-        public static bool IsReadOnlyMode(this HtmlHelper htmlHelper)
-        {
-            return _databaseMode.Value.DatabaseMode == DatabaseMode.ReadOnly;
-        }
+        public static bool IsReadOnlyMode(this HtmlHelper htmlHelper) => _databaseMode.Value.DatabaseMode == DatabaseMode.ReadOnly;
     }
 }

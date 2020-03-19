@@ -21,9 +21,6 @@ namespace Foundation.Find.Commerce
         private static readonly Lazy<IContentLoader> ContentLoader =
             new Lazy<IContentLoader>(() => ServiceLocator.Current.GetInstance<IContentLoader>());
 
-        private static readonly Lazy<ReferenceConverter> ReferenceConverter =
-            new Lazy<ReferenceConverter>(() => ServiceLocator.Current.GetInstance<ReferenceConverter>());
-
         private static readonly Lazy<IRelationRepository> RelationRepository =
            new Lazy<IRelationRepository>(() => ServiceLocator.Current.GetInstance<IRelationRepository>());
 

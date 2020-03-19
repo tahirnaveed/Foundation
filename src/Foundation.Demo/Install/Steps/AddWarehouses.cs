@@ -79,6 +79,5 @@ namespace Foundation.Demo.Install.Steps
             }
         }
 
-
     }
 }

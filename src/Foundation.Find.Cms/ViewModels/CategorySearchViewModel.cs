@@ -33,7 +33,7 @@ namespace Foundation.Find.Cms.ViewModels
             Page = 1;
             PageSize = 15;
             Categories = new List<ContentReference>();
-            Sort = CategorySorting.PublishedDate.ToString();
+            Sort = nameof(CategorySorting.PublishedDate);
             SortDirection = "desc";
         }
 

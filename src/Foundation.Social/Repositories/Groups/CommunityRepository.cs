@@ -93,7 +93,7 @@ namespace Foundation.Social.Repositories.Groups
             try
             {
                 var groupIdList = communityIds.Select(x => GroupId.Create(x)).ToList();
-                var groupCount = groupIdList.Count();
+                var groupCount = groupIdList.Count;
                 var criteria = new CompositeCriteria<GroupFilter, GroupExtensionData>
                 {
                     Filter = new GroupFilter { GroupIds = groupIdList },

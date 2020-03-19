@@ -9,17 +9,14 @@ namespace Foundation.Demo.ViewModels
     {
         public DemoSearchViewModel()
         {
-
         }
 
         public DemoSearchViewModel(T currentContent) : base(currentContent)
         {
-
         }
 
         public bool ShowProductSearchResults { get; set; }
         public bool ShowContentSearchResults { get; set; }
         public IEnumerable<Recommendation> Recommendations { get; set; }
-
     }
 }

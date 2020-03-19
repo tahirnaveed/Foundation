@@ -80,8 +80,7 @@ namespace Foundation.Commerce.Order.Services
                 viewModel.Brand = GetBrand(product);
             }
 
-            var variant = entry as GenericVariant;
-            if (variant != null)
+            if (entry is GenericVariant variant)
             {
                 viewModel.AvailableSizes = GetAvailableSizes(product, variant);
             }

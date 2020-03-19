@@ -10,24 +10,24 @@ namespace Foundation.Commerce.Personalization
 {
     public interface ICommerceTrackingService
     {
-        Task<TrackingResponseData> TrackProduct(HttpContextBase httpContext, string productCode,
+        Task<TrackingResponseData> TrackProductAsync(HttpContextBase httpContext, string productCode,
             bool skipRecommendations);
 
-        Task<TrackingResponseData> TrackSearch(HttpContextBase httpContext, string searchTerm, int pageSize,
+        Task<TrackingResponseData> TrackSearchAsync(HttpContextBase httpContext, string searchTerm, int pageSize,
             IEnumerable<string> productCodes);
 
-        Task<TrackingResponseData> TrackOrder(HttpContextBase httpContext, IPurchaseOrder order);
-        Task<TrackingResponseData> TrackCategory(HttpContextBase httpContext, NodeContent category);
-        Task<TrackingResponseData> TrackCart(HttpContextBase httpContext, ICart cart);
-        Task<TrackingResponseData> TrackWishlist(HttpContextBase httpContext);
-        Task<TrackingResponseData> TrackCheckout(HttpContextBase httpContext);
-        Task<TrackingResponseData> TrackHome(HttpContextBase httpContext);
-        Task<TrackingResponseData> TrackBrand(HttpContextBase httpContext, string brandName);
+        Task<TrackingResponseData> TrackOrderAsync(HttpContextBase httpContext, IPurchaseOrder order);
+        Task<TrackingResponseData> TrackCategoryAsync(HttpContextBase httpContext, NodeContent category);
+        Task<TrackingResponseData> TrackCartAsync(HttpContextBase httpContext, ICart cart);
+        Task<TrackingResponseData> TrackWishlistAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackCheckoutAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackHomeAsync(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackBrandAsync(HttpContextBase httpContext, string brandName);
 
-        Task<TrackingResponseData> TrackAttribute(HttpContextBase httpContext, string attributeName,
+        Task<TrackingResponseData> TrackAttributeAsync(HttpContextBase httpContext, string attributeName,
             string attributeValue);
 
-        Task<TrackingResponseData> TrackDefault(HttpContextBase httpContext);
+        Task<TrackingResponseData> TrackDefaultAsync(HttpContextBase httpContext);
         IEnumerable<RecommendedProductTileViewModel> GetRecommendedProductTileViewModels(IEnumerable<Recommendation> recommendations);
     }
 }

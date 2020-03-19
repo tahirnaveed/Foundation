@@ -47,15 +47,10 @@ namespace Foundation.Cms.Extensions
             return contents;
         }
 
-        private static bool VisibleInMenu(IContent content)
-        {
-            var page = content as PageData;
-            return page == null || page.VisibleInMenu;
-        }
+        private static bool VisibleInMenu(IContent content) => !(content is PageData page) || page.VisibleInMenu;
 
         public static void AddPageBrowseHistory(this PageData page)
         {
-
             var history = _cookieService.Value.Get("PageBrowseHistory");
             var values = string.IsNullOrEmpty(history) ? new List<int>() :
                 history.Split(new[] { Delimiter }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).ToList();
@@ -103,8 +98,7 @@ namespace Foundation.Cms.Extensions
             }
 
             var ancestors = _contentLoader.Value.GetAncestors(content.ContentLink);
-            var startPage = ancestors.FirstOrDefault(x => x is CmsHomePage) as CmsHomePage;
-            return startPage == null ? ContentReference.StartPage : startPage.ContentLink;
+            return !(ancestors.FirstOrDefault(x => x is CmsHomePage) is CmsHomePage startPage) ? ContentReference.StartPage : startPage.ContentLink;
         }
     }
 }

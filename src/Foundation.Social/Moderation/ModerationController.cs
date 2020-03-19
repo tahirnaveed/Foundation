@@ -25,6 +25,7 @@ namespace Foundation.Social.Moderation
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Approve(string id)
         {
             _commentManagerService.Approve(id);
@@ -36,6 +37,7 @@ namespace Foundation.Social.Moderation
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(string id)
         {
             _commentManagerService.Delete(id);
@@ -45,6 +47,5 @@ namespace Foundation.Social.Moderation
                 Content = "Delete successfully.",
             };
         }
-
     }
 }

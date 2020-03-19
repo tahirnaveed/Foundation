@@ -6,7 +6,6 @@ namespace Foundation.Cms.ViewModels.Blocks
 {
     public class RecentPageCategoryRecommendationViewModel : BlockViewModel<RecentPageCategoryRecommendationBlock>
     {
-
         public RecentPageCategoryRecommendationViewModel(RecentPageCategoryRecommendationBlock currentBlock) : base(currentBlock)
         {
         }

@@ -51,8 +51,7 @@ namespace Foundation.Find.Commerce.ViewModels
             }
 
             var baseModel = new TModel();
-            var model = baseModel as CommerceSearchViewModel<TContent>;
-            if (model == null)
+            if (!(baseModel is CommerceSearchViewModel<TContent> model))
             {
                 return null;
             }
@@ -98,8 +97,7 @@ namespace Foundation.Find.Commerce.ViewModels
             var bestBets = new BestBetRepository().List().Where(i => i.PhraseCriterion.Phrase.CompareTo(query) == 0);
             var ownStyleBestBets = bestBets.Where(i => i.BestBetSelector is CommerceBestBetSelector && i.HasOwnStyle);
             var catalogId = 0;
-            var node = currentContent as NodeContent;
-            if (node != null)
+            if (currentContent is NodeContent node)
             {
                 catalogId = node.CatalogId;
             }
@@ -158,7 +156,6 @@ namespace Foundation.Find.Commerce.ViewModels
                         }
                     }
                 }
-
             }
             return viewModel;
         }

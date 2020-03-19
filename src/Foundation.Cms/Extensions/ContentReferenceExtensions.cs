@@ -10,20 +10,20 @@ namespace Foundation.Cms.Extensions
 {
     public static class ContentReferenceExtensions
     {
-        private static readonly Lazy<IContentLoader> ContentLoader =
+        private static readonly Lazy<IContentLoader> _contentLoader =
             new Lazy<IContentLoader>(() => ServiceLocator.Current.GetInstance<IContentLoader>());
 
-        private static readonly Lazy<IContentProviderManager> ProviderManager =
+        private static readonly Lazy<IContentProviderManager> _providerManager =
             new Lazy<IContentProviderManager>(() => ServiceLocator.Current.GetInstance<IContentProviderManager>());
 
-        private static readonly Lazy<IPageCriteriaQueryService> PageCriteriaQueryService =
+        private static readonly Lazy<IPageCriteriaQueryService> _pageCriteriaQueryService =
             new Lazy<IPageCriteriaQueryService>(() => ServiceLocator.Current.GetInstance<IPageCriteriaQueryService>());
 
-        public static IContent Get<TContent>(this ContentReference contentLink) where TContent : IContent => ContentLoader.Value.Get<TContent>(contentLink);
+        public static IContent Get<TContent>(this ContentReference contentLink) where TContent : IContent => _contentLoader.Value.Get<TContent>(contentLink);
 
         public static IEnumerable<T> GetAllRecursively<T>(this ContentReference rootLink) where T : PageData
         {
-            foreach (var child in ContentLoader.Value.GetChildren<T>(rootLink))
+            foreach (var child in _contentLoader.Value.GetChildren<T>(rootLink))
             {
                 yield return child;
 
@@ -38,12 +38,12 @@ namespace Foundation.Cms.Extensions
         {
             if (ContentReference.IsNullOrEmpty(pageLink))
             {
-                throw new ArgumentNullException("pageLink", "No page link specified, unable to find pages");
+                throw new ArgumentNullException(nameof(pageLink), "No page link specified, unable to find pages");
             }
 
             return recursive
                 ? FindPagesByPageTypeRecursively(pageLink, pageTypeId)
-                : ContentLoader.Value.GetChildren<PageData>(pageLink);
+                : _contentLoader.Value.GetChildren<PageData>(pageLink);
         }
 
         private static IEnumerable<PageData> FindPagesByPageTypeRecursively(ContentReference pageLink, int pageTypeId)
@@ -59,12 +59,12 @@ namespace Foundation.Cms.Extensions
                 }
             };
 
-            if (!ProviderManager.Value.ProviderMap.CustomProvidersExist)
+            if (!_providerManager.Value.ProviderMap.CustomProvidersExist)
             {
-                return PageCriteriaQueryService.Value.FindPagesWithCriteria(pageLink.ToPageReference(), criteria);
+                return _pageCriteriaQueryService.Value.FindPagesWithCriteria(pageLink.ToPageReference(), criteria);
             }
 
-            var contentProvider = ProviderManager.Value.ProviderMap.GetProvider(pageLink);
+            var contentProvider = _providerManager.Value.ProviderMap.GetProvider(pageLink);
             if (contentProvider.HasCapability(ContentProviderCapabilities.Search))
             {
                 criteria.Add(new PropertyCriteria
@@ -74,7 +74,7 @@ namespace Foundation.Cms.Extensions
                 });
             }
 
-            return PageCriteriaQueryService.Value.FindPagesWithCriteria(pageLink.ToPageReference(), criteria);
+            return _pageCriteriaQueryService.Value.FindPagesWithCriteria(pageLink.ToPageReference(), criteria);
         }
     }
 }

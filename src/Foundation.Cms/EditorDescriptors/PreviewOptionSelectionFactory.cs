@@ -16,7 +16,7 @@ namespace Foundation.Cms.EditorDescriptors
         }
     }
 
-    public class PreviewOptions
+    public static class PreviewOptions
     {
         public const string OneThird = "1/3";
         public const string Half = "1/2";

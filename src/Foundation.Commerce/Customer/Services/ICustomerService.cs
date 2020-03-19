@@ -33,7 +33,7 @@ namespace Foundation.Commerce.Customer.Services
         List<FoundationContact> GetContacts();
         SiteUser GetSiteUser(string email);
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
-        Task<IdentityContactResult> CreateUser(SiteUser user);
+        Task<IdentityContactResult> CreateUserAsync(SiteUser user);
         void SignOut();
         bool HasOrganization(string contactId);
     }

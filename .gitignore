@@ -76,15 +76,15 @@ Setup*.log
 
 # Foundation
 Build/Logs/*.log
-src/appdata/*
-src/Foundation/Assets/scss/main.min.css
-src/Foundation/Assets/scss/main.min.css.map
-src/Foundation/Assets/js/main.min.js
-src/Foundation/Assets/js/main.min.js.map
-src/Foundation/License.config
-src/Foundation/connectionStrings.config
-src/Foundation.CommerceManager/connectionStrings.config
-src/Foundation.CommerceManager/App_Data/ImportExport/*
+sites/appdata/*
+sites/Foundation/Assets/scss/main.min.css
+sites/Foundation/Assets/scss/main.min.css.map
+sites/Foundation/Assets/js/main.min.js
+sites/Foundation/Assets/js/main.min.js.map
+sites/Foundation/License.config
+sites/Foundation/connectionStrings.config
+sites/Foundation.CommerceManager/connectionStrings.config
+sites/Foundation.CommerceManager/App_Data/ImportExport/*
 rebuild.cmd
 resetup.cmd
 eslint-html-result.md
