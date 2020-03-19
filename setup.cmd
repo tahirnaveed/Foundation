@@ -9,7 +9,7 @@ if %ERRORLEVEL% NEQ 0 (
 mode con:cols=120 lines=5000
 set ROOTPATH=%cd%
 set ROOTDIR=%cd%
-set SOURCEPATH=%ROOTPATH%\src
+set SOURCEPATH=%ROOTPATH%\sites
 set APPCMD=%windir%\system32\inetsrv\appcmd.exe
 
 if "%~1" == "" goto loop
