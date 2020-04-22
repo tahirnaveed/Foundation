@@ -29,6 +29,11 @@ IF "%1"=="Release" (set CONFIGURATION=Release) ELSE (set CONFIGURATION=Debug)
 ECHO Building in %CONFIGURATION%
 
 echo ## Clean and build ##
+echo %InstallDir%
+echo %msBuildPath%
+echo %ROOTPATH%
+echo "%InstallDir%""%msBuildPath%" %ROOTPATH%\Foundation.sln /t:Clean,Build /property:Configuration=%CONFIGURATION%
+
 "%InstallDir%""%msBuildPath%" %ROOTPATH%\Foundation.sln /t:Clean,Build /property:Configuration=%CONFIGURATION%
 IF %errorlevel% NEQ 0 EXIT /B %errorlevel%
 
